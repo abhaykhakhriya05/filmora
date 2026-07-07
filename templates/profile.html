@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Filmora</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <style>
+        body {
+            background:
+                radial-gradient(circle at top right, rgba(229, 9, 20, 0.18), transparent 28rem),
+                linear-gradient(180deg, #181818 0%, #101010 100%);
+        }
+
+        .profile-shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 16px 92px;
+        }
+
+        .profile-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            gap: 22px;
+            align-items: stretch;
+            margin-bottom: 22px;
+        }
+
+        .profile-intro,
+        .profile-card,
+        .content-card,
+        .reference-card {
+            background: rgba(22, 22, 22, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 8px;
+        }
+
+        .profile-intro {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 260px;
+            padding: clamp(22px, 5vw, 42px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-intro::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.18)),
+                url("/static/image/Avengers_Endgame.jpg") center/cover;
+            opacity: 0.42;
+        }
+
+        .profile-intro > * {
+            position: relative;
+        }
+
+        .profile-intro h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .profile-intro p {
+            color: #d2d2d2;
+            line-height: 1.6;
+            max-width: 650px;
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 22px;
+        }
+
+        .avatar-panel {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar-panel img {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            background: #242424;
+            border: 2px solid rgba(229, 9, 20, 0.5);
+        }
+
+        .avatar-panel h2 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+        }
+
+        .avatar-panel span,
+        .muted-text {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .member-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            background: var(--primary-red);
+            color: #fff;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .profile-btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #2a2a2a;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            border: 0;
+        }
+
+        .profile-btn-link.primary {
+            background: var(--primary-red);
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .content-card {
+            padding: 20px;
+        }
+
+        .content-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .content-card h2 i {
+            color: var(--primary-red);
+        }
+
+        .info-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 13px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .info-row:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .info-row strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .info-row span,
+        .info-row small {
+            color: #9f9f9f;
+            line-height: 1.4;
+        }
+
+        .status-pill {
+            color: #ffffff;
+            background: #292929;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 7px 12px;
+            white-space: nowrap;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .status-pill.primary {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+
+        .watch-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-box {
+            background: #1d1d1d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 1.55rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-box span {
+            color: #a7a7a7;
+            font-size: 0.88rem;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+        }
+
+        .reference-card {
+            min-height: 112px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            color: #fff;
+            text-decoration: none;
+            padding: 16px;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .reference-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(229, 9, 20, 0.55);
+            background: #242424;
+        }
+
+        .reference-card i {
+            color: var(--primary-red);
+            font-size: 1.3rem;
+        }
+
+        .reference-card strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .reference-card span {
+            color: #aaa;
+            font-size: 0.86rem;
+            line-height: 1.4;
+        }
+
+        .wide-card {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 920px) {
+            .profile-hero,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .profile-shell {
+                padding: 18px 12px 88px;
+            }
+
+            .profile-intro {
+                min-height: 220px;
+            }
+
+            .avatar-panel,
+            .info-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .profile-actions a,
+            .profile-actions button {
+                width: 100%;
+            }
+
+            .watch-stats,
+            .reference-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/image/logo.png" alt="logo">
+            <a href="index.html" style="text-decoration: none; color: #ffffff;">Filmora</a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="movie.html">Movies</a>
+            <a href="series.html">Series</a>
+            <a href="subscription.html">Subscription</a>
+        </nav>
+        <div class="nav-actions">
+            <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="auth-container logged-in" id="authWrapper">
+                <button class="login-btn" id="loginBtn">Log In</button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <button class="profile-trigger-btn" aria-label="User Profile" type="button">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <p class="user-name">Abhay Khakhriya</p>
+                            <p class="user-email">bca.student@example.com</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="profile.html" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
+                        <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="profile-shell">
+        <section class="profile-hero">
+            <div class="profile-intro">
+                <span class="member-badge"><i class="fa-solid fa-crown"></i> Premium Profile</span>
+                <h1>Abhay Khakhriya</h1>
+                <p>Manage account details, continue watching, and jump quickly to the important Filmora pages from one responsive profile dashboard.</p>
+            </div>
+
+            <aside class="profile-card">
+                <div class="avatar-panel">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile avatar">
+                    <div>
+                        <h2>Abhay Khakhriya</h2>
+                        <span>bca.student@example.com</span>
+                    </div>
+                </div>
+                <p class="muted-text">Premium member with HD streaming, watchlist sync, and personalized recommendations enabled.</p>
+                <div class="profile-actions">
+                    <a class="profile-btn-link primary" href="setting.html"><i class="fa-solid fa-gear"></i> Edit Settings</a>
+                    <a class="profile-btn-link" href="subscription.html"><i class="fa-solid fa-gem"></i> Manage Plan</a>
+                </div>
+            </aside>
+        </section>
+
+        <section class="profile-grid">
+            <article class="content-card">
+                <h2><i class="fa-regular fa-user"></i> Account Details</h2>
+                <div class="info-list">
+                    <div class="info-row">
+                        <div>
+                            <strong>Display name</strong>
+                            <span>Abhay Khakhriya</span>
+                        </div>
+                        <span class="status-pill">Editable</span>
+                    </div>
+                    <div class="info-row">
+                        <div>
+                            <strong>Email address</strong>
+                            <span>bca.student@example.com</span>
+                        </div>
+                        <span class="status-pill primary">Verified</span>
+                    </div>
+                    <div class="info-row">
+                        <div>
+                            <strong>Subscription</strong>
+                            <span>Premium Plan</span>
+                        </div>
+                        <span class="status-pill primary">Active</span>
+                    </div>
+                    <div class="info-row">
+                        <div>
+                            <strong>Default quality</strong>
+                            <span>Auto HD on supported devices</span>
+                        </div>
+                        <span class="status-pill">Auto</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <h2><i class="fa-solid fa-chart-simple"></i> Watch Summary</h2>
+                <div class="watch-stats">
+                    <div class="stat-box">
+                        <strong>24</strong>
+                        <span>Movies watched</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>8</strong>
+                        <span>Series saved</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>4</strong>
+                        <span>Devices</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card wide-card">
+                <h2><i class="fa-solid fa-link"></i> Reference Pages</h2>
+                <div class="reference-grid">
+                    <a class="reference-card" href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        <div>
+                            <strong>Home</strong>
+                            <span>Return to the main page.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="movie.html">
+                        <i class="fa-solid fa-film"></i>
+                        <div>
+                            <strong>Movies</strong>
+                            <span>Browse movie content.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="series.html">
+                        <i class="fa-solid fa-tv"></i>
+                        <div>
+                            <strong>Series</strong>
+                            <span>Explore all series.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="subscription.html">
+                        <i class="fa-solid fa-gem"></i>
+                        <div>
+                            <strong>Subscription</strong>
+                            <span>Compare plan options.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="setting.html">
+                        <i class="fa-solid fa-gear"></i>
+                        <div>
+                            <strong>Settings</strong>
+                            <span>Update preferences.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="faq.html">
+                        <i class="fa-regular fa-circle-question"></i>
+                        <div>
+                            <strong>FAQ</strong>
+                            <span>Read common answers.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="contact_us.html">
+                        <i class="fa-solid fa-headset"></i>
+                        <div>
+                            <strong>Contact Us</strong>
+                            <span>Reach support.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="privacy_policy.html">
+                        <i class="fa-solid fa-lock"></i>
+                        <div>
+                            <strong>Privacy Policy</strong>
+                            <span>Review privacy details.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="login.html">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        <div>
+                            <strong>Login</strong>
+                            <span>Open sign in.</span>
+                        </div>
+                    </a>
+                    <a class="reference-card" href="register.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <div>
+                            <strong>Register</strong>
+                            <span>Create an account.</span>
+                        </div>
+                    </a>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <nav class="hotstar-bottom-nav">
+        <a href="index.html" class="bottom-nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="movie.html" class="bottom-nav-link">
+            <i class="fa-solid fa-film"></i>
+            <span>Movies</span>
+        </a>
+        <a href="series.html" class="bottom-nav-link">
+            <i class="fa-solid fa-tv"></i>
+            <span>Series</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-link active">
+            <i class="fa-regular fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+</body>
+</html>

@@ -49,6 +49,14 @@
             border-radius: 8px;
             padding: 14px;
             min-width: 260px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .profile-summary:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(229, 9, 20, 0.45);
         }
 
         .profile-summary img {
@@ -329,7 +337,7 @@
                             <p class="user-email">bca.student@example.com</p>
                         </div>
                         <hr class="dropdown-divider">
-                        <a href="#" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
+                        <a href="profile.html" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
                         <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
                         <hr class="dropdown-divider">
                         <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
@@ -345,13 +353,13 @@
                 <h1>Settings</h1>
                 <p>Manage your Filmora account, playback preferences, notifications, privacy options, and quick links to important pages.</p>
             </div>
-            <div class="profile-summary">
+            <a class="profile-summary" href="profile.html">
                 <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile avatar">
                 <div>
                     <strong>Abhay Khakhriya</strong>
-                    <span>Premium member</span>
+                    <span>Open profile page</span>
                 </div>
-            </div>
+            </a>
         </section>
 
         <section class="settings-layout">
@@ -379,6 +387,10 @@
                     <a class="page-link-card" href="subscription.html">
                         <i class="fa-solid fa-gem"></i>
                         <strong>Subscription<span>Review premium plans.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="profile.html">
+                        <i class="fa-regular fa-user"></i>
+                        <strong>Profile<span>View account details and watch summary.</span></strong>
                     </a>
                     <a class="page-link-card" href="faq.html">
                         <i class="fa-regular fa-circle-question"></i>
