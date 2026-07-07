@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamVibe - FAQ</title>
+    <!-- Font Awesome Icons Setup -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Design System Foundations (Synced with Reference Ecosystem) --- */
+        :root {
+            --bg-black: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --border-color: #262626;
+            --text-white: #ffffff;
+            --text-gray: #999999;
+            --text-light-gray: #bfbfbf;
+            --primary-red: #e50914;
+            --nav-bg: rgba(15, 15, 15, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            padding-top: 80px; /* Prevent fixed header overlap */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px; /* Tailored narrow width for crisp accordion readability */
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        button, a {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- Fully Responsive Navigation System --- */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            color: var(--primary-red); 
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .nav-links {
+            display: flex;
+            padding: 6px;
+            border-radius: 12px;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--text-white);
+            background-color: var(--card-bg);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-actions button {
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.15rem;
+            cursor: pointer;
+        }
+
+        /* --- DYNAMIC AUTH SYSTEM STYLES --- */
+        .auth-system {
+            display: inline-block;
+            position: relative;
+        }
+        
+        .auth-system.logged-out .profile-dropdown { display: none !important; }
+        .auth-system.logged-in .login-btn { display: none !important; }
+
+        .login-btn {
+            background-color: var(--primary-red);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            background-color: #ff0f1c;
+            transform: translateY(-1px);
+        }
+
+        .profile-btn {
+            background: none;
+            border: 2px solid transparent;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-btn:hover {
+            border-color: var(--primary-red);
+        }
+
+        .avatar-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #222;
+            object-fit: cover;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 220px;
+            padding: 14px 0;
+            display: none;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            z-index: 1050;
+        }
+
+        .profile-dropdown:hover .dropdown-panel {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 0 16px 10px 16px;
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .user-tier {
+            font-size: 0.78rem;
+            color: var(--primary-red);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        .panel-divider {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 8px 0;
+        }
+
+        .panel-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: var(--text-light-gray);
+            text-decoration: none;
+            font-size: 0.88rem;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .panel-link:hover {
+            background-color: #262626;
+            color: var(--text-white);
+        }
+
+        .logout-btn {
+            color: #ff4d4d;
+        }
+
+        /* --- FAQ Header Section --- */
+        .faq-hero {
+            margin: 50px 0 40px 0;
+            text-align: center;
+        }
+
+        .faq-hero h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .faq-hero p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* --- Smooth Interactive Accordion Panel Component --- */
+        .faq-wrapper {
+            margin-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 20px;
+        }
+
+        .faq-question {
+            color: var(--text-white);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .faq-icon-box {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-body {
+            padding: 0 24px 24px 24px;
+            color: var(--text-light-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-top: 1px solid transparent;
+        }
+
+        /* Active Toggle States administered via JavaScript */
+        .faq-item.active .faq-icon-box {
+            transform: rotate(180deg);
+            color: var(--primary-red);
+        }
+
+        /* .faq-item.active .faq-content {
+            /* Handled dynamically by JS to fit content sizes safely 
+        } */
+
+        /* --- HOTSTAR STYLE MOBILE BOTTOM NAVIGATION BAR --- */
+        .hotstar-bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            height: 65px;
+            background-color: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2000;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .bottom-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 0.65rem;
+            gap: 4px;
+            width: 25%;
+            height: 100%;
+        }
+
+        .bottom-nav-link i { font-size: 1.2rem; }
+        .bottom-nav-link.active, .bottom-nav-link:hover { color: var(--text-white); }
+
+        /* --- Global Footer System --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #0a0a0a;
+            padding: 60px 0 30px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 40px 30px;
+            margin-bottom: 50px;
+        }
+
+        .footer-grid h4 { font-size: 0.95rem; margin-bottom: 20px; color: var(--text-white); font-weight: 600; }
+        .footer-grid a { display: block; color: var(--text-gray); font-size: 0.85rem; margin-bottom: 12px; text-decoration: none; }
+        .footer-grid a:hover { color: var(--primary-red); }
+
+        .social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .social-icons a {
+            background-color: #141414; border: 1px solid var(--border-color);
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-white); text-decoration: none;
+        }
+        .social-icons a:hover { background-color: var(--primary-red); transform: scale(1.08); }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-policies { display: flex; flex-wrap: wrap; gap: 20px; }
+        .footer-policies a { text-decoration: none; color: var(--text-gray); }
+        .footer-policies a:hover { color: var(--text-white); }
+
+        /* ==========================================================================
+           CRITICAL BREAKPOINT SYSTEM
+           ========================================================================== */
+        @media (max-width: 768px) {
+            body { 
+                padding-top: 70px; 
+                padding-bottom: 65px; /* Offset spacing for fixed mobile bottom nav bar */
+            }
+            .navbar { height: 70px; }
+            .nav-links { display: none !important; }
+            .hotstar-bottom-nav { display: flex; }
+            .faq-trigger { padding: 20px; }
+            .faq-body { padding: 0 20px 20px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Responsive Shared Sticky Navbar Component Element Header -->
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-film"></i></span> Filmora
+        </div>
+        
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="movie.html">Movies</a>
+            <a href="#">Support</a>
+            <a href="subscription.html">Subscriptions</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button aria-label="Search Target Input Box View"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button aria-label="Notifications Feed Drawer"><i class="fa-regular fa-bell"></i></button>
+            
+            <!-- Conditional User Authentication Dropdown Workspace -->
+            <div class="auth-system logged-out" id="authSystem">
+                <button class="login-btn" id="loginBtn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </button>
+
+                <div class="profile-dropdown">
+                    <button class="profile-btn" aria-label="User Profile Workspace Options Area">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="User Avatar Profile Pic" class="avatar-img">
+                    </button>
+                    <div class="dropdown-panel">
+                        <div class="dropdown-header">
+                            <p class="user-name">Guest Workspace</p>
+                            <p class="user-tier">Premium Active Tier</p>
+                        </div>
+                        <hr class="panel-divider">
+                        <a href="#" class="panel-link"><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href="setting.html" class="panel-link"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <hr class="panel-divider">
+                        <button class="panel-link logout-btn" id="logoutBtn">
+                            <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Global Application Grid Container Context Core -->
+    <main class="container">
+        
+        <section class="faq-hero">
+            <h1>Frequently Asked Questions</h1>
+            <p>Got questions? We've got answers. Everything you need to know about plans and streaming features.</p>
+        </section>
+
+        <!-- Dynamic Accordion Core Structure Area -->
+        <section class="faq-wrapper">
+            
+            <!-- Item 1 -->
+            <div class="faq-item">
+                <button class="faq-trigger">
+                    <span class="faq-question">What is Filmora and how does it work?</span>
+                    <span class="faq-icon-box"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-content">
+                    <div class="faq-body">
+                        Filmora is a premium subscription-based video streaming ecosystem that lets you stream catalog movies, curated shows, and exclusive content pipelines across global network profiles with zero ad intrusions on supported tiers.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="faq-item">
+                <button class="faq-trigger">
+                    <span class="faq-question">How much does a subscription cost?</span>
+                    <span class="faq-icon-box"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-content">
+                    <div class="faq-body">
+                        We offer flexible monthly and discounted yearly plans configured across Basic ($9.99/mo), Standard ($12.99/mo), and Premium ($14.99/mo) matrix tiers. You can look at our full details over on the Subscriptions structure page.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="faq-item">
+                <button class="faq-trigger">
+                    <span class="faq-question">What devices are supported for streaming?</span>
+                    <span class="faq-icon-box"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-content">
+                    <div class="faq-body">
+                        You can stream Filmora smoothly using computers, smartphones, tablets, smart TVs, and browser layouts. Total concurrent device access metrics depend on your selected tier level.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="faq-item">
+                <button class="faq-trigger">
+                    <span class="faq-question">Can I cancel my subscription tier anytime?</span>
+                    <span class="faq-icon-box"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-content">
+                    <div class="faq-body">
+                        Yes, absolutely. There are no locking corporate contracts or extra parameters. You preserve complete authority to update or terminate your membership status instantly from your account dashboard panel workspace.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="faq-item">
+                <button class="faq-trigger">
+                    <span class="faq-question">Does Filmora offer offline playback tools?</span>
+                    <span class="faq-icon-box"><i class="fa-solid fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-content">
+                    <div class="faq-body">
+                        Offline catalog downloads and playback engines are supported exclusively for users managing active Standard and Premium workspace tiers inside compatible native app views.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Scalable Multi-Column Footer Node Component -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>Home</h4>
+                    <a href="#">Categories</a><a href="#">Devices</a><a href="#">Pricing</a>
+                </div>
+                <div>
+                    <h4>Movies</h4>
+                    <a href="#">Genres</a><a href="#">Trending</a><a href="#">Popular</a>
+                </div>
+                <div>
+                    <h4>Shows</h4>
+                    <a href="#">Genres</a><a href="#">Trending</a><a href="#">Popular</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="#">Contact Us</a>
+                </div>
+                <div>
+                    <h4>Subscription</h4>
+                    <a href="subscription.html">Plans</a><a href="#">Features</a>
+                </div>
+                <div>
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook Account Connection link"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter Account Connection link"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn Account Connection link"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 streamvibe. All Rights Reserved</p>
+                <div class="footer-policies">
+                    <a href="#">Terms of Use</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- HOTSTAR-STYLE PERSISTENT MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="hotstar-bottom-nav">
+        <a href="index.html" class="bottom-nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="movie.html" class="bottom-nav-link">
+            <i class="fa-solid fa-film"></i>
+            <span>Movies</span>
+        </a>
+        <a href="#" class="bottom-nav-link">
+            <i class="fa-solid fa-headset"></i>
+            <span>Series</span>
+        </a>
+        <a href="subscription.html" class="bottom-nav-link">
+            <i class="fa-solid fa-gem"></i>
+            <span>Premium</span>
+        </a>
+    </nav>
+
+    <!-- Execution Script Context Module Engine Initialization -->
+    <script>
+        // 1. ACCORDION ACCESSIBILITY AND SLIDE ENGINE HANDLERS
+        document.querySelectorAll('.faq-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const currentItem = trigger.parentElement;
+                const content = currentItem.querySelector('.faq-content');
+                const isActive = currentItem.classList.contains('active');
+
+                // Close all other open accordion panels for a clean UI layout look
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-content').style.maxHeight = null;
+                });
+
+                // Toggle the state of the active selected panel
+                if (!isActive) {
+                    currentItem.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // 2. CONDITIONAL AUTHENTICATION MATRIX SYSTEM HANDLERS
+        const authSystem = document.getElementById('authSystem');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        if(loginBtn && logoutBtn && authSystem) {
+            loginBtn.addEventListener('click', () => {
+                authSystem.classList.remove('logged-out');
+                authSystem.classList.add('logged-in');
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                authSystem.classList.remove('logged-in');
+                authSystem.classList.add('logged-out');
+            });
+        }
+    </script>
+</body>
+</html>

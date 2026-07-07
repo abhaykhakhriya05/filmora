@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamVibe - Search Movies & Series</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-black: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --input-bg: #141414;
+            --border-color: #262626;
+            --text-white: #ffffff;
+            --text-gray: #999999;
+            --text-light-gray: #bfbfbf;
+            --primary-red: #e50914;
+            --nav-bg: rgba(15, 15, 15, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 70px;
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-white);
+            text-decoration: none;
+        }
+
+        .logo-icon { color: var(--primary-red); }
+
+        /* --- Search Header --- */
+        .search-header-zone {
+            margin: 20px 0 30px 0;
+            text-align: center;
+        }
+
+        .search-bar-wrapper {
+            position: relative;
+            max-width: 650px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-input-field {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px 16px 16px 50px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input-field:focus {
+            border-color: var(--primary-red);
+        }
+
+        .search-icon-inside {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        .mobile-filter-trigger {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 0 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* --- Content Layout Filter Split --- */
+        .search-core-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* --- Sidebar Filters (Desktop) --- */
+        .desktop-sidebar-filters {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            font-weight: 600;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-light-gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox-label input {
+            accent-color: var(--primary-red);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* --- Main Results Window --- */
+        .results-display-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Tabs Navigation */
+        .navigation-tabs-strip {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+        }
+
+        .tab-node-btn {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            padding: 8px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .tab-node-btn.active {
+            background-color: var(--primary-red);
+            color: white;
+        }
+
+        /* Grid Results */
+        .media-discover-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card-node {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        .media-card-node:hover {
+            transform: translateY(-5px);
+            border-color: var(--text-gray);
+        }
+
+        .poster-container-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background-color: #222;
+        }
+
+        .poster-container-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-pill-tag {
+            position: absolute;
+            top: 10px; left: 10px;
+            background-color: rgba(0,0,0,0.75);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-white);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .badge-pill-tag.trending {
+            background-color: var(--primary-red);
+        }
+
+        .card-details-info {
+            padding: 12px;
+        }
+
+        .card-meta-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+        }
+
+        .card-main-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Empty State */
+        .empty-state-notice {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-state-notice i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--border-color);
+        }
+
+        /* --- Mobile Bottom Sheet Filter Drawer --- */
+        .mobile-filter-sheet {
+            position: fixed; bottom: -100%; left: 0; right: 0;
+            background-color: #141414; border-top-left-radius: 20px; border-top-right-radius: 20px;
+            padding: 24px; z-index: 3000; transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 80vh; overflow-y: auto;
+        }
+        .mobile-filter-sheet.open { bottom: 0; }
+        .sheet-backdrop { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); z-index: 2999; display: none; backdrop-filter: blur(4px); }
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .sheet-close-btn { background: none; border: none; color: var(--text-gray); font-size: 1.2rem; cursor: pointer; }
+
+        /* --- Global Floating Toast UI --- */
+        .toast-notification {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(30px);
+            background: var(--primary-red); color: white; padding: 10px 24px;
+            border-radius: 30px; font-size: 0.88rem; font-weight: 500; z-index: 5000;
+            opacity: 0; pointer-events: none; transition: all 0.3s ease;
+        }
+        .toast-notification.active { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* --- Bottom Navigation Ecosystem (Mobile) --- */
+        .hotstar-bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: rgba(10, 10, 10, 0.98); border-top: 1px solid rgba(255, 255, 255, 0.08); display: none; justify-content: space-around; align-items: center; z-index: 2000; }
+        .bottom-nav-link { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-gray); font-size: 0.65rem; gap: 2px; }
+        .bottom-nav-link.active { color: var(--text-white); }
+
+        /* --- Responsive Re-Engineering --- */
+        @media (max-width: 768px) {
+            body { padding-top: 60px; padding-bottom: 70px; }
+            .navbar { height: 60px; }
+            .hotstar-bottom-nav { display: flex; }
+            .search-core-layout { grid-template-columns: 1fr; }
+            .desktop-sidebar-filters { display: none; }
+            .mobile-filter-trigger { display: block; }
+            .media-discover-grid { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <header class="navbar">
+        <a href="#" class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-clapperboard"></i></span> StreamVibe
+        </a>
+    </header>
+
+    <main class="container">
+        
+        <!-- Search Field Header Zone -->
+        <section class="search-header-zone">
+            <div class="search-bar-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon-inside"></i>
+                <input type="text" class="search-input-field" id="globalSearchInput" placeholder="Search by titles, genres, keywords...">
+                <button class="mobile-filter-trigger" id="mobileFilterOpenBtn"><i class="fa-solid fa-sliders"></i></button>
+            </div>
+        </section>
+
+        <!-- Core Grid & Sidebar Stack -->
+        <section class="search-core-layout">
+            
+            <!-- Side Controls Panel (Desktop only) -->
+            <aside class="desktop-sidebar-filters">
+                <div class="filter-group">
+                    <h3 class="filter-section-title">Genres</h3>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter" value="Action"> Action</label>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter" value="Drama"> Drama</label>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter" value="Thriller"> Thriller</label>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter" value="Sci-Fi"> Sci-Fi</label>
+                </div>
+                <div class="filter-group">
+                    <h3 class="filter-section-title">Year</h3>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="year-filter" value="2026"> 2026</label>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="year-filter" value="2025"> 2025</label>
+                    <label class="filter-checkbox-label"><input type="checkbox" class="year-filter" value="2024"> 2024</label>
+                </div>
+            </aside>
+
+            <!-- Media Results Canvas Display -->
+            <div class="results-display-panel">
+                
+                <!-- Filter Tabs Segment Links -->
+                <div class="navigation-tabs-strip">
+                    <button class="tab-node-btn active" data-type="all">All content</button>
+                    <button class="tab-node-btn" data-type="movie">Movies</button>
+                    <button class="tab-node-btn" data-type="series">Web Series</button>
+                </div>
+
+                <!-- Empty State Frame Notice -->
+                <div class="empty-state-notice" id="emptyStateNotice">
+                    <i class="fa-regular fa-folder-open"></i>
+                    <h3>No Results Found</h3>
+                    <p style="margin-top: 8px;">Try checking your spelling or adjusting filter checkboxes.</p>
+                </div>
+
+                <!-- Cards Grid Output Element -->
+                <div class="media-discover-grid" id="discoveryGridDeck">
+                    <!-- Loaded dynamically via engine script -->
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Mobile Drawer Sliders Ecosystem -->
+        <div class="sheet-backdrop" id="sheetBackdrop"></div>
+        <div class="mobile-filter-sheet" id="mobileFilterSheet">
+            <div class="sheet-header">
+                <h3>Refine Selection</h3>
+                <button class="sheet-close-btn" id="sheetCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="filter-group">
+                <h3 class="filter-section-title">Genres</h3>
+                <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter-mob" value="Action"> Action</label>
+                <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter-mob" value="Drama"> Drama</label>
+                <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter-mob" value="Thriller"> Thriller</label>
+                <label class="filter-checkbox-label"><input type="checkbox" class="genre-filter-mob" value="Sci-Fi"> Sci-Fi</label>
+            </div>
+            <div class="filter-group" style="margin-bottom:0;">
+                <h3 class="filter-section-title">Year</h3>
+                <label class="filter-checkbox-label"><input type="checkbox" class="year-filter-mob" value="2026"> 2026</label>
+                <label class="filter-checkbox-label"><input type="checkbox" class="year-filter-mob" value="2025"> 2025</label>
+                <label class="filter-checkbox-label"><input type="checkbox" class="year-filter-mob" value="2024"> 2024</label>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification Toast Element -->
+    <div class="toast-notification" id="toastUi">Done!</div>
+
+    <!-- Mobile Sticky Navigation Control Bar Links -->
+    <nav class="hotstar-bottom-nav">
+        <a href="#" class="bottom-nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="#" class="bottom-nav-link active"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
+        <a href="#" class="bottom-nav-link"><i class="fa-solid fa-film"></i><span>Series</span></a>
+    </nav>
+
+    <script>
+        // --- CENTRAL MEDIA INVENTORY MATRIX DATA ---
+        const mediaDatabase = [
+            { id: 1, title: "The Trial", type: "series", genre: "Drama", year: "2026", quality: "HD", trending: true, img: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=400&q=80" },
+            { id: 2, title: "Apex Hunters", type: "movie", genre: "Action", year: "2026", quality: "4K", trending: true, img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80" },
+            { id: 3, title: "Interstellar Core", type: "movie", genre: "Sci-Fi", year: "2025", quality: "HD", trending: false, img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&q=80" },
+            { id: 4, title: "Grid Lock: Tokyo", type: "series", genre: "Action", year: "2025", quality: "HD", trending: false, img: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&q=80" },
+            { id: 5, title: "Shadow Courtroom", type: "movie", genre: "Thriller", year: "2024", quality: "4K", trending: false, img: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80" },
+            { id: 6, title: "The Anonymous Tip", type: "series", genre: "Thriller", year: "2026", quality: "HD", trending: false, img: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400&q=80" }
+        ];
+
+        // Gather Interactive DOM Elements
+        const searchInput = document.getElementById('globalSearchInput');
+        const discoveryGridDeck = document.getElementById('discoveryGridDeck');
+        const emptyStateNotice = document.getElementById('emptyStateNotice');
+        const tabBtns = document.querySelectorAll('.tab-node-btn');
+        const toast = document.getElementById('toastUi');
+
+        const mobileFilterOpenBtn = document.getElementById('mobileFilterOpenBtn');
+        const mobileFilterSheet = document.getElementById('mobileFilterSheet');
+        const sheetBackdrop = document.getElementById('sheetBackdrop');
+        const sheetCloseBtn = document.getElementById('sheetCloseBtn');
+
+        // State Tracking variables
+        let currentTabType = "all";
+        let activeGenres = [];
+        let activeYears = [];
+
+        // --- TOAST NOTIFIER TRIGGER FACTORY ---
+        function triggerToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2000);
+        }
+
+        // --- RENDERING CANVAS BUILD MATRIX ENGINE ---
+        function renderMediaResults() {
+            discoveryGridDeck.innerHTML = '';
+            const searchKeyword = searchInput.value.toLowerCase().trim();
+
+            const filteredDeck = mediaDatabase.filter(item => {
+                // 1. Tab Level Check
+                if (currentTabType !== 'all' && item.type !== currentTabType) return false;
+                
+                // 2. Keyword Query Match
+                if (searchKeyword && !item.title.toLowerCase().includes(searchKeyword) && !item.genre.toLowerCase().includes(searchKeyword)) return false;
+
+                // 3. Desktop + Mobile Synced Checkboxes Matrix 
+                if (activeGenres.length > 0 && !activeGenres.includes(item.genre)) return false;
+                if (activeYears.length > 0 && !activeYears.includes(item.year)) return false;
+
+                return true;
+            });
+
+            // Empty Data Block State Toggle Controller
+            if (filteredDeck.length === 0) {
+                emptyStateNotice.style.display = 'block';
+                return;
+            }
+            emptyStateNotice.style.display = 'none';
+
+            // Loop Map and Append Node Elements
+            filteredDeck.forEach(data => {
+                const node = document.createElement('div');
+                node.className = 'media-card-node';
+                node.innerHTML = `
+                    <div class="poster-container-frame">
+                        <img src="${data.img}" alt="Poster">
+                        <span class="badge-pill-tag ${data.trending ? 'trending' : ''}">
+                            ${data.trending ? '<i class="fa-solid fa-fire"></i> Trending' : data.quality}
+                        </span>
+                    </div>
+                    <div class="card-details-info">
+                        <div class="card-meta-line"><span>${data.year}</span><span>${data.genre}</span></div>
+                        <h4 class="card-main-title">${data.title}</h4>
+                    </div>
+                `;
+
+                node.addEventListener('click', () => {
+                    triggerToast(`Opening Watch Screen Workspace for ${data.title}...`);
+                });
+
+                discoveryGridDeck.appendChild(node);
+            });
+        }
+
+        // --- FILTER EVENTS SYSTEM ATTACHMENTS ---
+        searchInput.addEventListener('input', renderMediaResults);
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTabType = btn.getAttribute('data-type');
+                renderMediaResults();
+            });
+        });
+
+        // Collect Filters State Sync (Desktop + Mobile Groups)
+        function updateFilterArrays() {
+            activeGenres = [];
+            activeYears = [];
+
+            // Add Desktop inputs
+            document.querySelectorAll('.genre-filter:checked').forEach(i => activeGenres.push(i.value));
+            document.querySelectorAll('.year-filter:checked').forEach(i => activeYears.push(i.value));
+            
+            // Add Mobile Inputs
+            document.querySelectorAll('.genre-filter-mob:checked').forEach(i => activeGenres.push(i.value));
+            document.querySelectorAll('.year-filter-mob:checked').forEach(i => activeYears.push(i.value));
+
+            // Normalize unique items inside tracking datasets array list
+            activeGenres = [...new Set(activeGenres)];
+            activeYears = [...new Set(activeYears)];
+
+            renderMediaResults();
+        }
+
+        document.querySelectorAll('.genre-filter, .year-filter, .genre-filter-mob, .year-filter-mob').forEach(checkbox => {
+            checkbox.addEventListener('change', updateFilterArrays);
+        });
+
+        // --- MOBILE DRAWER EVENT HANDLERS ---
+        mobileFilterOpenBtn.addEventListener('click', () => {
+            mobileFilterSheet.classList.add('open');
+            sheetBackdrop.style.display = 'block';
+        });
+
+        function closeMobileSheetDrawer() {
+            mobileFilterSheet.classList.remove('open');
+            sheetBackdrop.style.display = 'none';
+        }
+        sheetCloseBtn.addEventListener('click', closeMobileSheetDrawer);
+        sheetBackdrop.addEventListener('click', closeMobileSheetDrawer);
+
+        // Core Load Initializer Trigger Run
+        renderMediaResults();
+    </script>
+</body>
+</html>

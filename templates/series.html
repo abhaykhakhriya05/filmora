@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora</title>
+    <link rel="stylesheet" href="/static/css/series.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-film"></i></span> Filmora
+        </div>
+        
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html" >Home</a>
+            <a href="movie.html" class="active">Movies</a>
+            <a href="#">Support</a>
+            <a href="subscription.html">Subscription</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button class="bell-btn" aria-label="Notifications"><i class="fa-regular fa-bell"></i></button>
+            
+            <div class="auth-system logged-out" id="authSystem">
+                <button class="login-btn" id="loginBtn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+
+                <div class="profile-dropdown">
+                    <button class="profile-btn" aria-label="User Profile">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="User Profile" class="avatar-img">
+                    </button>
+                    <div class="dropdown-panel">
+                        <div class="dropdown-header">
+                            <p class="user-name">Guest User</p>
+                            <p class="user-tier">Premium Plan</p>
+                        </div>
+                        <hr class="panel-divider">
+                        <a href="#" class="panel-link"><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href="setting.html" class="panel-link"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <hr class="panel-divider">
+                        <button class="panel-link logout-btn" id="logoutBtn"><i class="fa-solid fa-sign-out-alt"></i> Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header> -->
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/image/logo.png" alt="logo">
+            <a href="index.html" style="text-decoration: none; color: #ffffff;"> Filmora</a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html" >Home</a>
+            <a href="movie.html" >Movies</a>
+            <a href="series.css" class="active">Series</a>
+            <a href="subscription.html">Subscription</a>
+        </nav>
+    <div class="nav-actions">
+    <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    
+    
+    <!-- Auth Container (Placed right next to the bell button) -->
+    <div class="auth-container logged-out" id="authWrapper">
+        <!-- State 1: User is NOT logged in -->
+        <button class="login-btn" id="loginBtn">Log In</button>
+
+        <!-- State 2: User IS logged in -->
+        <div class="profile-dropdown" id="profileDropdown">
+            <button class="profile-trigger-btn" aria-label="User Profile">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
+            </button>
+            <!-- Hidden dropdown menu contents -->
+            <div class="dropdown-menu">
+                <div class="dropdown-header">
+                    <p class="user-name">Abhay Khakhriya</p>
+                    <p class="user-email">bca.student@example.com</p>
+                </div>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
+                <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                <hr class="dropdown-divider">
+                <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </header>
+
+    <section class="hero-carousel-wrapper">
+        <div class="hero-track">
+            <div class="hero-slide " style="background-image: linear-gradient(to bottom, rgba(20,20,20,0.2), #141414), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920');">
+                <div class="hero-content">
+                    <h1 class="hero-title">Avengers: Endgame</h1>
+                    <p class="hero-description">With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
+                        <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn btn-secondary" title="Like"><i class="fa-regular fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide active" style="background-image: linear-gradient(to bottom, rgba(20,20,20,0.2), #141414), url('https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?q=80&w=1920');">
+                <div class="hero-content">
+                    <h1 class="hero-title">Interstellar Voyage</h1>
+                    <p class="hero-description">A team of explorers travel beyond this galaxy to discover whether mankind has a future among the stars.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
+                        <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn btn-secondary" title="Like"><i class="fa-regular fa-thumbs-up"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+        </div>
+    </section>
+
+    <main class="container">
+
+        <div class="section-tag-badge">New Releases</div>
+        <section class="row-section">
+            <div class="row-header">
+                <h2>New Releases Now</h2>
+                <div class="slider-controls">
+                    <button class="control-btn prev"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="cards-slider">
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=11" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Dune: Part Two</h3><div class="card-meta"><span>2h 46m</span><span class="badge-red">New</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=12" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Civil War</h3><div class="card-meta"><span>1h 49m</span><span class="badge-red">New</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=13" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Furiosa: Saga</h3><div class="card-meta"><span>2h 28m</span><span class="badge-red">New</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=14" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>The Fall Guy</h3><div class="card-meta"><span>2h 06m</span><span class="badge-red">New</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-tag-badge">Curated For You</div>
+        <section class="row-section">
+            <div class="row-header">
+                <h2>Must - Watch Movies</h2>
+                <div class="slider-controls">
+                    <button class="control-btn prev"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="cards-slider">
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=21" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Oppenheimer</h3><div class="card-meta"><span>3h 00m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=22" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Blade Runner 2049</h3><div class="card-meta"><span>2h 44m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.7</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=23" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>The Dark Knight</h3><div class="card-meta"><span>2h 32m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-tag-badge">Animation</div>
+        <section class="row-section">
+            <div class="row-header">
+                <h2>Anime Movies</h2>
+                <div class="slider-controls">
+                    <button class="control-btn prev"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="cards-slider">
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=31" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Mugen Train</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=32" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Spirited Away</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.8</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=33" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>Suzume</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.6</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-tag-badge">Upcoming</div>
+        <section class="row-section">
+            <div class="row-header">
+                <h2>Coming Soon</h2>
+                <div class="slider-controls">
+                    <button class="control-btn prev"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="cards-slider">
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=41" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-bell"></i></button></div></div>
+                    <div class="card-content"><h3>Avatar 3</h3><div class="card-meta"><span>Dec 2026</span><span class="badge-blue">Remind Me</span></div></div>
+                </div>
+                <div class="standard-card">
+                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=42" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-bell"></i></button></div></div>
+                    <div class="card-content"><h3>The Batman Part II</h3><div class="card-meta"><span>Oct 2026</span><span class="badge-blue">Remind Me</span></div></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h4>Movies</h4>
+                <a href="#">Genres</a><a href="#">Trending</a><a href="#">Popular</a>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-column">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <nav class="hotstar-bottom-nav">
+        <a href="index.html" class="bottom-nav-link ">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="movie.html" class="bottom-nav-link ">
+            <i class="fa-solid fa-film"></i>
+            <span>Movies</span>
+        </a>
+        <a href="#" class="bottom-nav-link active">
+            <i class="fa-solid fa-headset"></i>
+            <span>Series</span>
+        </a>
+        <a href="subscription.html" class="bottom-nav-link">
+            <i class="fa-solid fa-gem"></i>
+            <span>Premium</span>
+        </a>
+    </nav>
+
+    <script src="/static/js/series.js"></script>
+</body>
+</html>

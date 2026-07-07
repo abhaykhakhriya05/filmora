@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Filmora</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <style>
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(229, 9, 20, 0.16), transparent 28rem),
+                linear-gradient(180deg, #181818 0%, #101010 100%);
+        }
+
+        .settings-shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 28px 16px 92px;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .settings-title h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .settings-title p {
+            color: #b9b9b9;
+            max-width: 620px;
+            line-height: 1.6;
+        }
+
+        .profile-summary {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 14px;
+            min-width: 260px;
+        }
+
+        .profile-summary img {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #202020;
+        }
+
+        .profile-summary strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .profile-summary span {
+            color: #a8a8a8;
+            font-size: 0.9rem;
+        }
+
+        .setting-card {
+            background: rgba(22, 22, 22, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 8px;
+        }
+
+        .settings-panel {
+            padding: 0;
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .panel-heading h2 {
+            font-size: 1.35rem;
+            margin-bottom: 6px;
+        }
+
+        .panel-heading p {
+            color: #a9a9a9;
+            line-height: 1.5;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .page-link-card {
+            display: flex;
+            min-height: 118px;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+            color: #ffffff;
+            text-decoration: none;
+            background: #1d1d1d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .page-link-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(229, 9, 20, 0.55);
+            background: #242424;
+        }
+
+        .page-link-card i {
+            color: var(--primary-red);
+            font-size: 1.35rem;
+        }
+
+        .page-link-card span {
+            display: block;
+            color: #b6b6b6;
+            font-size: 0.88rem;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .setting-card {
+            padding: 18px;
+        }
+
+        .setting-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .setting-card h3 i {
+            color: var(--primary-red);
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            color: #d8d8d8;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .setting-row:first-of-type {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .setting-row small {
+            display: block;
+            color: #919191;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .status-pill {
+            color: #ffffff;
+            background: #292929;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 7px 12px;
+            white-space: nowrap;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .status-pill.primary {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 26px;
+            flex: 0 0 auto;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #3a3a3a;
+            border-radius: 999px;
+            transition: 0.2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .switch input:checked + .slider {
+            background: var(--primary-red);
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .settings-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .settings-actions a,
+        .settings-actions button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 6px;
+            padding: 11px 15px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .settings-actions .save-btn {
+            background: var(--primary-red);
+        }
+
+        .settings-actions .cancel-link {
+            background: #2a2a2a;
+        }
+
+        @media (max-width: 900px) {
+            .settings-header,
+            .panel-heading {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .profile-summary {
+                width: 100%;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .settings-shell {
+                padding: 18px 12px 88px;
+            }
+
+            .quick-links,
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .settings-actions a,
+            .settings-actions button {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/image/logo.png" alt="logo">
+            <a href="index.html" style="text-decoration: none; color: #ffffff;">Filmora</a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="movie.html">Movies</a>
+            <a href="series.html">Series</a>
+            <a href="subscription.html">Subscription</a>
+        </nav>
+        <div class="nav-actions">
+            <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="auth-container logged-in" id="authWrapper">
+                <div class="profile-dropdown" id="profileDropdown">
+                    <button class="profile-trigger-btn" aria-label="User Profile" type="button">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <p class="user-name">Abhay Khakhriya</p>
+                            <p class="user-email">bca.student@example.com</p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
+                        <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <hr class="dropdown-divider">
+                        <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="settings-shell">
+        <section class="settings-header">
+            <div class="settings-title">
+                <h1>Settings</h1>
+                <p>Manage your Filmora account, playback preferences, notifications, privacy options, and quick links to important pages.</p>
+            </div>
+            <div class="profile-summary">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile avatar">
+                <div>
+                    <strong>Abhay Khakhriya</strong>
+                    <span>Premium member</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="settings-layout">
+            <div class="settings-panel">
+                <div class="panel-heading" id="page-links">
+                    <div>
+                        <h2>Reference Pages</h2>
+                        <p>Use these dashboard shortcuts to jump to the main pages in this template.</p>
+                    </div>
+                </div>
+
+                <div class="quick-links">
+                    <a class="page-link-card" href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        <strong>Home<span>Return to the main landing page.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="movie.html">
+                        <i class="fa-solid fa-film"></i>
+                        <strong>Movies<span>Browse movie collections.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="series.html">
+                        <i class="fa-solid fa-tv"></i>
+                        <strong>Series<span>Open the series catalog.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="subscription.html">
+                        <i class="fa-solid fa-gem"></i>
+                        <strong>Subscription<span>Review premium plans.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="faq.html">
+                        <i class="fa-regular fa-circle-question"></i>
+                        <strong>FAQ<span>Find common answers.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="contact_us.html">
+                        <i class="fa-solid fa-headset"></i>
+                        <strong>Contact Us<span>Reach support and help.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="privacy_policy.html">
+                        <i class="fa-solid fa-lock"></i>
+                        <strong>Privacy Policy<span>Read privacy information.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="login.html">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        <strong>Login<span>Open the sign-in screen.</span></strong>
+                    </a>
+                    <a class="page-link-card" href="register.html">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <strong>Register<span>Create a new account.</span></strong>
+                    </a>
+                </div>
+
+                <div class="settings-grid">
+                    <article class="setting-card" id="account">
+                        <h3><i class="fa-regular fa-user"></i> Account</h3>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Profile name</strong>
+                                <small>Abhay Khakhriya</small>
+                            </div>
+                            <span class="status-pill">Edit</span>
+                        </div>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Email address</strong>
+                                <small>bca.student@example.com</small>
+                            </div>
+                            <span class="status-pill">Verified</span>
+                        </div>
+                    </article>
+
+                    <article class="setting-card" id="playback">
+                        <h3><i class="fa-solid fa-circle-play"></i> Playback</h3>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Auto play next episode</strong>
+                                <small>Continue series automatically.</small>
+                            </div>
+                            <label class="switch" aria-label="Auto play next episode">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Streaming quality</strong>
+                                <small>Best available on this device.</small>
+                            </div>
+                            <span class="status-pill primary">Auto HD</span>
+                        </div>
+                    </article>
+
+                    <article class="setting-card" id="privacy">
+                        <h3><i class="fa-solid fa-shield-halved"></i> Privacy</h3>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Private watch history</strong>
+                                <small>Hide titles from recommendations.</small>
+                            </div>
+                            <label class="switch" aria-label="Private watch history">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Profile visibility</strong>
+                                <small>Only you can view this profile.</small>
+                            </div>
+                            <span class="status-pill">Private</span>
+                        </div>
+                    </article>
+
+                    <article class="setting-card" id="notifications">
+                        <h3><i class="fa-regular fa-bell"></i> Notifications</h3>
+                        <div class="setting-row">
+                            <div>
+                                <strong>New release alerts</strong>
+                                <small>Get notified about movies and series.</small>
+                            </div>
+                            <label class="switch" aria-label="New release alerts">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <div>
+                                <strong>Subscription reminders</strong>
+                                <small>Receive renewal and billing notices.</small>
+                            </div>
+                            <label class="switch" aria-label="Subscription reminders">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="settings-actions" id="subscription">
+                    <button class="save-btn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+                    <a class="cancel-link" href="subscription.html"><i class="fa-solid fa-gem"></i> Manage Plan</a>
+                    <a class="cancel-link" href="index.html"><i class="fa-solid fa-house"></i> Back Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="hotstar-bottom-nav">
+        <a href="index.html" class="bottom-nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="movie.html" class="bottom-nav-link">
+            <i class="fa-solid fa-film"></i>
+            <span>Movies</span>
+        </a>
+        <a href="series.html" class="bottom-nav-link">
+            <i class="fa-solid fa-tv"></i>
+            <span>Series</span>
+        </a>
+        <a href="setting.html" class="bottom-nav-link active">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
+</body>
+</html>
+

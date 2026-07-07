@@ -1,0 +1,514 @@
+/* ==========================================================================
+   Core Layout Extensions
+   ========================================================================== */
+:root {
+    --primary-red: #e50914;
+    --dark-bg: #141414;
+    --card-border: #262626;
+    --nav-bg: rgba(20, 20, 20, 0.95);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: #ffffff;
+    overflow-x: hidden;
+    padding-top: 70px;
+    padding-bottom: 70px; /* Safe area space allocation for persistent bottom bar */
+}
+
+@media(min-width: 850px) {
+    body {
+        padding-bottom: 0; /* Clear mobile navigation space allocations on desktops */
+    }
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+@media(min-width: 768px) {
+    .container { padding: 20px 40px; }
+}
+
+/* ==========================================================================
+   Navbar Configurations (Desktop Hidden on Mobile Navigation)
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--nav-bg);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.logo img
+{
+    height: auto;
+    width: 40px;
+}
+
+.logo-icon {
+    color: var(--primary-red);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* Desktop links hidden completely during mobile layout execution */
+.nav-links {
+    display: none;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+/* Transform layout cleanly when viewport scales to tablet/desktop modes */
+@media(min-width: 850px) {
+    .navbar { padding: 20px 50px; height: 80px; }
+    body { padding-top: 80px; }
+    
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+    .nav-links a {
+        color: #bfbfbf;
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .nav-links a.active, .nav-links a:hover {
+        color: #ffffff;
+        background-color: #1f1f1f;
+    }
+}
+
+/* ==========================================================================
+   Persistent Mobile Bottom Navigation (Hotstar Inspired Layout)
+   ========================================================================== */
+
+.hotstar-bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%; height: 60px;
+    background-color: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: none; justify-content: space-around; align-items: center;
+    z-index: 2000; padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-nav-link {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-decoration: none; color: #777777; font-size: 0.65rem; gap: 4px; width: 25%; height: 100%;
+}
+.bottom-nav-link i { font-size: 1.15rem; }
+.bottom-nav-link.active, .bottom-nav-link:hover { color: #ffffff; }
+
+/* .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1010;
+    padding-bottom: cubic-bezier(0.1, 0.76, 0.55, 0.94);
+} */
+
+/* .bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8f8f9d;
+    text-decoration: none;
+    font-size: 0.75rem;
+    gap: 4px;
+    width: 25%;
+    height: 100%;
+    transition: color 0.2s ease;
+} */
+/* 
+.bottom-nav-link i {
+    font-size: 1.2rem;
+}
+
+.bottom-nav-link.active,
+.bottom-nav-link:hover {
+    color: #ffffff;
+} */
+
+/* Desktop View: Completely remove bottom action menus from presentation viewports */
+@media(min-width: 850px) {
+    .bottom-nav {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Hero Content Window
+   ========================================================================== */
+.hero-section {
+    height: 45vh;
+    min-height: 320px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.hero-content h1 { font-size: 1.75rem; margin-bottom: 8px; }
+.hero-content p { color: #aaa; line-height: 1.4; margin-bottom: 15px; font-size: 0.85rem; }
+
+.hero-buttons { display: flex; gap: 8px; }
+.btn { padding: 10px 18px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; font-size: 0.85rem; }
+.btn-primary { background-color: var(--primary-red); color: white; }
+.btn-secondary { background-color: #262626; color: white; }
+
+@media(min-width: 768px) {
+    .hero-section { height: 70vh; padding: 0 50px 60px 50px; }
+    .hero-content h1 { font-size: 3rem; }
+    .hero-content p { font-size: 1rem; margin-bottom: 20px; }
+}
+
+/* ==========================================================================
+   Hotstar Responsive Cards & Slider Framework
+   ========================================================================== */
+.section-tag-badge {
+    background-color: var(--primary-red);
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.row-section { margin: 25px 0; }
+.row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.row-header h2 { font-size: 1.1rem; font-weight: 600; }
+
+.slider-controls { display: none; } /* Sliders use touch-swipe tracking natively on smaller panels */
+
+@media(min-width: 768px) {
+    .row-header h2 { font-size: 1.4rem; }
+    .slider-controls { display: flex; gap: 6px; background: #1a1a1a; padding: 4px; border-radius: 8px; }
+    .control-btn { background: #262626; border: none; color: white; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; }
+    .control-btn:hover { background: var(--primary-red); }
+}
+
+/* Scroll Wrapper setup */
+.cards-slider {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 5px 2px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+.cards-slider::-webkit-scrollbar { display: none; }
+
+/* --- Idea 2: Responsive Hotstar-style Card Matrix --- */
+.standard-card {
+    background-color: #1a1a1a;
+    border: 1px solid var(--card-border);
+    padding: 6px;
+    border-radius: 10px;
+    
+    /* Mobile First Architecture: Shows ~ 3 cards layout cleanly visible within viewports */
+    min-width: 110px;
+    width: 110px;
+    
+    flex: 0 0 auto;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card-img-wrapper { 
+    position: relative; 
+    width: 100%; 
+    height: 155px; /* Clean 3:4 aspect sizing framework optimal for poster art */
+    border-radius: 6px; 
+    overflow: hidden; 
+}
+
+.standard-card img { width: 100%; height: 100%; object-fit: cover; }
+.hover-overlay { display: none; } /* Disable computation updates on mobile overlay actions */
+
+.card-content { margin-top: 6px; }
+.card-content h3 { font-size: 0.75rem; font-weight: 500; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-meta { display: flex; justify-content: space-between; font-size: 0.65rem; color: #888; }
+
+/* Sizing Adjustments: Medium Viewport Devices (Tablets like Galaxy A51 up to iPads) */
+@media(min-width: 480px) {
+    .standard-card { min-width: 120px; width: 140px; padding: 8px; }
+    .card-img-wrapper { height: 150px; }
+    .card-content h3 { font-size: 0.85rem; }
+    .card-meta { font-size: 0.7rem; }
+}
+@media(min-width: 412px) {
+    .standard-card { min-width: 120px; width: 140px; padding: 8px; }
+    .card-img-wrapper { height: 150px; }
+    .card-content h3 { font-size: 0.85rem; }
+    .card-meta { font-size: 0.7rem; }
+}
+@media(min-width: 768px) {
+    .standard-card { min-width: 180px; width: 180px; padding: 10px; border-radius: 12px; }
+    .card-img-wrapper { height: 250px; }
+    .card-content h3 { font-size: 0.95rem; }
+}
+
+/* Sizing Adjustments: High Resolution Large Screen Viewport Workstations */
+@media(min-width: 1024px) {
+    .standard-card { min-width: 220px; width: 220px; padding: 12px; }
+    .card-img-wrapper { height: 300px; }
+    .hover-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+    .play-overlay-btn { background-color: var(--primary-red); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+    
+    .standard-card:hover { transform: translateY(-5px); border-color: var(--primary-red); }
+    .standard-card:hover .hover-overlay { opacity: 1; }
+    .card-content h3 { font-size: 1.05rem; }
+    .card-meta { font-size: 0.8rem; }
+}
+
+@media (max-width: 768px) {
+    .hotstar-bottom-nav { display: flex; }
+}
+
+/* Genre Cards adjustments for consistency */
+.genre-card {
+    background-color: #1a1a1a;
+    border: 1px solid var(--card-border);
+    padding: 10px;
+    border-radius: 12px;
+    min-width: 160px;
+    width: 160px;
+    flex: 0 0 auto;
+}
+.genre-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-bottom: 8px; }
+.genre-grid img { width: 100%; border-radius: 4px; object-fit: cover; height: 60px; }
+.genre-footer { display: flex; justify-content: space-between; align-items: center; font-weight: 500; font-size: 0.8rem; }
+
+@media(min-width: 768px) {
+    .genre-card { min-width: 240px; width: 240px; padding: 16px; }
+    .genre-grid img { height: 85px; }
+    .genre-footer { font-size: 0.95rem; }
+}
+
+/* ==========================================================================
+   CTA Banner & Footer Adjustments
+   ========================================================================== */
+.cta-banner { background: linear-gradient(90deg, rgba(229,9,20,0.2) 0%, rgba(20,20,20,1) 100%), url('https://images.unsplash.com/photo-1574267431629-2e570f032e53?q=80&w=600'); background-size: cover; padding: 25px 15px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; margin: 30px 0 10px 0; }
+.cta-text h2 { font-size: 1.25rem; margin-bottom: 4px; }
+.cta-text p { color: #aaa; font-size: 0.75rem; }
+
+@media(min-width: 768px) {
+    .cta-banner { padding: 40px; flex-direction: row; justify-content: space-between; align-items: center; }
+    .cta-text h2 { font-size: 1.8rem; }
+    .cta-text p { font-size: 0.95rem; }
+}
+
+footer { background-color: #0f0f0f; padding: 30px 15px; border-top: 1px solid var(--card-border); }
+.footer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.footer-grid h4 { margin-bottom: 8px; font-size: 0.9rem; color: #fff; }
+.footer-grid a { display: block; color: #999; text-decoration: none; margin-bottom: 6px; font-size: 0.8rem; }
+.social-icons { display: flex; gap: 8px; }
+.social-icons a { background-color: #1a1a1a; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; border: 1px solid var(--card-border); font-size: 0.85rem; }
+
+@media(min-width: 1024px) {
+    .footer-grid { grid-template-columns: repeat(5, 1fr); padding: 40px; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   Dynamic Auth States & Profile Dropdown Styling
+   ========================================================================== */
+.auth-container {
+    margin-left: 15px;
+    display: inline-block;
+    position: relative;
+}
+
+/* State Toggling Rules */
+.auth-container.logged-out .profile-dropdown {
+    display: none !important;
+}
+
+.auth-container.logged-in .login-btn {
+    display: none !important;
+}
+
+/* Login Button Minimal Accent Style */
+.login-btn {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #b80710;
+}
+
+/* Profile Avatar Button Setup */
+.profile-trigger-btn {
+    background: none;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+}
+
+.profile-trigger-btn:hover {
+    border-color: var(--primary-red);
+}
+
+.avatar-img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #262626;
+    object-fit: cover;
+}
+
+/* Interactive Dropdown Menu Panel */
+.profile-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #1a1a1a;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    width: 220px;
+    padding: 10px 0;
+    display: none; /* Controlled on hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1100;
+}
+
+/* Show menu cleanly when hovering the user interactive zones */
+.profile-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Dropdown Sub-Elements formatting */
+.dropdown-header {
+    padding: 8px 16px;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.dropdown-divider {
+    border: 0;
+    border-top: 1px solid var(--card-border);
+    margin: 8px 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+.logout-action {
+    color: #ff4d4d;
+}
+
+.logout-action:hover {
+    background-color: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+}

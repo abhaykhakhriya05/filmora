@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora</title>
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Design System Foundations --- */
+        :root {
+            --bg-black: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --border-color: #262626;
+            --text-white: #ffffff;
+            --text-gray: #999999;
+            --text-light-gray: #bfbfbf;
+            --primary-red: #e50914;
+            --nav-bg: rgba(15, 15, 15, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            padding-top: 80px; /* Prevent fixed header overlap */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        button, a {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- Fully Responsive Navigation System ---
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        } */
+
+        /* .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            color: var(--primary-red); 
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .nav-links {
+            display: flex;
+            padding: 6px;
+            border-radius: 12px;
+        } */
+
+        /* .nav-links a {
+            color: var(--text-gray);
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--text-white);
+            background-color: var(--card-bg);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-actions button {
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.15rem;
+            cursor: pointer;
+        } */
+
+        /* --- DYNAMIC AUTH SYSTEM STYLES --- */
+        /* .auth-system {
+            display: inline-block;
+            position: relative;
+        }
+         */
+        /* State Controller Modifiers */
+        /* .auth-system.logged-out .profile-dropdown { display: none !important; }
+        .auth-system.logged-in .login-btn { display: none !important; } */
+
+        /* .login-btn {
+            background-color: var(--primary-red);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            background-color: #ff0f1c;
+            transform: translateY(-1px);
+        } */
+
+        /* .profile-btn {
+            background: none;
+            border: 2px solid transparent;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-btn:hover {
+            border-color: var(--primary-red);
+        }
+
+        .avatar-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #222;
+            object-fit: cover;
+        }
+
+        .profile-dropdown {
+            position: relative;
+        } */
+
+        /* Hover Dropdown Panel Matrix */
+        /* .dropdown-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 220px;
+            padding: 14px 0;
+            display: none;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); */
+            /* z-index: 1050;
+        } */
+
+        /* .profile-dropdown:hover .dropdown-panel {
+            display: block;
+        }
+
+        .dropdown-header {
+            padding: 0 16px 10px 16px;
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .user-tier {
+            font-size: 0.78rem;
+            color: var(--primary-red);
+            margin-top: 3px;
+            font-weight: 500;
+        } */
+
+        /* .panel-divider {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 8px 0;
+        } */
+
+        /* .panel-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: var(--text-light-gray);
+            text-decoration: none;
+            font-size: 0.88rem;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .panel-link:hover {
+            background-color: #262626;
+            color: var(--text-white);
+        }
+
+        .logout-btn {
+            color: #ff4d4d;
+        } */
+
+
+        /* ==========================================================================
+   Navbar Configurations (Desktop Hidden on Mobile Navigation)
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--nav-bg);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.logo img{
+    height: auto;
+    width: 40px;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.logo-icon {
+    color: var(--primary-red);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* Desktop links hidden completely during mobile layout execution */
+.nav-links {
+    display: none;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+/* Transform layout cleanly when viewport scales to tablet/desktop modes */
+@media(min-width: 850px) {
+    .navbar { padding: 20px 50px; height: 80px; }
+    body { padding-top: 80px; }
+    
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+    .nav-links a {
+        color: #bfbfbf;
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .nav-links a.active, .nav-links a:hover {
+        color: #ffffff;
+        background-color: #1f1f1f;
+    }
+}
+
+
+/* ==========================================================================
+   Dynamic Auth States & Profile Dropdown Styling
+   ========================================================================== */
+.auth-container {
+    margin-left: 15px;
+    display: inline-block;
+    position: relative;
+}
+
+/* State Toggling Rules */
+.auth-container.logged-out .profile-dropdown {
+    display: none !important;
+}
+
+.auth-container.logged-in .login-btn {
+    display: none !important;
+}
+
+/* Login Button Minimal Accent Style */
+.login-btn {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #b80710;
+}
+
+/* Profile Avatar Button Setup */
+.profile-trigger-btn {
+    background: none;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+}
+
+.profile-trigger-btn:hover {
+    border-color: var(--primary-red);
+}
+
+.avatar-img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #262626;
+    object-fit: cover;
+}
+
+/* Interactive Dropdown Menu Panel */
+.profile-dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #1a1a1a;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    width: 220px;
+    padding: 10px 0;
+    display: none; /* Controlled on hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1100;
+}
+
+/* Show menu cleanly when hovering the user interactive zones */
+.profile-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Dropdown Sub-Elements formatting */
+.dropdown-header {
+    padding: 8px 16px;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.dropdown-divider {
+    border: 0;
+    border-top: 1px solid var(--card-border);
+    margin: 8px 0;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #262626;
+    color: #ffffff;
+}
+
+.logout-action {
+    color: #ff4d4d;
+}
+
+.logout-action:hover {
+    background-color: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+}
+
+        /* --- Hero Section & Fluid Toggle Setup --- */
+        .subscription-hero {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            margin: 45px 0 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .hero-text-wrapper {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .hero-text-wrapper h1 {
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-text-wrapper p {
+            color: var(--text-gray);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            max-width: 850px;
+        }
+
+        .toggle-container {
+            background-color: #0a0a0a;
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            display: inline-flex;
+            flex-shrink: 0;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            padding: 12px 26px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--card-bg);
+            color: var(--text-white);
+        }
+
+        /* --- Flexible Responsive Pricing Cards Engine --- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .price-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: clamp(24px, 4vw, 35px);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease;
+        }
+
+        .price-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(229, 9, 20, 0.4);
+        }
+
+        .price-card h3 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .plan-desc {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .price-block {
+            margin-bottom: 35px;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .price-block .amount {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 700;
+        }
+
+        .price-block .duration {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-left: 6px;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-secondary {
+            background-color: #141414;
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover { background-color: #202020; }
+
+        .btn-primary {
+            background-color: var(--primary-red);
+            color: var(--text-white);
+        }
+
+        .btn-primary:hover { background-color: #ff0f1c; }
+
+        /* --- Self-Correcting / Scrolling Matrix Component --- */
+        .matrix-intro {
+            margin-bottom: 30px;
+        }
+
+        .matrix-intro h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 10px; }
+        .matrix-intro p { color: var(--text-gray); font-size: 0.95rem; }
+
+        .table-responsive-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background-color: #0a0a0a;
+            margin-bottom: 80px;
+            -webkit-overflow-scrolling: touch; 
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 800px;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-light-gray);
+            vertical-align: middle;
+        }
+
+        .comparison-table th {
+            background-color: #0f0f0f;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .feature-name {
+            color: var(--text-white) !important;
+            font-weight: 500;
+            width: 28%;
+        }
+
+        .badge-popular {
+            background-color: var(--primary-red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* --- Adaptive Conversion Banner UI --- */
+        .cta-banner {
+            background: linear-gradient(90deg, rgba(26,26,26,1) 0%, rgba(20,10,10,1) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: clamp(30px, 5vw, 50px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .cta-text h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 10px; }
+        .cta-text p { color: var(--text-gray); font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- Fluid Global Footer System --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background-color: #0a0a0a;
+            padding: 60px 0 30px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 40px 30px;
+            margin-bottom: 50px;
+        }
+
+        .footer-grid h4 { font-size: 0.95rem; margin-bottom: 20px; color: var(--text-white); font-weight: 600; }
+        .footer-grid a { display: block; color: var(--text-gray); font-size: 0.85rem; margin-bottom: 12px; text-decoration: none; }
+        .footer-grid a:hover { color: var(--primary-red); }
+
+        .social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
+        .social-icons a {
+            background-color: #141414; border: 1px solid var(--border-color);
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-white); text-decoration: none;
+        }
+        .social-icons a:hover { background-color: var(--primary-red); transform: scale(1.08); }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-policies { display: flex; flex-wrap: wrap; gap: 20px; }
+        .footer-policies a { text-decoration: none; color: var(--text-gray); }
+        .footer-policies a:hover { color: var(--text-white); }
+
+
+        /* --- HOTSTAR STYLE MOBILE BOTTOM NAVIGATION BAR BAR --- */
+        .hotstar-bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            height: 65px;
+            background-color: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: none; /* Hidden on desktop workspace */
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2000;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .bottom-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 0.65rem;
+            gap: 4px;
+            width: 25%;
+            height: 100%;
+        }
+
+        .bottom-nav-link i {
+            font-size: 1.2rem;
+        }
+
+        .bottom-nav-link.active, .bottom-nav-link:hover {
+            color: var(--text-white);
+        }
+
+
+        /* ==========================================================================
+           CRITICAL BREAKPOINT SYSTEM (Solves Responsive Glitches)
+           ========================================================================== */
+        
+        @media (max-width: 880px) {
+            .subscription-hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .toggle-container {
+                align-self: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { 
+                padding-top: 70px; 
+                padding-bottom: 65px; /* Added padding offset to keep layout components free from bottom nav overlay */
+            }
+            .navbar { height: 70px; }
+
+            /* Completely drops desktop top menu bar link container context on handheld viewports */
+            .nav-links {
+                display: none !important; 
+            }
+
+            /* Activates Hotstar App Layout Interface Bottom Navigation Grid */
+            .hotstar-bottom-nav {
+                display: flex;
+            }
+
+            .cta-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cta-banner .btn {
+                width: 100%;
+            }
+
+            .card-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 0 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-film"></i></span> Filmora
+        </div>
+        
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="movie.html">Movies</a>
+            <a href="#">Support</a>
+            <a href="#" class="active">Subscriptions</a>
+        </nav>
+        
+        <div class="nav-actions">
+            <button aria-label="Search Target Input Box View"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button aria-label="Notifications Feed Drawer"><i class="fa-regular fa-bell"></i></button>
+            
+            <div class="auth-system logged-out" id="authSystem">
+                <button class="login-btn" id="loginBtn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </button>
+
+                <div class="profile-dropdown">
+                    <button class="profile-btn" aria-label="User Profile Workspace Options Area">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="User Avatar Profile Pic" class="avatar-img">
+                    </button>
+                    <div class="dropdown-panel">
+                        <div class="dropdown-header">
+                            <p class="user-name">Guest Workspace</p>
+                            <p class="user-tier">Premium Active Tier</p>
+                        </div>
+                        <hr class="panel-divider">
+                        <a href="#" class="panel-link"><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href="setting.html" class="panel-link"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <hr class="panel-divider">
+                        <button class="panel-link logout-btn" id="logoutBtn">
+                            <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header> -->
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/image/logo.png" alt="logo">
+            <a href="index.html" style="text-decoration: none; color: #ffffff;"> Filmora</a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html" >Home</a>
+            <a href="movie.html">Movies</a>
+            <a href="series.html">Series</a>
+            <a href="subscription.html" class="active">Subscription</a>
+        </nav>
+    <div class="nav-actions">
+    <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+   
+    
+    <!-- Auth Container (Placed right next to the bell button) -->
+    <div class="auth-container logged-out" id="authWrapper">
+        <!-- State 1: User is NOT logged in -->
+        <button class="login-btn" id="loginBtn">Log In</button>
+
+        <!-- State 2: User IS logged in -->
+        <div class="profile-dropdown" id="profileDropdown">
+            <button class="profile-trigger-btn" aria-label="User Profile">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
+            </button>
+            <!-- Hidden dropdown menu contents -->
+            <div class="dropdown-menu">
+                <div class="dropdown-header">
+                    <p class="user-name">Abhay Khakhriya</p>
+                    <p class="user-email">bca.student@example.com</p>
+                </div>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
+                <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                <hr class="dropdown-divider">
+                <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </header>
+
+
+    <main class="container">
+        
+        <section class="subscription-hero">
+            <div class="hero-text-wrapper">
+                <h1>Choose the plan that's right for you</h1>
+                <p>Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences. Get ready for non-stop entertainment!</p>
+            </div>
+            <div class="toggle-container">
+                <button class="toggle-btn active" id="btnMonthly">Monthly</button>
+                <button class="toggle-btn" id="btnYearly">Yearly</button>
+            </div>
+        </section>
+
+        <section class="pricing-grid">
+            <div class="price-card">
+                <h3>Basic Plan</h3>
+                <p class="plan-desc">Enjoy an extensive library of movies and shows, featuring a range of content, including recently released titles.</p>
+                <div class="price-block">
+                    <span class="amount" id="basicPrice"></span><span class="duration" id="basicDuration">/month</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">Start Free Trial</button>
+                    <button class="btn btn-primary">Choose Plan</button>
+                </div>
+            </div>
+
+            <div class="price-card">
+                <h3>Standard Plan</h3>
+                <p class="plan-desc">Access to a wider selection of movies and shows, including most new releases and exclusive content.</p>
+                <div class="price-block">
+                    <span class="amount" id="standardPrice"></span><span class="duration" id="standardDuration">/month</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">Start Free Trial</button>
+                    <button class="btn btn-primary">Choose Plan</button>
+                </div>
+            </div>
+
+            <div class="price-card">
+                <h3>Premium Plan</h3>
+                <p class="plan-desc">Access to a widest selection of movies and shows, including all new releases and Offline Viewing.</p>
+                <div class="price-block">
+                    <span class="amount" id="premiumPrice"></span><span class="duration" id="premiumDuration">/month</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-secondary">Start Free Trial</button>
+                    <button class="btn btn-primary">Choose Plan</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="matrix-intro">
+            <h2>Compare our plans and find the right one for you</h2>
+            <p>StreamVibe offers three different plans to fit your needs: Basic, Standard, and Premium. Compare features carefully below.</p>
+        </section>
+
+        <section class="table-responsive-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th>Basic</th>
+                        <th>Standard <span class="badge-popular">Popular</span></th>
+                        <th>Premium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Price</td>
+                        <td id="tableBasicPrice">/Month</td>
+                        <td id="tableStandardPrice">/Month</td>
+                        <td id="tablePremiumPrice">c/Month</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Devices Supported</td>
+                        <td>Watch on 1 device</td>
+                        <td>Watch on 2 devices</td>
+                        <td>Watch on 4 devices</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Cancel Anytime</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">HDR Options</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Ad - Free</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Offline Viewing</td>
+                        <td>No</td>
+                        <td>Yes, select titles</td>
+                        <td>Yes, all titles</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="cta-banner">
+            <div class="cta-text">
+                <h2>Start your free trial today!</h2>
+                <p>This is a clear and concise call to action that encourages users to sign up for a free trial of StreamVibe.</p>
+            </div>
+            <button class="btn btn-primary">Start a Free Trial</button>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>Home</h4>
+                    <a href="#">Categories</a><a href="#">Devices</a><a href="#">Pricing</a>
+                </div>
+                <div>
+                    <h4>Movies</h4>
+                    <a href="#">Genres</a><a href="#">Trending</a><a href="#">Popular</a>
+                </div>
+                <div>
+                    <h4>Shows</h4>
+                    <a href="#">Genres</a><a href="#">Trending</a><a href="#">Popular</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="#">Contact Us</a>
+                </div>
+                <div>
+                    <h4>Subscription</h4>
+                    <a href="#">Plans</a><a href="#">Features</a>
+                </div>
+                <div>
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook Account Connection link"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter Account Connection link"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn Account Connection link"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 streamvibe. All Rights Reserved</p>
+                <div class="footer-policies">
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <nav class="hotstar-bottom-nav">
+        <a href="index.html" class="bottom-nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="movie.html" class="bottom-nav-link">
+            <i class="fa-solid fa-film"></i>
+            <span>Movies</span>
+        </a>
+        <a href="series.html" class="bottom-nav-link">
+            <i class="fa-solid fa-headset"></i>
+            <span>Series</span>
+        </a>
+        <a href="subscription.html" class="bottom-nav-link active">
+            <i class="fa-solid fa-gem"></i>
+            <span>Premium</span>
+        </a>
+    </nav>
+
+    <script>
+        // 1. CONDITIONAL AUTHENTICATION MATRIX SYSTEM HANDLERS
+        document.addEventListener("DOMContentLoaded", function () {
+        const authWrapper = document.getElementById("authWrapper");
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        // Event listener simulating Login confirmation actions
+        loginBtn.addEventListener("click", function() {
+            // authWrapper.classList.remove("logged-out");
+            // authWrapper.classList.add("logged-in");
+
+            window.location.href="login.html";
+        });
+
+        // Event listener simulating Logout confirmation actions
+        logoutBtn.addEventListener("click", function() {
+            // authWrapper.classList.remove("logged-in");
+            // authWrapper.classList.add("logged-out");
+        });
+    });
+
+
+        // 2. LIVE DYNAMIC STATE SYNC ARCHITECTURE CONTROLLER
+        const btnMonthly = document.getElementById('btnMonthly');
+        const btnYearly = document.getElementById('btnYearly');
+
+        const basicPrice = document.getElementById('basicPrice');
+        const standardPrice = document.getElementById('standardPrice');
+        const premiumPrice = document.getElementById('premiumPrice');
+
+        const basicDuration = document.getElementById('basicDuration');
+        const standardDuration = document.getElementById('standardDuration');
+        const premiumDuration = document.getElementById('premiumDuration');
+
+        const tableBasicPrice = document.getElementById('tableBasicPrice');
+        const tableStandardPrice = document.getElementById('tableStandardPrice');
+        const tablePremiumPrice = document.getElementById('tablePremiumPrice');
+
+        if(btnMonthly && btnYearly) {
+            btnMonthly.addEventListener('click', () => {
+                btnMonthly.classList.add('active');
+                btnYearly.classList.remove('active');
+
+                basicPrice.textContent = "₹300";
+                standardPrice.textContent = "₹500";
+                premiumPrice.textContent = "₹1000";
+
+                basicDuration.textContent = "/month";
+                standardDuration.textContent = "/month";
+                premiumDuration.textContent = "/month";
+
+                tableBasicPrice.textContent = "$9.99/Month";
+                tableStandardPrice.textContent = "$12.99/Month";
+                tablePremiumPrice.textContent = "$14.99/Month";
+            });
+
+            btnYearly.addEventListener('click', () => {
+                btnYearly.classList.add('active');
+                btnMonthly.classList.remove('active');
+
+                basicPrice.textContent = "$95.88";
+                standardPrice.textContent = "$124.68";
+                premiumPrice.textContent = "$143.88";
+
+                basicDuration.textContent = "/year";
+                standardDuration.textContent = "/year";
+                premiumDuration.textContent = "/year";
+
+                tableBasicPrice.textContent = "$95.88/Year";
+                tableStandardPrice.textContent = "$124.68/Year";
+                tablePremiumPrice.textContent = "$143.88/Year";
+            });
+        }
+    </script>
+</body>
+</html>
