@@ -237,6 +237,171 @@
             font-size: 0.88rem;
         }
 
+        .section-note {
+            color: #a7a7a7;
+            line-height: 1.5;
+            margin: -6px 0 16px;
+        }
+
+        .continue-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .continue-item {
+            display: grid;
+            grid-template-columns: 92px minmax(0, 1fr);
+            gap: 12px;
+            align-items: center;
+            background: #1d1d1d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .continue-item img {
+            width: 92px;
+            height: 124px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #242424;
+        }
+
+        .continue-item h3,
+        .watchlist-item h3 {
+            font-size: 0.98rem;
+            margin-bottom: 6px;
+        }
+
+        .continue-item p,
+        .watchlist-item span,
+        .device-row span,
+        .preference-tag span {
+            color: #a7a7a7;
+            font-size: 0.86rem;
+            line-height: 1.4;
+        }
+
+        .progress-track {
+            height: 5px;
+            overflow: hidden;
+            background: #333;
+            border-radius: 999px;
+            margin: 12px 0 8px;
+        }
+
+        .progress-fill {
+            display: block;
+            height: 100%;
+            background: var(--primary-red);
+            border-radius: inherit;
+        }
+
+        .watchlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(128px, 150px));
+            gap: 12px;
+            justify-content: start;
+        }
+
+        .watchlist-item {
+            min-width: 0;
+            background: #1d1d1d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 8px;
+            transform: translateY(0);
+            transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .watchlist-item:hover {
+            transform: translateY(-6px);
+            background: #242424;
+            border-color: rgba(229, 9, 20, 0.55);
+            box-shadow: 0 14px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .watchlist-poster {
+            position: relative;
+            overflow: hidden;
+            border-radius: 7px;
+            background: #242424;
+            margin-bottom: 9px;
+        }
+
+        .watchlist-item img {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .watchlist-item:hover img {
+            transform: scale(1.07);
+            filter: brightness(0.72);
+        }
+
+        .watchlist-play {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            color: #ffffff;
+            background: var(--primary-red);
+            border-radius: 50%;
+            opacity: 0;
+            transform: translate(-50%, -42%) scale(0.9);
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .watchlist-item:hover .watchlist-play {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .watchlist-item h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .device-list,
+        .preference-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .device-row,
+        .preference-tag {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 13px;
+            background: #1d1d1d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+        }
+
+        .device-row strong,
+        .preference-tag strong {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .device-row i,
+        .preference-tag i {
+            color: var(--primary-red);
+        }
+
         .reference-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -313,8 +478,28 @@
             }
 
             .watch-stats,
+            .continue-list,
             .reference-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .continue-item {
+                grid-template-columns: 76px minmax(0, 1fr);
+            }
+
+            .continue-item img {
+                width: 76px;
+                height: 104px;
+            }
+
+            .watchlist-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .device-row,
+            .preference-tag {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -428,6 +613,133 @@
                     <div class="stat-box">
                         <strong>4</strong>
                         <span>Devices</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card wide-card">
+                <h2><i class="fa-solid fa-circle-play"></i> Continue Watching</h2>
+                <p class="section-note">Pick up from the last saved position across your signed-in devices.</p>
+                <div class="continue-list">
+                    <div class="continue-item">
+                        <img src="/static/image/Avengers_Endgame.jpg" alt="Avengers Endgame poster">
+                        <div>
+                            <h3>Avengers: Endgame</h3>
+                            <p>2h 12m left</p>
+                            <div class="progress-track"><span class="progress-fill" style="width: 42%;"></span></div>
+                            <span class="status-pill">Resume</span>
+                        </div>
+                    </div>
+                    <div class="continue-item">
+                        <img src="https://picsum.photos/240/360?random=71" alt="Interstellar Voyage poster">
+                        <div>
+                            <h3>Interstellar Voyage</h3>
+                            <p>Episode 4, 18m left</p>
+                            <div class="progress-track"><span class="progress-fill" style="width: 68%;"></span></div>
+                            <span class="status-pill">Resume</span>
+                        </div>
+                    </div>
+                    <div class="continue-item">
+                        <img src="https://picsum.photos/240/360?random=72" alt="Midnight City poster">
+                        <div>
+                            <h3>Midnight City</h3>
+                            <p>Season 1, Episode 2</p>
+                            <div class="progress-track"><span class="progress-fill" style="width: 25%;"></span></div>
+                            <span class="status-pill">Resume</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card wide-card">
+                <h2><i class="fa-solid fa-bookmark"></i> My Watchlist</h2>
+                <p class="section-note">Saved movies and shows ready for the next session.</p>
+                <div class="watchlist-grid">
+                    <div class="watchlist-item">
+                        <div class="watchlist-poster">
+                            <img src="https://picsum.photos/240/360?random=81" alt="Dune Part Two poster">
+                            <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                        </div>
+                        <h3>Dune: Part Two</h3>
+                        <span>Movie - Sci-Fi</span>
+                    </div>
+                    <div class="watchlist-item">
+                        <div class="watchlist-poster">
+                            <img src="https://picsum.photos/240/360?random=82" alt="Civil War poster">
+                            <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                        </div>
+                        <h3>Civil War</h3>
+                        <span>Movie - Drama</span>
+                    </div>
+                    <div class="watchlist-item">
+                        <div class="watchlist-poster">
+                            <img src="https://picsum.photos/240/360?random=83" alt="Furiosa poster">
+                            <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                        </div>
+                        <h3>Furiosa Saga</h3>
+                        <span>Movie - Action</span>
+                    </div>
+                    <div class="watchlist-item">
+                        <div class="watchlist-poster">
+                            <img src="https://picsum.photos/240/360?random=84" alt="Dark Signal poster">
+                            <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+                        </div>
+                        <h3>Dark Signal</h3>
+                        <span>Series - Thriller</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <h2><i class="fa-solid fa-display"></i> Connected Devices</h2>
+                <div class="device-list">
+                    <div class="device-row">
+                        <div>
+                            <strong><i class="fa-solid fa-laptop"></i> Windows Laptop</strong>
+                            <span>Last active today</span>
+                        </div>
+                        <span class="status-pill primary">Current</span>
+                    </div>
+                    <div class="device-row">
+                        <div>
+                            <strong><i class="fa-solid fa-mobile-screen"></i> Android Phone</strong>
+                            <span>Last active yesterday</span>
+                        </div>
+                        <span class="status-pill">Trusted</span>
+                    </div>
+                    <div class="device-row">
+                        <div>
+                            <strong><i class="fa-solid fa-tv"></i> Living Room TV</strong>
+                            <span>Last active 3 days ago</span>
+                        </div>
+                        <span class="status-pill">HD</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="content-card">
+                <h2><i class="fa-solid fa-sliders"></i> Preferences</h2>
+                <div class="preference-list">
+                    <div class="preference-tag">
+                        <div>
+                            <strong><i class="fa-solid fa-language"></i> Language</strong>
+                            <span>English audio with English subtitles</span>
+                        </div>
+                        <span class="status-pill">Default</span>
+                    </div>
+                    <div class="preference-tag">
+                        <div>
+                            <strong><i class="fa-solid fa-wand-magic-sparkles"></i> Genres</strong>
+                            <span>Action, Sci-Fi, Drama, Thriller</span>
+                        </div>
+                        <span class="status-pill">4 saved</span>
+                    </div>
+                    <div class="preference-tag">
+                        <div>
+                            <strong><i class="fa-solid fa-child-reaching"></i> Age profile</strong>
+                            <span>Mature titles enabled for this account</span>
+                        </div>
+                        <span class="status-pill primary">Adult</span>
                     </div>
                 </div>
             </article>
