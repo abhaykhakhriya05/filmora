@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+</head>
+<body class="admin-body">
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
+            <img src="/static/image/logo.png" alt="Filmora logo">
+            <span>Filmora</span>
+        </a>
+
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="admin_dashboard.html" class="admin-menu-link active">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rating.html" class="admin-menu-link">
+                <i class="fa-solid fa-star"></i>
+                <span>Rating</span>
+            </a>
+            <a href="comment.html" class="admin-menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Comment</span>
+            </a>
+            <a href="#" class="admin-menu-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users List</span>
+            </a>
+            <a href="#" class="admin-menu-link">
+                <i class="fa-solid fa-film"></i>
+                <span>Movie List</span>
+            </a>
+            <div class="admin-menu-group open">
+                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Series List</span>
+                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
+                </button>
+                <div class="admin-submenu">
+                    <a href="#">Show List</a>
+                    <a href="#">Seasons</a>
+                    <a href="#">Episodes</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <p class="admin-kicker">Home</p>
+                <h1>Admin Dashboard</h1>
+            </div>
+            <div class="admin-top-actions">
+                <label class="admin-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search">
+                </label>
+                <button class="admin-icon-btn" type="button" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div class="admin-profile">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
+                    <div>
+                        <strong>Austin Robertson</strong>
+                        <span>Marketing Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <section class="admin-stats-grid" aria-label="Dashboard summary">
+                <article class="admin-stat-card">
+                    <div>
+                        <span>View</span>
+                        <strong>+24K</strong>
+                    </div>
+                    <i class="fa-solid fa-eye admin-stat-red"></i>
+                    <small class="down"><i class="fa-solid fa-caret-down"></i> 35%</small>
+                </article>
+                <article class="admin-stat-card">
+                    <div>
+                        <span>Rated This App</span>
+                        <strong>+55K</strong>
+                    </div>
+                    <i class="fa-solid fa-star admin-stat-orange"></i>
+                    <small class="up orange"><i class="fa-solid fa-caret-up"></i> 50%</small>
+                </article>
+                <article class="admin-stat-card">
+                    <div>
+                        <span>Downloaded</span>
+                        <strong>+1M</strong>
+                    </div>
+                    <i class="fa-solid fa-circle-down admin-stat-cyan"></i>
+                    <small class="up cyan"><i class="fa-solid fa-caret-up"></i> 80%</small>
+                </article>
+                <article class="admin-stat-card">
+                    <div>
+                        <span>Visitors</span>
+                        <strong>+2M</strong>
+                    </div>
+                    <i class="fa-solid fa-user admin-stat-green"></i>
+                    <small class="up green"><i class="fa-solid fa-caret-up"></i> 80%</small>
+                </article>
+            </section>
+
+            <section class="admin-dashboard-grid">
+                <article class="admin-panel admin-top-rated">
+                    <div class="admin-panel-header">
+                        <h2>Top Rated Item</h2>
+                        <div class="admin-panel-controls">
+                            <button type="button" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+                            <button type="button" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="admin-rated-list">
+                        <article class="admin-rated-card">
+                            <div class="admin-poster">1920x1080</div>
+                            <h3>The Last Breath</h3>
+                            <p>T.V Show</p>
+                            <span><i class="fa-regular fa-eye"></i> 134 <i class="fa-solid fa-download"></i> 30k</span>
+                        </article>
+                        <article class="admin-rated-card">
+                            <div class="admin-poster">1920x1080</div>
+                            <h3>Last Night</h3>
+                            <p>Movie</p>
+                            <span><i class="fa-regular fa-eye"></i> 133 <i class="fa-solid fa-download"></i> 20k</span>
+                        </article>
+                        <article class="admin-rated-card">
+                            <div class="admin-poster">1920x1080</div>
+                            <h3>Jeon Woochie</h3>
+                            <p>Movie</p>
+                            <span><i class="fa-regular fa-eye"></i> 222 <i class="fa-solid fa-download"></i> 40k</span>
+                        </article>
+                        <article class="admin-rated-card">
+                            <div class="admin-poster">1920x1080</div>
+                            <h3>Dino Land</h3>
+                            <p>T.V Show</p>
+                            <span><i class="fa-regular fa-eye"></i> 122 <i class="fa-solid fa-download"></i> 25k</span>
+                        </article>
+                    </div>
+                </article>
+
+                <article class="admin-panel admin-product-panel">
+                    <h2>User's Of Product</h2>
+                    <div class="admin-donut admin-donut-product" aria-label="User product chart"></div>
+                    <div class="admin-product-grid">
+                        <span>New<br>Customer</span>
+                        <span>Existing<br>Subscriber's</span>
+                        <span>Daily<br>Visitor's</span>
+                        <span>Extended<br>Subscriber's</span>
+                    </div>
+                </article>
+
+                <article class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h2>Categories</h2>
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="admin-bar-chart" aria-label="Categories chart">
+                        <div style="--now: 44%; --last: 34%"><span>a</span></div>
+                        <div style="--now: 54%; --last: 40%"><span>b</span></div>
+                        <div style="--now: 30%; --last: 20%"><span>c</span></div>
+                        <div style="--now: 60%; --last: 40%"><span>d</span></div>
+                    </div>
+                    <div class="admin-chart-legend">
+                        <span><i class="legend-red"></i> This Month</span>
+                        <span><i class="legend-blue"></i> Last Month</span>
+                    </div>
+                </article>
+
+                <article class="admin-panel admin-category-panel">
+                    <div class="admin-panel-header">
+                        <h2>Top Category</h2>
+                        <button class="admin-filter-btn" type="button">Today</button>
+                    </div>
+                    <div class="admin-category-content">
+                        <div class="admin-category-list">
+                            <span><i class="fa-solid fa-film red"></i> Actions <small>-34%</small></span>
+                            <span><i class="fa-solid fa-skull cyan"></i> Horror <small>+56%</small></span>
+                            <span><i class="fa-solid fa-child green"></i> Kids <small>+74%</small></span>
+                            <span><i class="fa-solid fa-masks-theater gray"></i> Comedy <small>+44%</small></span>
+                            <span><i class="fa-solid fa-theater-masks orange"></i> Drama <small>+65%</small></span>
+                            <span><i class="fa-solid fa-face-grin-stars red"></i> Thrilled <small>+40%</small></span>
+                        </div>
+                        <div class="admin-donut admin-donut-category" aria-label="Top category chart"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="admin-panel admin-table-panel">
+                <div class="admin-panel-header">
+                    <h2>Recently Viewed Items</h2>
+                    <button class="admin-filter-btn" type="button">Most Likely</button>
+                </div>
+                <div class="admin-table-toolbar">
+                    <label>Show
+                        <select>
+                            <option>10</option>
+                            <option>25</option>
+                            <option>50</option>
+                        </select>
+                        entries
+                    </label>
+                    <label>Search:
+                        <input type="search">
+                    </label>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Movie</th>
+                                <th>Rating</th>
+                                <th>Category</th>
+                                <th>Download/Views</th>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th><i class="fa-solid fa-heart"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="admin-thumb">4:3</span> Boop Bitty</td>
+                                <td>8.2</td>
+                                <td>Thriller</td>
+                                <td><i class="fa-regular fa-eye"></i></td>
+                                <td>Unsubscriber</td>
+                                <td>23 July,2020</td>
+                                <td><i class="fa-solid fa-heart"></i></td>
+                            </tr>
+                            <tr>
+                                <td><span class="admin-thumb">4:3</span> Champions</td>
+                                <td>9.2</td>
+                                <td>Horror</td>
+                                <td><i class="fa-regular fa-eye"></i></td>
+                                <td>Unsubscriber</td>
+                                <td>21 July,2020</td>
+                                <td><i class="fa-solid fa-heart"></i></td>
+                            </tr>
+                            <tr>
+                                <td><span class="admin-thumb">4:3</span> Dino Land</td>
+                                <td>8.5</td>
+                                <td>Action</td>
+                                <td><i class="fa-regular fa-eye"></i></td>
+                                <td>Unsubscriber</td>
+                                <td>24 July,2020</td>
+                                <td><i class="fa-solid fa-heart"></i></td>
+                            </tr>
+                            <tr>
+                                <td><span class="admin-thumb">4:3</span> Last Race</td>
+                                <td>7.2</td>
+                                <td>Horror</td>
+                                <td><i class="fa-regular fa-eye"></i></td>
+                                <td>Subscriber</td>
+                                <td>22 July,2020</td>
+                                <td><i class="fa-solid fa-heart"></i></td>
+                            </tr>
+                            <tr>
+                                <td><span class="admin-thumb">4:3</span> The Last Breath</td>
+                                <td>8.9</td>
+                                <td>Horror</td>
+                                <td><i class="fa-regular fa-eye"></i></td>
+                                <td>Subscriber</td>
+                                <td>25 July,2020</td>
+                                <td><i class="fa-solid fa-heart"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="admin-table-footer">
+                    <span>Showing 1 to 5 of 5 entries</span>
+                    <div class="admin-pagination">
+                        <button type="button">Previous</button>
+                        <button type="button" class="active">1</button>
+                        <button type="button">Next</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

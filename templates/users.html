@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora Admin Users</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+</head>
+<body class="admin-body">
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
+            <img src="/static/image/logo.png" alt="Filmora logo">
+            <span>Filmora</span>
+        </a>
+
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="admin_dashboard.html" class="admin-menu-link">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rating.html" class="admin-menu-link">
+                <i class="fa-solid fa-star"></i>
+                <span>Rating</span>
+            </a>
+            <a href="comment.html" class="admin-menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Comment</span>
+            </a>
+            <a href="users.html" class="admin-menu-link active">
+                <i class="fa-solid fa-users"></i>
+                <span>Users List</span>
+            </a>
+            <a href="#" class="admin-menu-link">
+                <i class="fa-solid fa-film"></i>
+                <span>Movie List</span>
+            </a>
+            <div class="admin-menu-group open">
+                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Series List</span>
+                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
+                </button>
+                <div class="admin-submenu">
+                    <a href="#">Show List</a>
+                    <a href="#">Seasons</a>
+                    <a href="#">Episodes</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <p class="admin-kicker">Admin</p>
+                <h1>Users List</h1>
+            </div>
+            <div class="admin-top-actions">
+                <label class="admin-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search users">
+                </label>
+                <button class="admin-icon-btn" type="button" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div class="admin-profile">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
+                    <div>
+                        <strong>Austin Robertson</strong>
+                        <span>Marketing Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main users-page">
+            <section class="admin-panel users-list-panel">
+                <div class="admin-panel-header users-panel-header">
+                    <div>
+                        <h2>All Users</h2>
+                        <p>Manage subscribers, unsubscribers, trial users, and blocked accounts.</p>
+                    </div>
+                    <div class="users-actions">
+                        <button class="admin-filter-btn" type="button">
+                            <i class="fa-solid fa-download"></i>
+                            Export
+                        </button>
+                        <button class="users-add-btn" type="button">
+                            <i class="fa-solid fa-plus"></i>
+                            Add User
+                        </button>
+                    </div>
+                </div>
+
+                <div class="users-filter-row">
+                    <div class="rating-tabs users-tabs" aria-label="User filter">
+                        <button type="button" class="active" data-user-filter="all">All</button>
+                        <button type="button" data-user-filter="subscriber">Subscriber</button>
+                        <button type="button" data-user-filter="trial">Trial</button>
+                        <button type="button" data-user-filter="blocked">Blocked</button>
+                    </div>
+                    <label class="users-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="usersSearchInput" placeholder="Search by name or email">
+                    </label>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table users-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Plan</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Last Active</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-user-row data-user-status="subscriber">
+                                <td>
+                                    <span class="users-avatar">AK</span>
+                                    <div>
+                                        <strong>Abhay Khakhriya</strong>
+                                        <small>#USR-1001</small>
+                                    </div>
+                                </td>
+                                <td>abhay.student@example.com</td>
+                                <td>Premium</td>
+                                <td><span class="users-status subscriber">Subscriber</span></td>
+                                <td>05 July,2026</td>
+                                <td>Today</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-user-row data-user-status="subscriber">
+                                <td>
+                                    <span class="users-avatar blue">MS</span>
+                                    <div>
+                                        <strong>Mira Shah</strong>
+                                        <small>#USR-1002</small>
+                                    </div>
+                                </td>
+                                <td>mira.shah@example.com</td>
+                                <td>Premium</td>
+                                <td><span class="users-status subscriber">Subscriber</span></td>
+                                <td>29 June,2026</td>
+                                <td>Today</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-user-row data-user-status="trial">
+                                <td>
+                                    <span class="users-avatar orange">KM</span>
+                                    <div>
+                                        <strong>Karan Mehta</strong>
+                                        <small>#USR-1003</small>
+                                    </div>
+                                </td>
+                                <td>karan.mehta@example.com</td>
+                                <td>Trial</td>
+                                <td><span class="users-status trial">Trial</span></td>
+                                <td>01 July,2026</td>
+                                <td>Yesterday</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-user-row data-user-status="subscriber">
+                                <td>
+                                    <span class="users-avatar green">RP</span>
+                                    <div>
+                                        <strong>Riya Patel</strong>
+                                        <small>#USR-1004</small>
+                                    </div>
+                                </td>
+                                <td>riya.patel@example.com</td>
+                                <td>Standard</td>
+                                <td><span class="users-status subscriber">Subscriber</span></td>
+                                <td>22 June,2026</td>
+                                <td>12 July,2026</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-user-row data-user-status="blocked">
+                                <td>
+                                    <span class="users-avatar gray">DJ</span>
+                                    <div>
+                                        <strong>Dev Joshi</strong>
+                                        <small>#USR-1005</small>
+                                    </div>
+                                </td>
+                                <td>dev.joshi@example.com</td>
+                                <td>Free</td>
+                                <td><span class="users-status blocked">Blocked</span></td>
+                                <td>18 June,2026</td>
+                                <td>09 July,2026</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-user-row data-user-status="trial">
+                                <td>
+                                    <span class="users-avatar purple">NT</span>
+                                    <div>
+                                        <strong>Nisha Trivedi</strong>
+                                        <small>#USR-1006</small>
+                                    </div>
+                                </td>
+                                <td>nisha.trivedi@example.com</td>
+                                <td>Trial</td>
+                                <td><span class="users-status trial">Trial</span></td>
+                                <td>12 June,2026</td>
+                                <td>08 July,2026</td>
+                                <td>
+                                    <div class="users-row-actions">
+                                        <button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-table-footer users-table-footer">
+                    <span>Showing all users</span>
+                    <div class="admin-pagination">
+                        <button type="button">Previous</button>
+                        <button type="button" class="active">1</button>
+                        <button type="button">Next</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

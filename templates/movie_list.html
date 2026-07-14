@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora Admin Movie List</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+</head>
+<body class="admin-body">
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
+            <img src="/static/image/logo.png" alt="Filmora logo">
+            <span>Filmora</span>
+        </a>
+
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="admin_dashboard.html" class="admin-menu-link">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rating.html" class="admin-menu-link">
+                <i class="fa-solid fa-star"></i>
+                <span>Rating</span>
+            </a>
+            <a href="comment.html" class="admin-menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Comment</span>
+            </a>
+            <a href="users.html" class="admin-menu-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users List</span>
+            </a>
+            <a href="movie_list.html" class="admin-menu-link active">
+                <i class="fa-solid fa-film"></i>
+                <span>Movie List</span>
+            </a>
+            <div class="admin-menu-group open">
+                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Series List</span>
+                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
+                </button>
+                <div class="admin-submenu">
+                    <a href="#">Show List</a>
+                    <a href="#">Seasons</a>
+                    <a href="#">Episodes</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <p class="admin-kicker">Admin</p>
+                <h1>Movie List</h1>
+            </div>
+            <div class="admin-top-actions">
+                <label class="admin-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search movies">
+                </label>
+                <button class="admin-icon-btn" type="button" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div class="admin-profile">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
+                    <div>
+                        <strong>Austin Robertson</strong>
+                        <span>Marketing Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main movie-list-page">
+            <section class="admin-panel movie-list-panel">
+                <div class="admin-panel-header movie-list-header">
+                    <div>
+                        <h2>All Movies</h2>
+                        <p>Manage movie details, quality, language, status, and media files.</p>
+                    </div>
+                    <button class="users-add-btn" id="openMovieModal" type="button">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Movie
+                    </button>
+                </div>
+
+                <div class="users-filter-row">
+                    <div class="rating-tabs movie-tabs" aria-label="Movie filter">
+                        <button type="button" class="active" data-movie-filter="all">All</button>
+                        <button type="button" data-movie-filter="published">Published</button>
+                        <button type="button" data-movie-filter="draft">Draft</button>
+                        <button type="button" data-movie-filter="premium">Premium</button>
+                    </div>
+                    <label class="users-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="movieSearchInput" placeholder="Search movie name">
+                    </label>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table movie-list-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" aria-label="Select all movies"></th>
+                                <th>Movie</th>
+                                <th>Quality</th>
+                                <th>Genre</th>
+                                <th>Year</th>
+                                <th>Language</th>
+                                <th>Rating</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-movie-row data-movie-status="published">
+                                <td><input type="checkbox" aria-label="Select Arrival 1999"></td>
+                                <td><span class="movie-thumb">4:3</span><div><strong>Arrival 1999</strong><small>2h 21m (English, Hindi)</small></div></td>
+                                <td>480/720/1080</td>
+                                <td>Action</td>
+                                <td>2010</td>
+                                <td>Hindi</td>
+                                <td>8.5</td>
+                                <td><span class="movie-switch active"></span></td>
+                                <td><div class="users-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                            </tr>
+                            <tr data-movie-row data-movie-status="premium">
+                                <td><input type="checkbox" aria-label="Select Day Of Darkness"></td>
+                                <td><span class="movie-thumb">4:3</span><div><strong>Day Of Darkness</strong><small>2h 40m (English, Hindi)</small></div></td>
+                                <td>480/720/1080</td>
+                                <td>Horror</td>
+                                <td>2012</td>
+                                <td>Hindi</td>
+                                <td>8.2</td>
+                                <td><span class="movie-switch active"></span></td>
+                                <td><div class="users-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                            </tr>
+                            <tr data-movie-row data-movie-status="published">
+                                <td><input type="checkbox" aria-label="Select Don Jon"></td>
+                                <td><span class="movie-thumb">4:3</span><div><strong>Don Jon</strong><small>3h (English, Hindi)</small></div></td>
+                                <td>480/720/1080</td>
+                                <td>Drama</td>
+                                <td>2014</td>
+                                <td>English</td>
+                                <td>7.9</td>
+                                <td><span class="movie-switch active"></span></td>
+                                <td><div class="users-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                            </tr>
+                            <tr data-movie-row data-movie-status="draft">
+                                <td><input type="checkbox" aria-label="Select Portable"></td>
+                                <td><span class="movie-thumb">4:3</span><div><strong>Portable</strong><small>2h 21m (English, Hindi)</small></div></td>
+                                <td>480/720/1080</td>
+                                <td>Thriller</td>
+                                <td>2010</td>
+                                <td>World</td>
+                                <td>8.1</td>
+                                <td><span class="movie-switch"></span></td>
+                                <td><div class="users-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                            </tr>
+                            <tr data-movie-row data-movie-status="premium">
+                                <td><input type="checkbox" aria-label="Select The Witcher"></td>
+                                <td><span class="movie-thumb">4:3</span><div><strong>The Witcher</strong><small>2h 21m (English, Hindi)</small></div></td>
+                                <td>480/720/1080</td>
+                                <td>Fantasy</td>
+                                <td>2019</td>
+                                <td>World</td>
+                                <td>9.0</td>
+                                <td><span class="movie-switch active"></span></td>
+                                <td><div class="users-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-table-footer users-table-footer">
+                    <span>Showing 1 to 5 of 12 entries</span>
+                    <div class="admin-pagination">
+                        <button type="button">Previous</button>
+                        <button type="button" class="active">1</button>
+                        <button type="button">2</button>
+                        <button type="button">Next</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="movie-modal" id="movieModal" aria-hidden="true">
+        <div class="movie-modal-backdrop" data-close-movie-modal></div>
+        <section class="movie-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="movieModalTitle">
+            <header class="movie-modal-header">
+                <h2 id="movieModalTitle">Add New Movie</h2>
+                <button class="movie-modal-close" type="button" data-close-movie-modal aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+
+            <form class="movie-form">
+                <fieldset class="movie-form-section">
+                    <legend>Movie</legend>
+                    <label>Movie Name <b>*</b><input type="text" placeholder="Enter Movie Name"></label>
+                    <label>Description <textarea rows="4" placeholder="Description"></textarea></label>
+                    <div class="movie-form-grid two">
+                        <label>Movie Access<select><option>Free</option><option>Premium</option></select></label>
+                        <label>Language<select><option>Hindi</option><option>English</option><option>World</option></select></label>
+                    </div>
+                    <label>Genres<select><option>Action</option><option>Drama</option><option>Horror</option><option>Thriller</option></select></label>
+
+                    <div class="movie-form-subhead">
+                        <h3>Casts / Crews</h3>
+                        <button type="button"><i class="fa-solid fa-square-plus"></i> Add Cast / Crew</button>
+                    </div>
+                    <div class="movie-mini-table-wrap">
+                        <table class="movie-mini-table">
+                            <thead><tr><th>Cast/Crew</th><th>Name</th><th>Role</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td>Cast</td><td>ABC</td><td>James</td><td><i class="fa-solid fa-pen green"></i><i class="fa-solid fa-trash red"></i></td></tr>
+                                <tr><td>Crew</td><td>XYZ</td><td>Producer</td><td><i class="fa-solid fa-pen green"></i><i class="fa-solid fa-trash red"></i></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="movie-form-grid four">
+                        <label>Content Rating<input type="text" placeholder="Rating"></label>
+                        <label>Release Date<input type="text" placeholder="release date.."></label>
+                        <label>Public Date<input type="text" placeholder="public date.."></label>
+                        <label>Duration<input type="text" placeholder="Duration in mins"></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="movie-form-section">
+                    <legend>SEO</legend>
+                    <label>SEO Title <b>*</b><input type="text" placeholder="Enter seo title"></label>
+                    <label>SEO Description <b>*</b><textarea rows="3" placeholder="SEO Description"></textarea></label>
+                    <label>Keywords<input type="text" value="A"></label>
+                </fieldset>
+
+                <fieldset class="movie-form-section">
+                    <legend>Media</legend>
+                    <div class="movie-form-grid two">
+                        <label>Thumbnail <b>*</b><input type="file"></label>
+                        <label>Poster <b>*</b><input type="file"></label>
+                    </div>
+                    <label>Trailer Url <b>*</b><input type="text" placeholder="Trailer Link"></label>
+                </fieldset>
+
+                <fieldset class="movie-form-section">
+                    <div class="movie-form-subhead">
+                        <h3>Video Quality</h3>
+                        <button type="button"><i class="fa-solid fa-square-plus"></i> Add Video</button>
+                    </div>
+                    <div class="movie-mini-table-wrap">
+                        <table class="movie-mini-table">
+                            <thead><tr><th>Quality</th><th>Video URL</th><th>Action</th></tr></thead>
+                            <tbody><tr><td>720P</td><td>video_720.mp4</td><td><i class="fa-solid fa-pen green"></i><i class="fa-solid fa-trash red"></i></td></tr></tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <fieldset class="movie-form-section">
+                    <div class="movie-form-subhead">
+                        <h3>Subtitles</h3>
+                        <button type="button"><i class="fa-solid fa-square-plus"></i> Add Subtitle</button>
+                    </div>
+                    <div class="movie-mini-table-wrap">
+                        <table class="movie-mini-table">
+                            <thead><tr><th>Language</th><th>URL</th><th>Action</th></tr></thead>
+                            <tbody><tr><td>English</td><td>English.srt</td><td><i class="fa-solid fa-pen green"></i><i class="fa-solid fa-trash red"></i></td></tr></tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <footer class="movie-modal-footer">
+                    <button class="movie-save-btn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                    <button class="movie-close-btn" type="button" data-close-movie-modal><i class="fa-solid fa-angles-left"></i> Close</button>
+                </footer>
+            </form>
+        </section>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
