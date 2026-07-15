@@ -2750,3 +2750,222 @@ body.movie-modal-open {
         transition: none;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Trigger Button Styling --- */
+#castes {
+  background-color: #e50914; /* Filmora Red */
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+#castes:hover {
+  background-color: #b80710;
+}
+
+/* --- Modal Overlay --- */
+.custom-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1050; /* Sits over the existing 'Add Movie' modal */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.85); /* Dim background */
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Modal Box Container --- */
+.modal-content {
+  background-color: #0c0c0c;
+  border: 1px solid #222;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* --- Modal Header --- */
+.modal-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h1 {
+  color: #e50914; /* Red header accent */
+  font-size: 1.25rem;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.close-icon {
+  color: #888;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #fff;
+}
+
+/* --- Modal Body / Form Inputs --- */
+.modal-body {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #ccc;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.required {
+  color: #ff2121;
+}
+
+.form-group input[type="text"] {
+  background-color: #151515;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 4px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: #e50914;
+}
+
+/* Checkbox Action Styling */
+.checkbox-group {
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  color: #aaa;
+}
+
+.checkbox-container input {
+  accent-color: #e50914; /* Red checkbox style */
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* --- Modal Footer --- */
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #222;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-save {
+  background-color: #e50914;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-save:hover {
+  background-color: #b80710;
+}
+
+.btn-close {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-close:hover {
+  background-color: #333;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+
+/* --- Modal Overlay (Configured for Layering Top) --- */
+.custom-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  
+  /* Critical layer controls */
+  z-index: 9999; /* Forces this modal to stack on top of your existing Filmora modal */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Centers the inner dialog box precisely */
+  display: none; 
+  align-items: center;
+  justify-content: center;
+  
+  /* Dark semi-transparent background overlay */
+  background-color: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(3px); /* Optional: subtly blurs out the movie modal underneath */
+}
+
+/* Base structural display setup */
+.custom-modal.show-modal {
+  display: flex !important;
+}

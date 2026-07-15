@@ -223,3 +223,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("castCrewModal");
+  const openBtn = document.getElementById("castes");
+  const closeIcon = document.getElementById("modalCloseIcon");
+  const closeBtn = document.getElementById("closeCastBtn");
+  const saveBtn = document.getElementById("saveCastBtn");
+  const form = document.getElementById("castCrewForm");
+
+  // Open Modal On Top
+  openBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevents page reload or nested form submissions
+    modal.classList.add("show-modal");
+  });
+
+  // Close Event Handlers
+  closeIcon.addEventListener("click", closeModal);
+  closeBtn.addEventListener("click", closeModal);
+  
+  // Close if clicking outside the container box
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Action Logic
+  saveBtn.addEventListener("click", () => {
+    const name = document.getElementById("castName").value.trim();
+    const role = document.getElementById("castRole").value.trim();
+    const isCrew = document.getElementById("isCrew").checked;
+
+    if (!name || !role) {
+      alert("Please enter both Name and Role.");
+      return;
+    }
+
+    console.log("Data Captured:", { name, role, isCrew });
+    closeModal();
+  });
+
+  function closeModal() {
+    modal.classList.remove("show-modal");
+    form.reset();
+  }
+});
+
+
+
+
