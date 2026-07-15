@@ -11,6 +11,20 @@ def home():
 def movies():
     return render_template("movie.html")
 
+@app.route('/series')
+def series():
+    return render_template("series.html")
+
+@app.route('/subscription')
+def subscription():
+    return render_template("subscription.html")
+
+@app.route('/faq')
+def faq():
+    return render_template("faq.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 

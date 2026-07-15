@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filmora</title>
-    <link rel="stylesheet" href="/static/css/series.css">
-    <link rel="icon" type="image/png" href="/static/image/logo.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/series.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -51,14 +51,14 @@
 
     <header class="navbar">
         <div class="logo">
-            <img src="/static/image/logo.png" alt="logo">
-            <a href="index.html" style="text-decoration: none; color: #ffffff;"> Filmora</a>
+            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo">
+            <a href="{{ url_for('home') }}" style="text-decoration: none; color: #ffffff;"> Filmora</a>
         </div>
         <nav class="nav-links" id="navLinks">
-            <a href="index.html" >Home</a>
-            <a href="movie.html" >Movies</a>
-            <a href="series.css" class="active">Series</a>
-            <a href="subscription.html">Subscription</a>
+            <a href="{{ url_for('home') }}" >Home</a>
+            <a href="{{ url_for('movies') }}" >Movies</a>
+            <a href="{{ url_for('series') }}" class="active">Series</a>
+            <a href="{{ url_for('subscription') }}">Subscription</a>
         </nav>
     <div class="nav-actions">
     <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -247,19 +247,19 @@
     </footer>
 
     <nav class="hotstar-bottom-nav">
-        <a href="index.html" class="bottom-nav-link ">
+        <a href="{{ url_for('home') }}" class="bottom-nav-link ">
             <i class="fa-solid fa-house"></i>
             <span>Home</span>
         </a>
-        <a href="movie.html" class="bottom-nav-link ">
+        <a href="{{ url_for('movies') }}" class="bottom-nav-link ">
             <i class="fa-solid fa-film"></i>
             <span>Movies</span>
         </a>
-        <a href="series.html" class="bottom-nav-link active">
+        <a href="{{ url_for('series') }}" class="bottom-nav-link active">
             <i class="fa-solid fa-headset"></i>
             <span>Series</span>
         </a>
-        <a href="subscription.html" class="bottom-nav-link">
+        <a href="{{ url_for('subscription') }}" class="bottom-nav-link">
             <i class="fa-solid fa-gem"></i>
             <span>Premium</span>
         </a>
