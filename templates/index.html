@@ -17,8 +17,8 @@
           
         </div>
         <nav class="nav-links" id="navLinks">
-            <a href="index.html" class="active">Home</a>
-            <a href="movie.html">Movies</a>
+            <a href="{{ url_for('home') }}" class="active">Home</a>
+            <a href="{{ url_for('movies') }}">Movies</a>
             <a href="series.html">Series</a>
             <a href="subscription.html">Subscription</a>
         </nav>
@@ -106,7 +106,7 @@
     <main class="container">
         <div class="section-tag-badge">Movies</div>
 
-        <section class="row-section">
+        <section class="row-section" id="categories">
             <div class="row-header">
                 <h2>Our Genres</h2>
                 <div class="slider-controls">
@@ -241,7 +241,7 @@
             </div>
         </section>
 
-        <section class="row-section">
+        <section class="row-section" id="must-watch">
             <div class="row-header">
                 <h2>Must - Watch Movies</h2>
                 <div class="slider-controls">
@@ -337,7 +337,7 @@
         </div>
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class="footer-grid">
             <div>
                 <h4>Home</h4>
@@ -364,7 +364,9 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
+
+    {% include 'footer.html' %}
     <script src="/static/js/script.js"></script>
 </body>
 </html>
