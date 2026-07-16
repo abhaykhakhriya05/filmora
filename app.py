@@ -3,6 +3,11 @@ from flask import Flask , request,url_for,redirect,session,Response , render_tem
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with your own secret key
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template("login.html")
+
 @app.route('/')
 def home():
     return render_template("index.html")
