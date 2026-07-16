@@ -5,10 +5,10 @@
           
         </div>
         <nav class="nav-links" id="navLinks">
-            <a href="{{ url_for('home') }}" class="active">Home</a>
-            <a href="{{ url_for('movies') }}">Movies</a>
-            <a href="{{ url_for('series') }}">Series</a>
-            <a href="{{ url_for('subscription') }}">Subscription</a>
+            <a href="{{ url_for('home') }}" class="{{ 'active' if active_page == 'home' else '' }}">Home</a>
+            <a href="{{ url_for('movies') }}" class="{{ 'active' if active_page == 'movies' else '' }}">Movies</a>
+            <a href="{{ url_for('series') }}" class="{{ 'active' if active_page == 'series' else '' }}">Series</a>
+            <a href="{{ url_for('subscription') }}" class="{{ 'active' if active_page == 'subscription' else '' }}">Subscription</a>
         </nav>
     <div class="nav-actions">
     <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -17,9 +17,10 @@
     <!-- Auth Container (Placed right next to the bell button) -->
     <div class="auth-container logged-out" id="authWrapper">
         <!-- State 1: User is NOT logged in -->
-        <button class="login-btn" id="loginBtn" >Log In</button>
-        /
-        <button class="login-btn" id="loginBtn" >Sign Up</button>
+        <button class="login-btn" id="loginBtn" onclick="login()">Log In</button>
+        </button>
+         /
+        <button class="login-btn" id="signupBtn" onclick="signup()">Sign Up</button>
 
         <!-- State 2: User IS logged in -->
         <div class="profile-dropdown" id="profileDropdown">

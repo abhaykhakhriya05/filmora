@@ -846,48 +846,7 @@
         </div>
     </header> -->
 
-    <header class="navbar">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo">
-            <a href="{{ url_for('home') }}" style="text-decoration: none; color: #ffffff;"> Filmora</a>
-        </div>
-        <nav class="nav-links" id="navLinks">
-            <a href="{{ url_for('home') }}" >Home</a>
-            <a href="{{ url_for('movies') }}">Movies</a>
-            <a href="{{ url_for('series') }}">Series</a>
-            <a href="{{ url_for('subscription') }}" class="active">Subscription</a>
-        </nav>
-    <div class="nav-actions">
-    <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-   
-    
-    <!-- Auth Container (Placed right next to the bell button) -->
-    <div class="auth-container logged-out" id="authWrapper">
-        <!-- State 1: User is NOT logged in -->
-        <button class="login-btn" id="loginBtn">Log In</button>
-
-        <!-- State 2: User IS logged in -->
-        <div class="profile-dropdown" id="profileDropdown">
-            <button class="profile-trigger-btn" aria-label="User Profile">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
-            </button>
-            <!-- Hidden dropdown menu contents -->
-            <div class="dropdown-menu">
-                <div class="dropdown-header">
-                    <p class="user-name">Abhay Khakhriya</p>
-                    <p class="user-email">bca.student@example.com</p>
-                </div>
-                <hr class="dropdown-divider">
-                <a href="profile.html" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
-                <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
-                <hr class="dropdown-divider">
-                <button class="dropdown-item logout-action" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
-            </div>
-        </div>
-    </div>
-</div>
-    </header>
-
+    {% include 'header.html' %}
 
     <main class="container">
         

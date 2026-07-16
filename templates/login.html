@@ -6,7 +6,7 @@
     <title>StreamVibe - Sign In</title>
     <!-- Font Awesome for Icons and Password Eye Toggle -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     
 </head>
 <body>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="switch-auth-mode">
-                Don't have an account? <a href="register.html">Sign up for free</a>
+                Don't have an account? <a href="{{ url_for('signup') }}">Sign up for free</a>
             </div>
         </div>
     </main>

@@ -188,29 +188,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const authWrapper = document.getElementById("authWrapper");
-        const loginBtn = document.getElementById("loginBtn");
-        const logoutBtn = document.getElementById("logoutBtn");
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const authWrapper = document.getElementById("authWrapper");
+    //     const loginBtn = document.getElementById("loginBtn");
+    //     const logoutBtn = document.getElementById("logoutBtn");
 
-        if (!authWrapper || !loginBtn || !logoutBtn) {
-            return;
-        }
+    //     if (!authWrapper || !loginBtn || !logoutBtn) {
+    //         return;
+    //     }
 
-        // Event listener simulating Login confirmation actions
-        loginBtn.addEventListener("click", function() {
-            // authWrapper.classList.remove("logged-out");
-            // authWrapper.classList.add("logged-in");
+    //     // Event listener simulating Login confirmation actions
+    //     loginBtn.addEventListener("click", function() {
+    //         // authWrapper.classList.remove("logged-out");
+    //         // authWrapper.classList.add("logged-in");
 
-            window.location.href="login.html";
-        });
+    //         window.location.href="{{ url_for('login') }}";
+    //     });
 
-        // Event listener simulating Logout confirmation actions
-        logoutBtn.addEventListener("click", function() {
-            // authWrapper.classList.remove("logged-in");
-            // authWrapper.classList.add("logged-out");
-        });
-    });
+    //     // Event listener simulating Logout confirmation actions
+    //     logoutBtn.addEventListener("click", function() {
+    //         // authWrapper.classList.remove("logged-in");
+    //         // authWrapper.classList.add("logged-out");
+    //     });
+    // });
 
 // document.getElementById("loginBtn").addEventListener("submit", function(e){
     
@@ -219,7 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 
+function login(){
+    window.location.href = "/login";
+}
 
+function signup(){
+    window.location.href = "/signup";
+}
 
 
 
