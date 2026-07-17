@@ -1,54 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmora</title>
+{% extends "base.html" %}
+
+{% block title %} Filmora-Home {% endblock %}
+
+{% block style %} 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo.png') }}">
-</head>
-<body>
+{% endblock %}
 
-    {% include 'header.html' %}
+{% block content %}
+
     
-    <!-- <nav class="bottom-nav">
-        <a href="#" class="bottom-nav-link active">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-        <a href="movie.html" class="bottom-nav-link">
-            <i class="fa-solid fa-clapperboard"></i>
-            <span>Movies</span>
-        </a>
-        <a href="#" class="bottom-nav-link">
-            <i class="fa-solid fa-headset"></i>
-            <span>Support</span>
-        </a>
-        <a href="subscription.html" class="bottom-nav-link">
-            <i class="fa-solid fa-ticket"></i>
-            <span>Plans</span>
-        </a>
-    </nav> -->
-
-    <nav class="hotstar-bottom-nav">
-        <a href="{{ url_for('home') }}" class="bottom-nav-link active">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-        <a href="{{ url_for('movies') }}" class="bottom-nav-link ">
-            <i class="fa-solid fa-film"></i>
-            <span>Movies</span>
-        </a>
-        <a href="{{ url_for('series') }}" class="bottom-nav-link">
-            <i class="fa-solid fa-headset"></i>
-            <span>Series</span>
-        </a>
-        <a href="{{ url_for('subscription') }}" class="bottom-nav-link">
-            <i class="fa-solid fa-gem"></i>
-            <span>Premium</span>
-        </a>
-    </nav>
 
     <section class="hero-section" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), #141414), url('/static/image/Avengers_Endgame.jpg');">
         <div class="hero-content">
@@ -295,37 +255,8 @@
             <button class="btn btn-primary">Start a Free Trial</button>
         </div>
     </main>
+{% endblock %}
 
-    <!-- <footer>
-        <div class="footer-grid">
-            <div>
-                <h4>Home</h4>
-                <a href="#">Categories</a><a href="#">Devices</a><a href="#">Pricing</a><a href="faq.html">FAQ</a>
-            </div>
-            <div>
-                <h4>Movies</h4>
-                <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
-            </div>
-            <div>
-                <h4>Shows</h4>
-                <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
-            </div>
-            <div>
-                <h4>Support</h4>
-                <a href="contact_us.html">Contact Us</a><a href="privacy_policy.html">Privacy Policy</a>
-            </div>
-            <div>
-                <h4>Connect With Us</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer> -->
-
-    {% include 'footer.html' %}
-    <script src="/static/js/script.js"></script>
-</body>
-</html>
+{% block script %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

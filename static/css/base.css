@@ -1,0 +1,264 @@
+:root {
+    --primary-red: #e50914;
+    --dark-bg: #141414;
+    --card-border: #262626;
+    --nav-bg: rgba(20, 20, 20, 0.95);
+}
+
+
+
+
+
+
+
+footer {
+    background-color: #0f0f0f;
+    padding: 30px 15px;
+    border-top: 1px solid var(--card-border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.footer-grid h4 {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.footer-grid a {
+    display: block;
+    color: #999;
+    text-decoration: none;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 8px;
+}
+
+.social-icons a {
+    background-color: #1a1a1a;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    border: 1px solid var(--card-border);
+    font-size: 0.85rem;
+}
+
+@media(min-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(5, 1fr);
+        padding: 40px;
+    }
+}
+
+
+
+/* ==========================================================================
+   Navbar Configurations (Desktop Hidden on Mobile Navigation)
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--nav-bg);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.logo img {
+    height: auto;
+    width: 40px;
+}
+
+.logo-icon {
+    color: var(--primary-red);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* Desktop links hidden completely during mobile layout execution */
+.nav-links {
+    display: none;
+}
+
+#loginBtn {
+    display: none;
+}
+
+
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+/* Transform layout cleanly when viewport scales to tablet/desktop modes */
+@media(min-width: 850px) {
+    .navbar {
+        padding: 20px 50px;
+        height: 80px;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    #loginBtn{
+        display: inline-block;
+    }
+
+    .nav-links a {
+        color: #bfbfbf;
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+  
+
+    .nav-links a.active,
+    .nav-links a:hover {
+        color: #ffffff;
+        background-color: #1f1f1f;
+    }
+}
+
+/* ==========================================================================
+   Persistent Mobile Bottom Navigation (Hotstar Inspired Layout)
+   ========================================================================== */
+
+.hotstar-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 2000;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #777777;
+    font-size: 0.65rem;
+    gap: 4px;
+    width: 25%;
+    height: 100%;
+}
+
+.bottom-nav-link i {
+    font-size: 1.15rem;
+}
+
+.bottom-nav-link.active,
+.bottom-nav-link:hover {
+    color: #ffffff;
+}
+
+/* .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background-color: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1010;
+    padding-bottom: cubic-bezier(0.1, 0.76, 0.55, 0.94);
+} */
+
+/* .bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8f8f9d;
+    text-decoration: none;
+    font-size: 0.75rem;
+    gap: 4px;
+    width: 25%;
+    height: 100%;
+    transition: color 0.2s ease;
+} */
+/* 
+.bottom-nav-link i {
+    font-size: 1.2rem;
+}
+
+.bottom-nav-link.active,
+.bottom-nav-link:hover {
+    color: #ffffff;
+} */
+
+/* Desktop View: Completely remove bottom action menus from presentation viewports */
+@media(min-width: 850px) {
+    .bottom-nav {
+        display: none;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .hotstar-bottom-nav {
+        display: flex;
+    }
+}
