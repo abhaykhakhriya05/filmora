@@ -219,13 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 
-function login(){
-    window.location.href = "/login";
-}
-
-function signup(){
-    window.location.href = "/signup";
-}
 
 
 
@@ -285,4 +278,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+ // 
+
+
+        // 2. LIVE DYNAMIC STATE SYNC ARCHITECTURE CONTROLLER
+        const btnMonthly = document.getElementById('btnMonthly');
+        const btnYearly = document.getElementById('btnYearly');
+
+        const basicPrice = document.getElementById('basicPrice');
+        const standardPrice = document.getElementById('standardPrice');
+        const premiumPrice = document.getElementById('premiumPrice');
+
+        const basicDuration = document.getElementById('basicDuration');
+        const standardDuration = document.getElementById('standardDuration');
+        const premiumDuration = document.getElementById('premiumDuration');
+
+        const tableBasicPrice = document.getElementById('tableBasicPrice');
+        const tableStandardPrice = document.getElementById('tableStandardPrice');
+        const tablePremiumPrice = document.getElementById('tablePremiumPrice');
+
+        if(btnMonthly && btnYearly) {
+            btnMonthly.addEventListener('click', () => {
+                btnMonthly.classList.add('active');
+                btnYearly.classList.remove('active');
+
+                basicPrice.textContent = "₹300";
+                standardPrice.textContent = "₹500";
+                premiumPrice.textContent = "₹1000";
+
+                basicDuration.textContent = "/month";
+                standardDuration.textContent = "/month";
+                premiumDuration.textContent = "/month";
+
+                tableBasicPrice.textContent = "$9.99/Month";
+                tableStandardPrice.textContent = "$12.99/Month";
+                tablePremiumPrice.textContent = "$14.99/Month";
+            });
+
+            btnYearly.addEventListener('click', () => {
+                btnYearly.classList.add('active');
+                btnMonthly.classList.remove('active');
+
+                basicPrice.textContent = "$95.88";
+                standardPrice.textContent = "$124.68";
+                premiumPrice.textContent = "$143.88";
+
+                basicDuration.textContent = "/year";
+                standardDuration.textContent = "/year";
+                premiumDuration.textContent = "/year";
+
+                tableBasicPrice.textContent = "$95.88/Year";
+                tableStandardPrice.textContent = "$124.68/Year";
+                tablePremiumPrice.textContent = "$143.88/Year";
+            });
+        }
+
+
+        // 1. ACCORDION ACCESSIBILITY AND SLIDE ENGINE HANDLERS
+        document.querySelectorAll('.faq-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const currentItem = trigger.parentElement;
+                const content = currentItem.querySelector('.faq-content');
+                const isActive = currentItem.classList.contains('active');
+
+                // Close all other open accordion panels for a clean UI layout look
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-content').style.maxHeight = null;
+                });
+
+                // Toggle the state of the active selected panel
+                if (!isActive) {
+                    currentItem.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
 

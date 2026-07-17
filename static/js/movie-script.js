@@ -1,23 +1,5 @@
 // 1. DYNAMIC AUTH TOGGLE HANDLERS
-document.addEventListener("DOMContentLoaded", function () {
-        const authWrapper = document.getElementById("authWrapper");
-        const loginBtn = document.getElementById("loginBtn");
-        const logoutBtn = document.getElementById("logoutBtn");
 
-        // Event listener simulating Login confirmation actions
-        loginBtn.addEventListener("click", function() {
-            // authWrapper.classList.remove("logged-out");
-            // authWrapper.classList.add("logged-in");
-
-            window.location.href="login.html";
-        });
-
-        // Event listener simulating Logout confirmation actions
-        logoutBtn.addEventListener("click", function() {
-            // authWrapper.classList.remove("logged-in");
-            // authWrapper.classList.add("logged-out");
-        });
-    });
 
 
 // 2. HORIZONTAL SCROLL CAROUSEL ENGINE

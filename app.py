@@ -4,17 +4,18 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with your own secret key
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template("login.html")
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    return render_template("register.html")
 
 @app.route('/')
 def home():
     return render_template("index.html",active_page='home')
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
+@app.route('/signup')
+def signup():
+    return render_template("register.html")
 
 @app.route('/movies')
 def movies():

@@ -3480,3 +3480,144 @@ footer {
                 text-align: center;
             }
         }
+
+
+        :root {
+            --bg-black: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --border-color: #262626;
+            --text-white: #ffffff;
+            --text-gray: #999999;
+            --text-light-gray: #bfbfbf;
+            --primary-red: #e50914;
+            --nav-bg: rgba(15, 15, 15, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            padding-top: 80px; /* Prevent fixed header overlap */
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px; /* Tailored narrow width for crisp accordion readability */
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        button, a {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- Fully Responsive Navigation System --- */
+      
+        /* --- DYNAMIC AUTH SYSTEM STYLES --- */
+        
+        /* --- FAQ Header Section --- */
+        .faq-hero {
+            margin: 50px 0 40px 0;
+            text-align: center;
+        }
+
+        .faq-hero h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .faq-hero p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        /* --- Smooth Interactive Accordion Panel Component --- */
+        .faq-wrapper {
+            margin-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            gap: 20px;
+        }
+
+        .faq-question {
+            color: var(--text-white);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .faq-icon-box {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-body {
+            padding: 0 24px 24px 24px;
+            color: var(--text-light-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-top: 1px solid transparent;
+        }
+
+        /* Active Toggle States administered via JavaScript */
+        .faq-item.active .faq-icon-box {
+            transform: rotate(180deg);
+            color: var(--primary-red);
+        }
+
+        /* .faq-item.active .faq-content {
+            /* Handled dynamically by JS to fit content sizes safely 
+        } */
+
+        /* --- HOTSTAR STYLE MOBILE BOTTOM NAVIGATION BAR --- */
+        
+        /* ==========================================================================
+           CRITICAL BREAKPOINT SYSTEM
+           ========================================================================== */
+        @media (max-width: 768px) {
+            body { 
+                padding-top: 70px; 
+                padding-bottom: 65px; /* Offset spacing for fixed mobile bottom nav bar */
+            }
+            
+            .faq-trigger { padding: 20px; }
+            .faq-body { padding: 0 20px 20px 20px; }
+        }
