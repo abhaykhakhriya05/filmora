@@ -237,42 +237,316 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBtn = document.getElementById("closeCastBtn");
   const saveBtn = document.getElementById("saveCastBtn");
   const form = document.getElementById("castCrewForm");
+  const castCrewTableBody = document.getElementById("castCrewTableBody");
+  let editingCastRow = null;
 
-  // Open Modal On Top
-  openBtn.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevents page reload or nested form submissions
-    modal.classList.add("show-modal");
-  });
+  const getActionCell = (editAttribute) => `
+    <td>
+      <button type="button" class="table-action-btn" ${editAttribute}>
+        <i class="fa-solid fa-pen green"></i>
+      </button>
+      <button type="button" class="table-action-btn" data-delete-row>
+        <i class="fa-solid fa-trash red"></i>
+      </button>
+    </td>
+  `;
+  const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
 
-  // Close Event Handlers
-  closeIcon.addEventListener("click", closeModal);
-  closeBtn.addEventListener("click", closeModal);
-  
-  // Close if clicking outside the container box
-  window.addEventListener("click", (event) => {
-    if (event.target === modal) {
+  if (modal && openBtn && closeIcon && closeBtn && saveBtn && form) {
+    // Open Modal On Top
+    openBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevents page reload or nested form submissions
+      editingCastRow = null;
+      saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
+      modal.classList.add("show-modal");
+    });
+
+    // Close Event Handlers
+    closeIcon.addEventListener("click", closeModal);
+    closeBtn.addEventListener("click", closeModal);
+    
+    // Close if clicking outside the container box
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Action Logic
+    saveBtn.addEventListener("click", () => {
+      const name = document.getElementById("castName").value.trim();
+      const role = document.getElementById("castRole").value.trim();
+      const isCrew = document.getElementById("isCrew").checked;
+      const memberType = isCrew ? "Crew" : "Cast";
+
+      if (!name || !role) {
+        alert("Please enter both Name and Role.");
+        return;
+      }
+
+      if (editingCastRow) {
+        editingCastRow.children[0].textContent = memberType;
+        editingCastRow.children[1].textContent = name;
+        editingCastRow.children[2].textContent = role;
+      } else if (castCrewTableBody) {
+        castCrewTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${memberType}</td><td>${escapeHTML(name)}</td><td>${escapeHTML(role)}</td>${getActionCell("data-edit-cast")}</tr>`
+        );
+      }
+
+      console.log("Data Captured:", { name, role, isCrew });
       closeModal();
+    });
+
+    if (castCrewTableBody) {
+      castCrewTableBody.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) {
+          return;
+        }
+
+        const row = button.closest("tr");
+        if (!row) {
+          return;
+        }
+
+        if (button.matches("[data-delete-row]")) {
+          row.remove();
+          return;
+        }
+
+        if (button.matches("[data-edit-cast]")) {
+          editingCastRow = row;
+          document.getElementById("castName").value = row.children[1].textContent.trim();
+          document.getElementById("castRole").value = row.children[2].textContent.trim();
+          document.getElementById("isCrew").checked = row.children[0].textContent.trim().toLowerCase() === "crew";
+          saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Update';
+          modal.classList.add("show-modal");
+        }
+      });
     }
-  });
-
-  // Action Logic
-  saveBtn.addEventListener("click", () => {
-    const name = document.getElementById("castName").value.trim();
-    const role = document.getElementById("castRole").value.trim();
-    const isCrew = document.getElementById("isCrew").checked;
-
-    if (!name || !role) {
-      alert("Please enter both Name and Role.");
-      return;
-    }
-
-    console.log("Data Captured:", { name, role, isCrew });
-    closeModal();
-  });
+  }
 
   function closeModal() {
     modal.classList.remove("show-modal");
     form.reset();
+    editingCastRow = null;
+    if (saveBtn) {
+      saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
+    }
+  }
+
+  const videoModal = document.getElementById("videoModal");
+  const addVideoBtn = document.getElementById("addVideoBtn");
+  const videoCloseIcon = document.getElementById("videoModalCloseIcon");
+  const closeVideoBtn = document.getElementById("closeVideoBtn");
+  const saveVideoBtn = document.getElementById("saveVideoBtn");
+  const videoForm = document.getElementById("videoForm");
+  const videoTableBody = document.getElementById("videoTableBody");
+  let editingVideoRow = null;
+
+  if (videoModal && addVideoBtn && videoCloseIcon && closeVideoBtn && saveVideoBtn && videoForm) {
+    const openVideoModal = (event) => {
+      event.preventDefault();
+      editingVideoRow = null;
+      videoForm.reset();
+      saveVideoBtn.textContent = "Save changes";
+      videoModal.classList.add("show-modal");
+    };
+
+    const closeVideoModal = () => {
+      videoModal.classList.remove("show-modal");
+      videoForm.reset();
+      editingVideoRow = null;
+      saveVideoBtn.textContent = "Save changes";
+    };
+
+    addVideoBtn.addEventListener("click", openVideoModal);
+    videoCloseIcon.addEventListener("click", closeVideoModal);
+    closeVideoBtn.addEventListener("click", closeVideoModal);
+
+    window.addEventListener("click", (event) => {
+      if (event.target === videoModal) {
+        closeVideoModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && videoModal.classList.contains("show-modal")) {
+        closeVideoModal();
+      }
+    });
+
+    saveVideoBtn.addEventListener("click", () => {
+      const quality = document.getElementById("videoQuality").value;
+      const file = document.getElementById("videoFile").files[0];
+      const downloadEnabled = document.getElementById("downloadLink").checked;
+      const fileName = file ? file.name : (editingVideoRow ? editingVideoRow.children[1].textContent.trim() : "");
+
+      if (!fileName) {
+        alert("Please choose a video file.");
+        return;
+      }
+
+      if (editingVideoRow) {
+        editingVideoRow.children[0].textContent = quality;
+        editingVideoRow.children[1].textContent = fileName;
+      } else if (videoTableBody) {
+        videoTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${escapeHTML(quality)}</td><td>${escapeHTML(fileName)}</td>${getActionCell("data-edit-video")}</tr>`
+        );
+      }
+
+      console.log("Video Data Captured:", {
+        quality,
+        fileName,
+        downloadEnabled
+      });
+      closeVideoModal();
+    });
+
+    if (videoTableBody) {
+      videoTableBody.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) {
+          return;
+        }
+
+        const row = button.closest("tr");
+        if (!row) {
+          return;
+        }
+
+        if (button.matches("[data-delete-row]")) {
+          row.remove();
+          return;
+        }
+
+        if (button.matches("[data-edit-video]")) {
+          const quality = row.children[0].textContent.trim();
+          const qualitySelect = document.getElementById("videoQuality");
+          const matchingOption = Array.from(qualitySelect.options).find(option => (
+            option.textContent.trim().toLowerCase() === quality.toLowerCase()
+          ));
+
+          editingVideoRow = row;
+          videoForm.reset();
+          qualitySelect.value = matchingOption ? matchingOption.value : qualitySelect.value;
+          saveVideoBtn.textContent = "Update";
+          videoModal.classList.add("show-modal");
+        }
+      });
+    }
+  }
+
+  const subtitleModal = document.getElementById("subtitleModal");
+  const addSubtitleBtn = document.getElementById("addSubtitleBtn");
+  const subtitleCloseIcon = document.getElementById("subtitleModalCloseIcon");
+  const closeSubtitleBtn = document.getElementById("closeSubtitleBtn");
+  const saveSubtitleBtn = document.getElementById("saveSubtitleBtn");
+  const subtitleForm = document.getElementById("subtitleForm");
+  const subtitleTableBody = document.getElementById("subtitleTableBody");
+  let editingSubtitleRow = null;
+
+  if (subtitleModal && addSubtitleBtn && subtitleCloseIcon && closeSubtitleBtn && saveSubtitleBtn && subtitleForm) {
+    const openSubtitleModal = (event) => {
+      event.preventDefault();
+      editingSubtitleRow = null;
+      subtitleForm.reset();
+      saveSubtitleBtn.textContent = "Save changes";
+      subtitleModal.classList.add("show-modal");
+    };
+
+    const closeSubtitleModal = () => {
+      subtitleModal.classList.remove("show-modal");
+      subtitleForm.reset();
+      editingSubtitleRow = null;
+      saveSubtitleBtn.textContent = "Save changes";
+    };
+
+    addSubtitleBtn.addEventListener("click", openSubtitleModal);
+    subtitleCloseIcon.addEventListener("click", closeSubtitleModal);
+    closeSubtitleBtn.addEventListener("click", closeSubtitleModal);
+
+    window.addEventListener("click", (event) => {
+      if (event.target === subtitleModal) {
+        closeSubtitleModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && subtitleModal.classList.contains("show-modal")) {
+        closeSubtitleModal();
+      }
+    });
+
+    saveSubtitleBtn.addEventListener("click", () => {
+      const language = document.getElementById("subtitleLanguage").value;
+      const file = document.getElementById("subtitleFile").files[0];
+      const fileName = file ? file.name : (editingSubtitleRow ? editingSubtitleRow.children[1].textContent.trim() : "");
+
+      if (!fileName) {
+        alert("Please choose a subtitle file.");
+        return;
+      }
+
+      if (editingSubtitleRow) {
+        editingSubtitleRow.children[0].textContent = language;
+        editingSubtitleRow.children[1].textContent = fileName;
+      } else if (subtitleTableBody) {
+        subtitleTableBody.insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${escapeHTML(language)}</td><td>${escapeHTML(fileName)}</td>${getActionCell("data-edit-subtitle")}</tr>`
+        );
+      }
+
+      console.log("Subtitle Data Captured:", {
+        language,
+        fileName
+      });
+      closeSubtitleModal();
+    });
+
+    if (subtitleTableBody) {
+      subtitleTableBody.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) {
+          return;
+        }
+
+        const row = button.closest("tr");
+        if (!row) {
+          return;
+        }
+
+        if (button.matches("[data-delete-row]")) {
+          row.remove();
+          return;
+        }
+
+        if (button.matches("[data-edit-subtitle]")) {
+          const language = row.children[0].textContent.trim();
+          const languageSelect = document.getElementById("subtitleLanguage");
+          const matchingOption = Array.from(languageSelect.options).find(option => (
+            option.textContent.trim().toLowerCase() === language.toLowerCase()
+          ));
+
+          editingSubtitleRow = row;
+          subtitleForm.reset();
+          languageSelect.value = matchingOption ? matchingOption.value : languageSelect.value;
+          saveSubtitleBtn.textContent = "Update";
+          subtitleModal.classList.add("show-modal");
+        }
+      });
+    }
   }
 });
 
