@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmora Admin Series List</title>
+    <link rel="stylesheet" href="/static/css/show_series.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="/static/image/logo.png">
+</head>
+
+<body class="admin-body">
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
+            <img src="/static/image/logo.png" alt="Filmora logo">
+            <span>Filmora</span>
+        </a>
+
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="admin_dashboard.html" class="admin-menu-link">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="rating.html" class="admin-menu-link">
+                <i class="fa-solid fa-star"></i>
+                <span>Rating</span>
+            </a>
+            <a href="comment.html" class="admin-menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Comment</span>
+            </a>
+            <a href="users.html" class="admin-menu-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users List</span>
+            </a>
+            <a href="movie_list.html" class="admin-menu-link">
+                <i class="fa-solid fa-film"></i>
+                <span>Movie List</span>
+            </a>
+            <div class="admin-menu-group open">
+                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Series List</span>
+                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
+                </button>
+                <div class="admin-submenu">
+                    <a href="show_series.html" class="active">Show List</a>
+                    <a href="#">Seasons</a>
+                    <a href="#">Episodes</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button"
+                aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <p class="admin-kicker">Admin</p>
+                <h1>Series List</h1>
+            </div>
+            <div class="admin-top-actions">
+                <label class="admin-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search">
+                </label>
+                <button class="admin-icon-btn" type="button" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div class="admin-profile">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
+                    <div>
+                        <strong>Austin Robertson</strong>
+                        <span>Marketing Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="admin-main series-list-page">
+            <section class="admin-panel series-list-panel">
+                <div class="admin-panel-header series-list-header">
+                    <div>
+                        <h2>All Series</h2>
+                        <p>Manage series title, seasons, episodes, language, access, and publishing status.</p>
+                    </div>
+                    <button class="series-add-btn" id="openSeriesModal" type="button">
+                        <i class="fa-solid fa-plus"></i>
+                        Add Series
+                    </button>
+                </div>
+
+                <div class="series-filter-row">
+                    <div class="series-tabs" aria-label="Series filter">
+                        <button type="button" class="active" data-series-filter="all">All</button>
+                        <button type="button" data-series-filter="published">Published</button>
+                        <button type="button" data-series-filter="draft">Draft</button>
+                        <button type="button" data-series-filter="premium">Premium</button>
+                    </div>
+                    <label class="series-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" id="seriesSearchInput" placeholder="Search series name">
+                    </label>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <table class="admin-table series-list-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" aria-label="Select all series"></th>
+                                <th>Series</th>
+                                <th>Seasons</th>
+                                <th>Episodes</th>
+                                <th>Genre</th>
+                                <th>Language</th>
+                                <th>Access</th>
+                                <th>Rating</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="seriesTableBody">
+                            <tr data-series-row data-series-status="published">
+                                <td><input type="checkbox" aria-label="Select Stranger Worlds"></td>
+                                <td><span class="series-thumb">16:9</span>
+                                    <div><strong>Stranger Worlds</strong><small>Science mystery series</small></div>
+                                </td>
+                                <td>4</td>
+                                <td>36</td>
+                                <td>Sci-Fi</td>
+                                <td>English</td>
+                                <td>Free</td>
+                                <td>8.8</td>
+                                <td><span class="series-switch active"></span></td>
+                                <td>
+                                    <div class="series-row-actions">
+                                        <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="danger" type="button" aria-label="Delete"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-series-row data-series-status="premium">
+                                <td><input type="checkbox" aria-label="Select Kingdom Rise"></td>
+                                <td><span class="series-thumb">16:9</span>
+                                    <div><strong>Kingdom Rise</strong><small>Historical action drama</small></div>
+                                </td>
+                                <td>3</td>
+                                <td>24</td>
+                                <td>Drama</td>
+                                <td>Hindi</td>
+                                <td>Premium</td>
+                                <td>9.1</td>
+                                <td><span class="series-switch active"></span></td>
+                                <td>
+                                    <div class="series-row-actions">
+                                        <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="danger" type="button" aria-label="Delete"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-series-row data-series-status="draft">
+                                <td><input type="checkbox" aria-label="Select City Case Files"></td>
+                                <td><span class="series-thumb">16:9</span>
+                                    <div><strong>City Case Files</strong><small>Crime investigation anthology</small></div>
+                                </td>
+                                <td>1</td>
+                                <td>8</td>
+                                <td>Crime</td>
+                                <td>English</td>
+                                <td>Free</td>
+                                <td>7.7</td>
+                                <td><span class="series-switch"></span></td>
+                                <td>
+                                    <div class="series-row-actions">
+                                        <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="danger" type="button" aria-label="Delete"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-series-row data-series-status="published">
+                                <td><input type="checkbox" aria-label="Select Anime Quest"></td>
+                                <td><span class="series-thumb">16:9</span>
+                                    <div><strong>Anime Quest</strong><small>Adventure animation</small></div>
+                                </td>
+                                <td>2</td>
+                                <td>20</td>
+                                <td>Animation</td>
+                                <td>Japanese</td>
+                                <td>Free</td>
+                                <td>8.5</td>
+                                <td><span class="series-switch active"></span></td>
+                                <td>
+                                    <div class="series-row-actions">
+                                        <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="danger" type="button" aria-label="Delete"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-table-footer">
+                    <span id="seriesCountText">Showing 1 to 4 of 4 entries</span>
+                    <div class="admin-pagination">
+                        <button type="button">Previous</button>
+                        <button type="button" class="active">1</button>
+                        <button type="button">2</button>
+                        <button type="button">Next</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="series-modal" id="seriesModal" aria-hidden="true">
+        <div class="series-modal-backdrop" data-close-series-modal></div>
+        <section class="series-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="seriesModalTitle">
+            <header class="series-modal-header">
+                <h2 id="seriesModalTitle">Add New Series</h2>
+                <button class="series-modal-close" type="button" data-close-series-modal aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+
+            <form class="series-form" id="seriesForm">
+                <fieldset class="series-form-section">
+                    <legend>Series</legend>
+                    <label>Series Name <b>*</b>
+                        <input type="text" id="seriesName" placeholder="Enter series name" required>
+                    </label>
+                    <label>Description
+                        <textarea id="seriesDescription" rows="4" placeholder="Description"></textarea>
+                    </label>
+                    <div class="series-form-grid two">
+                        <label>Series Access
+                            <select id="seriesAccess">
+                                <option>Free</option>
+                                <option>Premium</option>
+                            </select>
+                        </label>
+                        <label>Language
+                            <select id="seriesLanguage">
+                                <option>Hindi</option>
+                                <option>English</option>
+                                <option>Japanese</option>
+                                <option>World</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="series-form-grid two">
+                        <label>Genre
+                            <select id="seriesGenre">
+                                <option>Action</option>
+                                <option>Animation</option>
+                                <option>Crime</option>
+                                <option>Drama</option>
+                                <option>Sci-Fi</option>
+                                <option>Thriller</option>
+                            </select>
+                        </label>
+                        <label>Status
+                            <select id="seriesStatus">
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="series-form-grid four">
+                        <label>Seasons
+                            <input type="number" id="seriesSeasons" min="1" value="1">
+                        </label>
+                        <label>Episodes
+                            <input type="number" id="seriesEpisodes" min="1" value="1">
+                        </label>
+                        <label>Release Year
+                            <input type="number" id="seriesYear" min="1900" placeholder="2026">
+                        </label>
+                        <label>Rating
+                            <input type="number" id="seriesRating" min="0" max="10" step="0.1" placeholder="8.5">
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="series-form-section">
+                    <legend>SEO</legend>
+                    <label>SEO Title <b>*</b>
+                        <input type="text" placeholder="Enter SEO title">
+                    </label>
+                    <label>SEO Description <b>*</b>
+                        <textarea rows="3" placeholder="SEO description"></textarea>
+                    </label>
+                    <label>Keywords
+                        <input type="text" placeholder="series, drama, action">
+                    </label>
+                </fieldset>
+
+                <fieldset class="series-form-section">
+                    <legend>Media</legend>
+                    <div class="series-form-grid two">
+                        <label>Thumbnail
+                            <input type="file" accept="image/*">
+                        </label>
+                        <label>Poster
+                            <input type="file" accept="image/*">
+                        </label>
+                    </div>
+                    <label>Trailer URL
+                        <input type="url" placeholder="Trailer link">
+                    </label>
+                </fieldset>
+
+                <footer class="series-modal-footer">
+                    <button class="series-save-btn" type="submit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                    <button class="series-close-btn" type="button" data-close-series-modal>
+                        <i class="fa-solid fa-angles-left"></i>
+                        Close
+                    </button>
+                </footer>
+            </form>
+        </section>
+    </div>
+
+    <script src="/static/js/show_series.js"></script>
+</body>
+
+</html>
