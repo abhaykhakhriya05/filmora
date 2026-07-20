@@ -1,0 +1,136 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin-Settings{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_setting.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Admin Settings{% endblock %}
+
+{% block content %}
+<main class="admin-main admin-setting-page">
+    <section class="admin-panel admin-setting-panel">
+        <div class="admin-panel-header admin-setting-header">
+            <div>
+                <h2>Settings</h2>
+                <p>Manage application configuration, admin preferences, security, content pages, and support options.</p>
+            </div>
+            <button class="admin-setting-save" id="saveAdminSettings" type="button">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Changes
+            </button>
+        </div>
+
+        <div class="admin-setting-quick-links" aria-label="Page options">
+            <a href="{{ url_for('privacy_policy') }}" class="admin-setting-link">
+                <i class="fa-solid fa-shield-halved"></i>
+                <strong>Privacy Policy</strong>
+                <span>Review privacy and data-use content.</span>
+            </a>
+            <a href="{{ url_for('faq') }}" class="admin-setting-link">
+                <i class="fa-regular fa-circle-question"></i>
+                <strong>FAQ</strong>
+                <span>Open help questions and answers.</span>
+            </a>
+            <a href="{{ url_for('contact_us') }}" class="admin-setting-link">
+                <i class="fa-solid fa-headset"></i>
+                <strong>Contact Us</strong>
+                <span>Manage support and contact details.</span>
+            </a>
+            <a href="#" class="admin-setting-link">
+                <i class="fa-solid fa-circle-info"></i>
+                <strong>About Us</strong>
+                <span>Prepare brand and company information.</span>
+            </a>
+        </div>
+
+        <form class="admin-setting-form" id="adminSettingForm">
+            <section class="admin-setting-grid">
+                <fieldset class="admin-setting-card">
+                    <legend>General</legend>
+                    <label>Site Name
+                        <input type="text" value="Filmora">
+                    </label>
+                    <label>Admin Email
+                        <input type="email" value="admin@filmora.example">
+                    </label>
+                    <label>Default Language
+                        <select>
+                            <option>English</option>
+                            <option>Hindi</option>
+                            <option>Gujarati</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset class="admin-setting-card">
+                    <legend>Content</legend>
+                    <label>Default Access
+                        <select>
+                            <option>Free</option>
+                            <option>Premium</option>
+                        </select>
+                    </label>
+                    <label>Default Publish Status
+                        <select>
+                            <option>Draft</option>
+                            <option>Published</option>
+                        </select>
+                    </label>
+                    <label>Homepage Feature
+                        <select>
+                            <option>Show Series</option>
+                            <option>Movies</option>
+                            <option>Categories</option>
+                        </select>
+                    </label>
+                </fieldset>
+
+                <fieldset class="admin-setting-card">
+                    <legend>Security</legend>
+                    <div class="admin-setting-toggle">
+                        <span>Two-factor admin login</span>
+                        <label><input type="checkbox" checked><i></i></label>
+                    </div>
+                    <div class="admin-setting-toggle">
+                        <span>Email alerts for new admin login</span>
+                        <label><input type="checkbox" checked><i></i></label>
+                    </div>
+                    <div class="admin-setting-toggle">
+                        <span>Require review before publishing</span>
+                        <label><input type="checkbox"><i></i></label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="admin-setting-card">
+                    <legend>Support</legend>
+                    <label>Support Email
+                        <input type="email" value="support@filmora.example">
+                    </label>
+                    <label>Contact Phone
+                        <input type="tel" value="+91 98765 43210">
+                    </label>
+                    <label>Response Window
+                        <select>
+                            <option>24 hours</option>
+                            <option>48 hours</option>
+                            <option>3 business days</option>
+                        </select>
+                    </label>
+                </fieldset>
+            </section>
+        </form>
+    </section>
+
+    <div class="admin-setting-toast" id="adminSettingToast" role="status" aria-live="polite">
+        <i class="fa-solid fa-circle-check"></i>
+        Settings saved
+    </div>
+</main>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin_setting.js') }}"></script>
+{% endblock %}

@@ -43,6 +43,7 @@
                 <i class="fa-solid fa-layer-group"></i>
                 <span>Category</span>
             </a>
+           
             <div class="admin-menu-group open">
                 <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
                     <i class="fa-solid fa-tv"></i>
@@ -73,12 +74,10 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" placeholder="Search">
                 </label>
-                <button class="admin-icon-btn" type="button" aria-label="Notifications">
-                    <i class="fa-solid fa-bell"></i>
-                </button>
-                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                
+                <a class="admin-icon-btn" href="{{ url_for('admin_setting') }}" aria-label="Settings" style="text-decoration: none;">
                     <i class="fa-solid fa-gear"></i>
-                </button>
+                </a>
                 <div class="admin-profile">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
                     <div>

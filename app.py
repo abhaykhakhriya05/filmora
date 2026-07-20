@@ -45,6 +45,10 @@ def comments():
 def ratings():
     return render_template("rating.html", active_page='ratings')
 
+@app.route('/admin-setting')
+def admin_setting():
+    return render_template("admin_setting.html", active_page='admin_setting')
+
 @app.route('/login')
 def login():
     return render_template("login.html")
@@ -68,6 +72,14 @@ def subscription():
 @app.route('/faq')
 def faq():
     return render_template("faq.html")
+
+@app.route('/privacy-policy')
+def privacy_policy():
+    return render_template("privacy_policy.html")
+
+@app.route('/contact-us')
+def contact_us():
+    return render_template("contact_us.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
