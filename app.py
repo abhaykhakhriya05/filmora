@@ -7,7 +7,15 @@ app.secret_key = "your_secret_key"  # Replace with your own secret key
 
 @app.route('/')
 def home():
-    return render_template("index.html",active_page='home')
+    return render_template("show_series.html", active_page='show_series')
+
+@app.route('/show-series')
+def show_series():
+    return render_template("show_series.html", active_page='show_series')
+
+@app.route('/seasons')
+def seasons():
+    return render_template("Seasons.html", active_page='seasons')
 
 @app.route('/login')
 def login():

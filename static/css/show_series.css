@@ -15,6 +15,12 @@
     --admin-green: #23ce74;
 }
 
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     min-height: 100vh;
     background: var(--admin-bg);
@@ -121,7 +127,7 @@ button {
 }
 
 .admin-shell {
-    width: 100%;
+    width: calc(100% - 260px);
     min-width: 0;
     margin-left: 260px;
 }
@@ -131,6 +137,7 @@ button {
     display: flex;
     align-items: center;
     gap: 18px;
+    min-width: 0;
     padding: 18px 28px;
     background: #101015;
     border-bottom: 1px solid var(--admin-line);
@@ -152,6 +159,7 @@ button {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
 }
 
 .admin-search,
@@ -298,12 +306,14 @@ button {
 }
 
 .admin-table-wrap {
-    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .admin-table {
     width: 100%;
-    min-width: 1160px;
+    min-width: 0;
     border-collapse: collapse;
 }
 
@@ -314,6 +324,7 @@ button {
     color: #d9d9df;
     text-align: left;
     vertical-align: middle;
+    overflow-wrap: anywhere;
 }
 
 .admin-table th {
@@ -328,7 +339,7 @@ button {
 }
 
 .series-list-table td:nth-child(2) {
-    min-width: 260px;
+    min-width: 180px;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -592,6 +603,7 @@ body.series-modal-open {
     }
 
     .admin-shell {
+        width: 100%;
         margin-left: 0;
     }
 
@@ -618,6 +630,22 @@ body.series-modal-open {
     .admin-topbar {
         padding-left: 16px;
         padding-right: 16px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 12px 8px;
+        font-size: 0.82rem;
+    }
+
+    .series-list-table td:nth-child(2) {
+        min-width: 130px;
+        gap: 8px;
+    }
+
+    .series-thumb {
+        width: 42px;
+        height: 42px;
     }
 
     .admin-panel-header,

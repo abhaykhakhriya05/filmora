@@ -1,0 +1,176 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin-Seasons{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/Seasons.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Seasons{% endblock %}
+
+{% block content %}
+<main class="admin-main seasons-page">
+    <section class="admin-panel seasons-list-panel">
+        <div class="admin-panel-header seasons-list-header">
+            <div>
+                <h2>All Seasons</h2>
+                <p>Manage seasons by show, release year, episodes, access, and publishing status.</p>
+            </div>
+            <button class="seasons-add-btn" id="openSeasonModal" type="button">
+                <i class="fa-solid fa-plus"></i>
+                Add Season
+            </button>
+        </div>
+
+        <div class="seasons-filter-row">
+            <div class="seasons-tabs" aria-label="Season filter">
+                <button type="button" class="active" data-season-filter="all">All</button>
+                <button type="button" data-season-filter="published">Published</button>
+                <button type="button" data-season-filter="draft">Draft</button>
+                <button type="button" data-season-filter="premium">Premium</button>
+            </div>
+            <label class="seasons-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="seasonSearchInput" placeholder="Search season">
+            </label>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table seasons-list-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" aria-label="Select all seasons"></th>
+                        <th>Season</th>
+                        <th>Show Series</th>
+                        <th>Episodes</th>
+                        <th>Release Year</th>
+                        <th>Access</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="seasonTableBody">
+                    <tr data-season-row data-season-status="published">
+                        <td><input type="checkbox" aria-label="Select Stranger Worlds season 1"></td>
+                        <td><span class="season-thumb">S1</span><div><strong>Season 1</strong><small>The signal begins</small></div></td>
+                        <td>Stranger Worlds</td>
+                        <td>10</td>
+                        <td>2023</td>
+                        <td>Free</td>
+                        <td><span class="season-switch active"></span></td>
+                        <td><div class="season-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-season-row data-season-status="premium">
+                        <td><input type="checkbox" aria-label="Select Kingdom Rise season 2"></td>
+                        <td><span class="season-thumb">S2</span><div><strong>Season 2</strong><small>War for the crown</small></div></td>
+                        <td>Kingdom Rise</td>
+                        <td>8</td>
+                        <td>2025</td>
+                        <td>Premium</td>
+                        <td><span class="season-switch active"></span></td>
+                        <td><div class="season-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-season-row data-season-status="draft">
+                        <td><input type="checkbox" aria-label="Select City Case Files season 1"></td>
+                        <td><span class="season-thumb">S1</span><div><strong>Season 1</strong><small>Evidence archive</small></div></td>
+                        <td>City Case Files</td>
+                        <td>6</td>
+                        <td>2026</td>
+                        <td>Free</td>
+                        <td><span class="season-switch"></span></td>
+                        <td><div class="season-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-table-footer">
+            <span id="seasonCountText">Showing 1 to 3 of 3 entries</span>
+            <div class="admin-pagination">
+                <button type="button">Previous</button>
+                <button type="button" class="active">1</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="season-modal" id="seasonModal" aria-hidden="true">
+    <div class="season-modal-backdrop" data-close-season-modal></div>
+    <section class="season-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="seasonModalTitle">
+        <header class="season-modal-header">
+            <h2 id="seasonModalTitle">Add New Season</h2>
+            <button class="season-modal-close" type="button" data-close-season-modal aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </header>
+
+        <form class="season-form" id="seasonForm">
+            <fieldset class="season-form-section">
+                <legend>Season</legend>
+                <div class="season-form-grid two">
+                    <label>Show Series <b>*</b>
+                        <select id="seasonSeries" required>
+                            <option>Stranger Worlds</option>
+                            <option>Kingdom Rise</option>
+                            <option>City Case Files</option>
+                            <option>Anime Quest</option>
+                        </select>
+                    </label>
+                    <label>Season Name <b>*</b>
+                        <input type="text" id="seasonName" placeholder="Enter season name" required>
+                    </label>
+                </div>
+                <label>Description
+                    <textarea id="seasonDescription" rows="4" placeholder="Description"></textarea>
+                </label>
+                <div class="season-form-grid four">
+                    <label>Season Number
+                        <input type="number" id="seasonNumber" min="1" value="1">
+                    </label>
+                    <label>Episodes
+                        <input type="number" id="seasonEpisodes" min="1" value="1">
+                    </label>
+                    <label>Release Year
+                        <input type="number" id="seasonYear" min="1900" placeholder="2026">
+                    </label>
+                    <label>Status
+                        <select id="seasonStatus">
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="season-form-grid two">
+                    <label>Access
+                        <select id="seasonAccess">
+                            <option>Free</option>
+                            <option>Premium</option>
+                        </select>
+                    </label>
+                    <label>Poster
+                        <input type="file" accept="image/*">
+                    </label>
+                </div>
+            </fieldset>
+
+            <footer class="season-modal-footer">
+                <button class="season-save-btn" type="submit">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save
+                </button>
+                <button class="season-close-btn" type="button" data-close-season-modal>
+                    <i class="fa-solid fa-angles-left"></i>
+                    Close
+                </button>
+            </footer>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Seasons.js') }}"></script>
+{% endblock %}

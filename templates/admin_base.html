@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/show_series.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+    <aside class="admin-sidebar" id="adminSidebar">
+        <a href="/" class="admin-brand" aria-label="Filmora admin home">
+            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="Filmora logo">
+            <span>Filmora</span>
+        </a>
+
+        <nav class="admin-menu" aria-label="Admin navigation">
+            <a href="" class="admin-menu-link">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="" class="admin-menu-link">
+                <i class="fa-solid fa-star"></i>
+                <span>Rating</span>
+            </a>
+            <a href="" class="admin-menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Comment</span>
+            </a>
+            <a href="" class="admin-menu-link">
+                <i class="fa-solid fa-users"></i>
+                <span>Users List</span>
+            </a>
+            <a href="" class="admin-menu-link">
+                <i class="fa-solid fa-film"></i>
+                <span>Movie List</span>
+            </a>
+            <div class="admin-menu-group open">
+                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Series List</span>
+                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
+                </button>
+                <div class="admin-submenu">
+                    <a href="{{ url_for('show_series') }}" class="{% if active_page == 'show_series' %}active{% endif %}">Show List</a>
+                    <a href="{{ url_for('seasons') }}" class="{% if active_page == 'seasons' %}active{% endif %}">Seasons</a>
+                    <a href="" class="">Episodes</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="admin-shell">
+        <header class="admin-topbar">
+            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button"
+                aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+                <p class="admin-kicker">{% block admin_kicker %}Admin{% endblock %}</p>
+                <h1>{% block admin_heading %}Series List{% endblock %}</h1>
+            </div>
+            <div class="admin-top-actions">
+                <label class="admin-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" placeholder="Search">
+                </label>
+                <button class="admin-icon-btn" type="button" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <button class="admin-icon-btn" type="button" aria-label="Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <div class="admin-profile">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
+                    <div>
+                        <strong>Austin Robertson</strong>
+                        <span>Marketing Administrator</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+        {% block script %} {% endblock %}
+
+</body>
+
+</html>
