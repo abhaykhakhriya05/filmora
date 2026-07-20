@@ -1,0 +1,179 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin-Category{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/category.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Category{% endblock %}
+
+{% block content %}
+<main class="admin-main category-page">
+    <section class="admin-panel category-list-panel">
+        <div class="admin-panel-header category-list-header">
+            <div>
+                <h2>All Categories</h2>
+                <p>Manage movie and series categories, descriptions, ordering, and publishing status.</p>
+            </div>
+            <button class="category-add-btn" id="openCategoryModal" type="button">
+                <i class="fa-solid fa-plus"></i>
+                Add Category
+            </button>
+        </div>
+
+        <div class="category-filter-row">
+            <div class="category-tabs" aria-label="Category filter">
+                <button type="button" class="active" data-category-filter="all">All</button>
+                <button type="button" data-category-filter="active">Active</button>
+                <button type="button" data-category-filter="inactive">Inactive</button>
+                <button type="button" data-category-filter="featured">Featured</button>
+            </div>
+            <label class="category-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="categorySearchInput" placeholder="Search category">
+            </label>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table category-list-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" aria-label="Select all categories"></th>
+                        <th>Category</th>
+                        <th>Slug</th>
+                        <th>Type</th>
+                        <th>Items</th>
+                        <th>Order</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTableBody">
+                    <tr data-category-row data-category-status="active">
+                        <td><input type="checkbox" aria-label="Select Action"></td>
+                        <td><span class="category-thumb"><i class="fa-solid fa-bolt"></i></span><div><strong>Action</strong><small>High energy movies and shows</small></div></td>
+                        <td>action</td>
+                        <td>Movies & Series</td>
+                        <td>42</td>
+                        <td>1</td>
+                        <td><span class="category-switch active"></span></td>
+                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-category-row data-category-status="featured">
+                        <td><input type="checkbox" aria-label="Select Drama"></td>
+                        <td><span class="category-thumb"><i class="fa-solid fa-masks-theater"></i></span><div><strong>Drama</strong><small>Character-driven stories</small></div></td>
+                        <td>drama</td>
+                        <td>Series</td>
+                        <td>31</td>
+                        <td>2</td>
+                        <td><span class="category-switch active"></span></td>
+                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-category-row data-category-status="inactive">
+                        <td><input type="checkbox" aria-label="Select Kids"></td>
+                        <td><span class="category-thumb"><i class="fa-solid fa-child-reaching"></i></span><div><strong>Kids</strong><small>Family-safe collection</small></div></td>
+                        <td>kids</td>
+                        <td>Movies</td>
+                        <td>18</td>
+                        <td>5</td>
+                        <td><span class="category-switch"></span></td>
+                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-table-footer">
+            <span id="categoryCountText">Showing 1 to 3 of 3 entries</span>
+            <div class="admin-pagination">
+                <button type="button">Previous</button>
+                <button type="button" class="active">1</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="category-modal" id="categoryModal" aria-hidden="true">
+    <div class="category-modal-backdrop" data-close-category-modal></div>
+    <section class="category-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+        <header class="category-modal-header">
+            <h2 id="categoryModalTitle">Add New Category</h2>
+            <button class="category-modal-close" type="button" data-close-category-modal aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </header>
+
+        <form class="category-form" id="categoryForm">
+            <fieldset class="category-form-section">
+                <legend>Category</legend>
+                <div class="category-form-grid two">
+                    <label>Category Name <b>*</b>
+                        <input type="text" id="categoryName" placeholder="Enter category name" required>
+                    </label>
+                    <label>Slug
+                        <input type="text" id="categorySlug" placeholder="category-slug">
+                    </label>
+                </div>
+                <label>Description
+                    <textarea id="categoryDescription" rows="4" placeholder="Description"></textarea>
+                </label>
+                <div class="category-form-grid four">
+                    <label>Type
+                        <select id="categoryType">
+                            <option>Movies & Series</option>
+                            <option>Movies</option>
+                            <option>Series</option>
+                        </select>
+                    </label>
+                    <label>Display Order
+                        <input type="number" id="categoryOrder" min="1" value="1">
+                    </label>
+                    <label>Items
+                        <input type="number" id="categoryItems" min="0" value="0">
+                    </label>
+                    <label>Status
+                        <select id="categoryStatus">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="featured">Featured</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="category-form-grid two">
+                    <label>Icon
+                        <select id="categoryIcon">
+                            <option value="fa-layer-group">Default</option>
+                            <option value="fa-bolt">Action</option>
+                            <option value="fa-masks-theater">Drama</option>
+                            <option value="fa-ghost">Horror</option>
+                            <option value="fa-face-laugh">Comedy</option>
+                            <option value="fa-child-reaching">Kids</option>
+                        </select>
+                    </label>
+                    <label>Thumbnail
+                        <input type="file" accept="image/*">
+                    </label>
+                </div>
+            </fieldset>
+
+            <footer class="category-modal-footer">
+                <button class="category-save-btn" type="submit">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save
+                </button>
+                <button class="category-close-btn" type="button" data-close-category-modal>
+                    <i class="fa-solid fa-angles-left"></i>
+                    Close
+                </button>
+            </footer>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/category.js') }}"></script>
+{% endblock %}

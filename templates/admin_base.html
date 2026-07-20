@@ -19,25 +19,29 @@
         </a>
 
         <nav class="admin-menu" aria-label="Admin navigation">
-            <a href="" class="admin-menu-link">
+            <a href="{{ url_for('dashboard') }}" class="admin-menu-link {% if active_page == 'dashboard' %}active{% endif %}">
                 <i class="fa-solid fa-table-cells-large"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="" class="admin-menu-link">
+            <a href="{{ url_for('ratings') }}" class="admin-menu-link {% if active_page == 'ratings' %}active{% endif %}">
                 <i class="fa-solid fa-star"></i>
                 <span>Rating</span>
             </a>
-            <a href="" class="admin-menu-link">
+            <a href="{{ url_for('comments') }}" class="admin-menu-link {% if active_page == 'comments' %}active{% endif %}">
                 <i class="fa-solid fa-comments"></i>
                 <span>Comment</span>
             </a>
-            <a href="" class="admin-menu-link">
+            <a href="{{ url_for('users') }}" class="admin-menu-link {% if active_page == 'users' %}active{% endif %}">
                 <i class="fa-solid fa-users"></i>
                 <span>Users List</span>
             </a>
-            <a href="" class="admin-menu-link">
+            <a href="{{ url_for('movie_list') }}" class="admin-menu-link {% if active_page == 'movie_list' %}active{% endif %}">
                 <i class="fa-solid fa-film"></i>
                 <span>Movie List</span>
+            </a>
+            <a href="{{ url_for('category') }}" class="admin-menu-link {% if active_page == 'category' %}active{% endif %}">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>Category</span>
             </a>
             <div class="admin-menu-group open">
                 <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
@@ -48,7 +52,7 @@
                 <div class="admin-submenu">
                     <a href="{{ url_for('show_series') }}" class="{% if active_page == 'show_series' %}active{% endif %}">Show List</a>
                     <a href="{{ url_for('seasons') }}" class="{% if active_page == 'seasons' %}active{% endif %}">Seasons</a>
-                    <a href="" class="">Episodes</a>
+                    <a href="{{ url_for('episodes') }}" class="{% if active_page == 'episodes' %}active{% endif %}">Episodes</a>
                 </div>
             </div>
         </nav>

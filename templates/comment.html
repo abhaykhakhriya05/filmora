@@ -1,301 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmora Admin Comments</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="/static/image/logo.png">
-</head>
-<body class="admin-body">
-    <aside class="admin-sidebar" id="adminSidebar">
-        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
-            <img src="/static/image/logo.png" alt="Filmora logo">
-            <span>Filmora</span>
-        </a>
+{% extends "admin_base.html" %}
 
-        <nav class="admin-menu" aria-label="Admin navigation">
-            <a href="admin_dashboard.html" class="admin-menu-link">
-                <i class="fa-solid fa-table-cells-large"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="rating.html" class="admin-menu-link">
-                <i class="fa-solid fa-star"></i>
-                <span>Rating</span>
-            </a>
-            <a href="comment.html" class="admin-menu-link active">
-                <i class="fa-solid fa-comments"></i>
-                <span>Comment</span>
-            </a>
-            <a href="#" class="admin-menu-link">
-                <i class="fa-solid fa-users"></i>
-                <span>Users List</span>
-            </a>
-            <a href="#" class="admin-menu-link">
-                <i class="fa-solid fa-film"></i>
-                <span>Movie List</span>
-            </a>
-            <div class="admin-menu-group open">
-                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
-                    <i class="fa-solid fa-tv"></i>
-                    <span>Series List</span>
-                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
-                </button>
-                <div class="admin-submenu">
-                    <a href="#">Show List</a>
-                    <a href="#">Seasons</a>
-                    <a href="#">Episodes</a>
-                </div>
-            </div>
-        </nav>
-    </aside>
+{% block title %}Admin-Comments{% endblock %}
 
-    <div class="admin-shell">
-        <header class="admin-topbar">
-            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/comment.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Comments{% endblock %}
+
+{% block content %}
+<main class="admin-main comment-page">
+    <section class="admin-panel comment-list-panel">
+        <div class="admin-panel-header comment-list-header">
             <div>
-                <p class="admin-kicker">Admin</p>
-                <h1>Comments</h1>
+                <h2>All Comments</h2>
+                <p>Review comments for movies and series, approve feedback, and track flagged items.</p>
             </div>
-            <div class="admin-top-actions">
-                <label class="admin-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Search comments">
-                </label>
-                <button class="admin-icon-btn" type="button" aria-label="Notifications">
-                    <i class="fa-solid fa-bell"></i>
-                </button>
-                <button class="admin-icon-btn" type="button" aria-label="Settings">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
-                <div class="admin-profile">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
-                    <div>
-                        <strong>Austin Robertson</strong>
-                        <span>Marketing Administrator</span>
-                    </div>
-                </div>
+            <button class="comment-export-btn" type="button">
+                <i class="fa-solid fa-download"></i>
+                Export
+            </button>
+        </div>
+
+        <div class="comment-filter-row">
+            <div class="comment-tabs" aria-label="Comment filter">
+                <button type="button" class="active" data-comment-filter="all">All</button>
+                <button type="button" data-comment-filter="movie">Movies</button>
+                <button type="button" data-comment-filter="series">Series</button>
+                <button type="button" data-comment-filter="review">Review</button>
             </div>
-        </header>
+            <label class="comment-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="commentSearchInput" placeholder="Search comment">
+            </label>
+        </div>
 
-        <main class="admin-main comment-page">
-            <section class="admin-stats-grid comment-stats-grid" aria-label="Comment summary">
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Total Comments</span>
-                        <strong>12.8K</strong>
+        <div class="comment-card-list" id="commentCardList">
+            <article class="comment-card" data-comment-row data-comment-type="movie">
+                <span class="comment-avatar">MS</span>
+                <div>
+                    <div class="comment-card-head">
+                        <h3>Mira Shah</h3>
+                        <span class="comment-badge movie">Movie</span>
                     </div>
-                    <i class="fa-solid fa-comments admin-stat-cyan"></i>
-                    <small class="up cyan"><i class="fa-solid fa-caret-up"></i> 36%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Movie Comments</span>
-                        <strong>7.5K</strong>
-                    </div>
-                    <i class="fa-solid fa-film admin-stat-red"></i>
-                    <small class="up green"><i class="fa-solid fa-caret-up"></i> 24%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Series Comments</span>
-                        <strong>5.3K</strong>
-                    </div>
-                    <i class="fa-solid fa-tv admin-stat-orange"></i>
-                    <small class="up orange"><i class="fa-solid fa-caret-up"></i> 18%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Pending Review</span>
-                        <strong>248</strong>
-                    </div>
-                    <i class="fa-solid fa-shield-halved admin-stat-green"></i>
-                    <small class="down"><i class="fa-solid fa-caret-down"></i> 9%</small>
-                </article>
-            </section>
-
-            <section class="comment-layout">
-                <article class="admin-panel comment-feed-panel">
-                    <div class="admin-panel-header">
-                        <h2>Recent Comments</h2>
-                        <div class="rating-tabs comment-tabs" aria-label="Comment filter">
-                            <button type="button" class="active" data-comment-filter="all">All</button>
-                            <button type="button" data-comment-filter="movie">Movies</button>
-                            <button type="button" data-comment-filter="series">Series</button>
-                        </div>
-                    </div>
-
-                    <div class="comment-card-list">
-                        <article class="comment-card" data-comment-type="movie">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Mira" alt="Mira avatar">
-                            <div>
-                                <div class="comment-card-head">
-                                    <h3>Mira Shah</h3>
-                                    <span class="rating-badge movie">Movie</span>
-                                </div>
-                                <p>Last Night has a strong story and the final scene was excellent.</p>
-                                <div class="comment-meta">
-                                    <span><i class="fa-solid fa-star"></i> 9.4</span>
-                                    <span>14 July,2026</span>
-                                    <span>Last Night</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="comment-card" data-comment-type="series">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Karan" alt="Karan avatar">
-                            <div>
-                                <div class="comment-card-head">
-                                    <h3>Karan Mehta</h3>
-                                    <span class="rating-badge series">Series</span>
-                                </div>
-                                <p>The Last Breath season pacing is clean, and episode three is my favorite.</p>
-                                <div class="comment-meta">
-                                    <span><i class="fa-solid fa-star"></i> 9.1</span>
-                                    <span>13 July,2026</span>
-                                    <span>The Last Breath</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="comment-card" data-comment-type="movie">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Riya" alt="Riya avatar">
-                            <div>
-                                <div class="comment-card-head">
-                                    <h3>Riya Patel</h3>
-                                    <span class="rating-badge movie">Movie</span>
-                                </div>
-                                <p>Jeon Woochie is visually fun and the action scenes feel fresh.</p>
-                                <div class="comment-meta">
-                                    <span><i class="fa-solid fa-star"></i> 8.8</span>
-                                    <span>12 July,2026</span>
-                                    <span>Jeon Woochie</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="comment-card" data-comment-type="series">
-                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dev" alt="Dev avatar">
-                            <div>
-                                <div class="comment-card-head">
-                                    <h3>Dev Joshi</h3>
-                                    <span class="rating-badge series">Series</span>
-                                </div>
-                                <p>Dino Land is a good family series, but some episodes need tighter editing.</p>
-                                <div class="comment-meta">
-                                    <span><i class="fa-solid fa-star"></i> 8.6</span>
-                                    <span>11 July,2026</span>
-                                    <span>Dino Land</span>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </article>
-
-                <article class="admin-panel comment-insight-panel">
-                    <div class="admin-panel-header">
-                        <h2>Comment Status</h2>
-                        <button class="admin-filter-btn" type="button">Weekly</button>
-                    </div>
-                    <div class="comment-ring">
-                        <strong>82%</strong>
-                        <span>Approved</span>
-                    </div>
-                    <div class="comment-status-list">
-                        <span><i class="approved"></i> Approved <strong>10.5K</strong></span>
-                        <span><i class="pending"></i> Pending <strong>248</strong></span>
-                        <span><i class="flagged"></i> Flagged <strong>96</strong></span>
-                        <span><i class="hidden"></i> Hidden <strong>42</strong></span>
-                    </div>
-                </article>
-            </section>
-
-            <section class="admin-panel admin-table-panel comment-table-panel">
-                <div class="admin-panel-header">
-                    <h2>All Movie & Series Comments</h2>
-                    <button class="admin-filter-btn" type="button">Export</button>
+                    <p>Last Night has a strong story and the final scene was excellent.</p>
+                    <div class="comment-meta"><span>Last Night</span><span>9.4 rating</span><span>14 July, 2026</span></div>
                 </div>
-                <div class="admin-table-toolbar">
-                    <label>Show
-                        <select>
-                            <option>10</option>
-                            <option>25</option>
-                            <option>50</option>
-                        </select>
-                        entries
-                    </label>
-                    <label>Search:
-                        <input type="search" class="comment-search-input">
-                    </label>
-                </div>
-                <div class="admin-table-wrap">
-                    <table class="admin-table comment-table">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Rating</th>
-                                <th>Comment</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="admin-thumb">MS</span> Mira Shah</td>
-                                <td>Last Night</td>
-                                <td><span class="rating-badge movie">Movie</span></td>
-                                <td><span class="rating-stars">★★★★★</span> 9.4</td>
-                                <td>Strong story and excellent final scene.</td>
-                                <td><span class="rating-status good">Approved</span></td>
-                                <td><button class="rating-action-btn" type="button">Reply</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">KM</span> Karan Mehta</td>
-                                <td>The Last Breath</td>
-                                <td><span class="rating-badge series">Series</span></td>
-                                <td><span class="rating-stars">★★★★★</span> 9.1</td>
-                                <td>Episode three is my favorite.</td>
-                                <td><span class="rating-status good">Approved</span></td>
-                                <td><button class="rating-action-btn" type="button">Reply</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">RP</span> Riya Patel</td>
-                                <td>Jeon Woochie</td>
-                                <td><span class="rating-badge movie">Movie</span></td>
-                                <td><span class="rating-stars">★★★★☆</span> 8.8</td>
-                                <td>Action scenes feel fresh.</td>
-                                <td><span class="rating-status good">Approved</span></td>
-                                <td><button class="rating-action-btn" type="button">Reply</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">DJ</span> Dev Joshi</td>
-                                <td>Dino Land</td>
-                                <td><span class="rating-badge series">Series</span></td>
-                                <td><span class="rating-stars">★★★★☆</span> 8.6</td>
-                                <td>Some episodes need tighter editing.</td>
-                                <td><span class="rating-status review">Review</span></td>
-                                <td><button class="rating-action-btn" type="button">Check</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="admin-table-footer">
-                    <span>Showing 1 to 4 of 4 entries</span>
-                    <div class="admin-pagination">
-                        <button type="button">Previous</button>
-                        <button type="button" class="active">1</button>
-                        <button type="button">Next</button>
+                <button class="comment-delete-btn" type="button" aria-label="Delete comment"><i class="fa-solid fa-trash"></i></button>
+            </article>
+            <article class="comment-card" data-comment-row data-comment-type="series">
+                <span class="comment-avatar orange">KM</span>
+                <div>
+                    <div class="comment-card-head">
+                        <h3>Karan Mehta</h3>
+                        <span class="comment-badge series">Series</span>
                     </div>
+                    <p>The Last Breath season pacing is clean, and episode three is my favorite.</p>
+                    <div class="comment-meta"><span>The Last Breath</span><span>9.1 rating</span><span>13 July, 2026</span></div>
                 </div>
-            </section>
-        </main>
-    </div>
+                <button class="comment-delete-btn" type="button" aria-label="Delete comment"><i class="fa-solid fa-trash"></i></button>
+            </article>
+            <article class="comment-card" data-comment-row data-comment-type="review">
+                <span class="comment-avatar gray">DJ</span>
+                <div>
+                    <div class="comment-card-head">
+                        <h3>Dev Joshi</h3>
+                        <span class="comment-badge review">Review</span>
+                    </div>
+                    <p>Dino Land is good, but this comment is waiting for review.</p>
+                    <div class="comment-meta"><span>Dino Land</span><span>8.6 rating</span><span>11 July, 2026</span></div>
+                </div>
+                <button class="comment-delete-btn" type="button" aria-label="Delete comment"><i class="fa-solid fa-trash"></i></button>
+            </article>
+        </div>
 
-    <script src="/static/js/script.js"></script>
-</body>
-</html>
+        <div class="admin-table-footer">
+            <span id="commentCountText">Showing 1 to 3 of 3 entries</span>
+            <div class="admin-pagination">
+                <button type="button">Previous</button>
+                <button type="button" class="active">1</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,317 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin-Episodes{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/Episodes.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Episodes{% endblock %}
+
+{% block content %}
+<main class="admin-main episodes-page">
+    <section class="admin-panel episodes-list-panel">
+        <div class="admin-panel-header episodes-list-header">
+            <div>
+                <h2>All Episodes</h2>
+                <p>Manage episode title, show, season, duration, access, and publishing status.</p>
+            </div>
+            <button class="episodes-add-btn" id="openEpisodeModal" type="button">
+                <i class="fa-solid fa-plus"></i>
+                Add Episode
+            </button>
+        </div>
+
+        <div class="episodes-filter-row">
+            <div class="episodes-tabs" aria-label="Episode filter">
+                <button type="button" class="active" data-episode-filter="all">All</button>
+                <button type="button" data-episode-filter="published">Published</button>
+                <button type="button" data-episode-filter="draft">Draft</button>
+                <button type="button" data-episode-filter="premium">Premium</button>
+            </div>
+            <label class="episodes-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="episodeSearchInput" placeholder="Search episode">
+            </label>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table episodes-list-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" aria-label="Select all episodes"></th>
+                        <th>Episode</th>
+                        <th>Show Series</th>
+                        <th>Season</th>
+                        <th>Duration</th>
+                        <th>Release Date</th>
+                        <th>Access</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="episodeTableBody">
+                    <tr data-episode-row data-episode-status="published">
+                        <td><input type="checkbox" aria-label="Select The Signal"></td>
+                        <td><span class="episode-thumb">E1</span><div><strong>The Signal</strong><small>Opening episode</small></div></td>
+                        <td>Stranger Worlds</td>
+                        <td>Season 1</td>
+                        <td>48 min</td>
+                        <td>2023-08-12</td>
+                        <td>Free</td>
+                        <td><span class="episode-switch active"></span></td>
+                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-episode-row data-episode-status="premium">
+                        <td><input type="checkbox" aria-label="Select Crownfire"></td>
+                        <td><span class="episode-thumb">E4</span><div><strong>Crownfire</strong><small>Battle for the gates</small></div></td>
+                        <td>Kingdom Rise</td>
+                        <td>Season 2</td>
+                        <td>54 min</td>
+                        <td>2025-03-21</td>
+                        <td>Premium</td>
+                        <td><span class="episode-switch active"></span></td>
+                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-episode-row data-episode-status="draft">
+                        <td><input type="checkbox" aria-label="Select Cold Evidence"></td>
+                        <td><span class="episode-thumb">E2</span><div><strong>Cold Evidence</strong><small>Draft upload pending</small></div></td>
+                        <td>City Case Files</td>
+                        <td>Season 1</td>
+                        <td>42 min</td>
+                        <td>2026-01-10</td>
+                        <td>Free</td>
+                        <td><span class="episode-switch"></span></td>
+                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-table-footer">
+            <span id="episodeCountText">Showing 1 to 3 of 3 entries</span>
+            <div class="admin-pagination">
+                <button type="button">Previous</button>
+                <button type="button" class="active">1</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="episode-modal" id="episodeModal" aria-hidden="true">
+    <div class="episode-modal-backdrop" data-close-episode-modal></div>
+    <section class="episode-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="episodeModalTitle">
+        <header class="episode-modal-header">
+            <h2 id="episodeModalTitle">Add New Episode</h2>
+            <button class="episode-modal-close" type="button" data-close-episode-modal aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </header>
+
+        <form class="episode-form" id="episodeForm">
+            <fieldset class="episode-form-section">
+                <legend>Episode</legend>
+                <div class="episode-form-grid two">
+                    <label>Show Series <b>*</b>
+                        <select id="episodeSeries" required>
+                            <option>Stranger Worlds</option>
+                            <option>Kingdom Rise</option>
+                            <option>City Case Files</option>
+                            <option>Anime Quest</option>
+                        </select>
+                    </label>
+                    <label>Season <b>*</b>
+                        <select id="episodeSeason" required>
+                            <option>Season 1</option>
+                            <option>Season 2</option>
+                            <option>Season 3</option>
+                            <option>Season 4</option>
+                        </select>
+                    </label>
+                </div>
+                <label>Episode Title <b>*</b>
+                    <input type="text" id="episodeTitle" placeholder="Enter episode title" required>
+                </label>
+                <label>Description
+                    <textarea id="episodeDescription" rows="4" placeholder="Description"></textarea>
+                </label>
+                <div class="episode-form-grid four">
+                    <label>Episode Number
+                        <input type="number" id="episodeNumber" min="1" value="1">
+                    </label>
+                    <label>Duration
+                        <input type="text" id="episodeDuration" placeholder="45 min">
+                    </label>
+                    <label>Release Date
+                        <input type="date" id="episodeReleaseDate">
+                    </label>
+                    <label>Status
+                        <select id="episodeStatus">
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="episode-form-grid two">
+                    <label>Access
+                        <select id="episodeAccess">
+                            <option>Free</option>
+                            <option>Premium</option>
+                        </select>
+                    </label>
+                    <label>Thumbnail
+                        <input type="file" accept="image/*">
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="episode-form-section">
+                <div class="episode-form-subhead">
+                    <h3>Video Quality</h3>
+                    <button type="button" id="addEpisodeVideoBtn">
+                        <i class="fa-solid fa-square-plus"></i>
+                        Add Video
+                    </button>
+                </div>
+                <div class="episode-inline-form three">
+                    <label>Quality
+                        <select id="episodeVideoQuality">
+                            <option>1080P</option>
+                            <option>720P</option>
+                            <option>480P</option>
+                            <option>360P</option>
+                        </select>
+                    </label>
+                    <label>Video
+                        <input type="file" id="episodeVideoFile" accept="video/*">
+                    </label>
+                    <label>Download
+                        <select id="episodeVideoDownload">
+                            <option>Enabled</option>
+                            <option>Disabled</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="episode-mini-table-wrap">
+                    <table class="episode-mini-table">
+                        <thead>
+                            <tr>
+                                <th>Quality</th>
+                                <th>Video File</th>
+                                <th>Download</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="episodeVideoTableBody">
+                            <tr>
+                                <td>720P</td>
+                                <td>the_signal_720.mp4</td>
+                                <td>Enabled</td>
+                                <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete video"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <fieldset class="episode-form-section">
+                <div class="episode-form-subhead">
+                    <h3>Subtitles</h3>
+                    <button type="button" id="addEpisodeSubtitleBtn">
+                        <i class="fa-solid fa-square-plus"></i>
+                        Add Subtitle
+                    </button>
+                </div>
+                <div class="episode-inline-form two">
+                    <label>Language
+                        <input type="text" id="episodeSubtitleLanguage" placeholder="English">
+                    </label>
+                    <label>Subtitle
+                        <input type="file" id="episodeSubtitleFile" accept=".srt,.vtt,.ass,.ssa">
+                    </label>
+                </div>
+                <div class="episode-mini-table-wrap">
+                    <table class="episode-mini-table">
+                        <thead>
+                            <tr>
+                                <th>Language</th>
+                                <th>Subtitle File</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="episodeSubtitleTableBody">
+                            <tr>
+                                <td>English</td>
+                                <td>the_signal_en.srt</td>
+                                <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete subtitle"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <fieldset class="episode-form-section">
+                <div class="episode-form-subhead">
+                    <h3>Cast / Crew</h3>
+                    <button type="button" id="addEpisodeCastBtn">
+                        <i class="fa-solid fa-square-plus"></i>
+                        Add Cast / Crew
+                    </button>
+                </div>
+                <div class="episode-inline-form three">
+                    <label>Type
+                        <select id="episodeCastType">
+                            <option>Cast</option>
+                            <option>Crew</option>
+                        </select>
+                    </label>
+                    <label>Name
+                        <input type="text" id="episodeCastName" placeholder="Enter name">
+                    </label>
+                    <label>Role
+                        <input type="text" id="episodeCastRole" placeholder="Director, Actor">
+                    </label>
+                </div>
+                <div class="episode-mini-table-wrap">
+                    <table class="episode-mini-table">
+                        <thead>
+                            <tr>
+                                <th>Cast/Crew</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="episodeCastTableBody">
+                            <tr>
+                                <td>Cast</td>
+                                <td>Austin Blake</td>
+                                <td>Lead Actor</td>
+                                <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete cast"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+
+            <footer class="episode-modal-footer">
+                <button class="episode-save-btn" type="submit">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save
+                </button>
+                <button class="episode-close-btn" type="button" data-close-episode-modal>
+                    <i class="fa-solid fa-angles-left"></i>
+                    Close
+                </button>
+            </footer>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Episodes.js') }}"></script>
+{% endblock %}

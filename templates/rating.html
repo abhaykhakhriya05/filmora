@@ -1,301 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmora Admin Ratings</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="/static/image/logo.png">
-</head>
-<body class="admin-body">
-    <aside class="admin-sidebar" id="adminSidebar">
-        <a href="admin_dashboard.html" class="admin-brand" aria-label="Filmora admin home">
-            <img src="/static/image/logo.png" alt="Filmora logo">
-            <span>Filmora</span>
-        </a>
+{% extends "admin_base.html" %}
 
-        <nav class="admin-menu" aria-label="Admin navigation">
-            <a href="admin_dashboard.html" class="admin-menu-link">
-                <i class="fa-solid fa-table-cells-large"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="rating.html" class="admin-menu-link active">
-                <i class="fa-solid fa-star"></i>
-                <span>Rating</span>
-            </a>
-            <a href="comment.html" class="admin-menu-link">
-                <i class="fa-solid fa-comments"></i>
-                <span>Comment</span>
-            </a>
-            <a href="#" class="admin-menu-link">
-                <i class="fa-solid fa-users"></i>
-                <span>Users List</span>
-            </a>
-            <a href="#" class="admin-menu-link">
-                <i class="fa-solid fa-film"></i>
-                <span>Movie List</span>
-            </a>
-            <div class="admin-menu-group open">
-                <button class="admin-menu-link admin-submenu-toggle" type="button" aria-expanded="true">
-                    <i class="fa-solid fa-tv"></i>
-                    <span>Series List</span>
-                    <i class="fa-solid fa-chevron-down admin-chevron"></i>
-                </button>
-                <div class="admin-submenu">
-                    <a href="#">Show List</a>
-                    <a href="#">Seasons</a>
-                    <a href="#">Episodes</a>
-                </div>
-            </div>
-        </nav>
-    </aside>
+{% block title %}Admin-Ratings{% endblock %}
 
-    <div class="admin-shell">
-        <header class="admin-topbar">
-            <button class="admin-icon-btn admin-sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rating.css') }}">
+{% endblock %}
+
+{% block admin_heading %}Ratings{% endblock %}
+
+{% block content %}
+<main class="admin-main rating-page">
+    <section class="rating-stats-grid" aria-label="Rating summary">
+        <article class="rating-stat-card">
+            <div><span>Total Ratings</span><strong>18.4K</strong></div>
+            <i class="fa-solid fa-star stat-yellow"></i>
+        </article>
+        <article class="rating-stat-card">
+            <div><span>Movie Ratings</span><strong>11.2K</strong></div>
+            <i class="fa-solid fa-film stat-red"></i>
+        </article>
+        <article class="rating-stat-card">
+            <div><span>Series Ratings</span><strong>7.2K</strong></div>
+            <i class="fa-solid fa-tv stat-cyan"></i>
+        </article>
+        <article class="rating-stat-card">
+            <div><span>Average Score</span><strong>8.7</strong></div>
+            <i class="fa-solid fa-chart-line stat-green"></i>
+        </article>
+    </section>
+
+    <section class="admin-panel rating-list-panel">
+        <div class="admin-panel-header rating-list-header">
             <div>
-                <p class="admin-kicker">Admin</p>
-                <h1>Ratings</h1>
+                <h2>All Ratings</h2>
+                <p>Review movie and series scores, filter by type, and manage published rating records.</p>
             </div>
-            <div class="admin-top-actions">
-                <label class="admin-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Search ratings">
-                </label>
-                <button class="admin-icon-btn" type="button" aria-label="Notifications">
-                    <i class="fa-solid fa-bell"></i>
-                </button>
-                <button class="admin-icon-btn" type="button" aria-label="Settings">
-                    <i class="fa-solid fa-gear"></i>
-                </button>
-                <div class="admin-profile">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
-                    <div>
-                        <strong>Austin Robertson</strong>
-                        <span>Marketing Administrator</span>
-                    </div>
-                </div>
+            <button class="rating-export-btn" type="button">
+                <i class="fa-solid fa-download"></i>
+                Export
+            </button>
+        </div>
+
+        <div class="rating-filter-row">
+            <div class="rating-tabs" aria-label="Rating filter">
+                <button type="button" class="active" data-rating-filter="all">All</button>
+                <button type="button" data-rating-filter="movie">Movies</button>
+                <button type="button" data-rating-filter="series">Series</button>
+                <button type="button" data-rating-filter="review">Review</button>
             </div>
-        </header>
+            <label class="rating-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="ratingSearchInput" placeholder="Search rating">
+            </label>
+        </div>
 
-        <main class="admin-main rating-page">
-            <section class="admin-stats-grid rating-stats-grid" aria-label="Rating summary">
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Total Ratings</span>
-                        <strong>18.4K</strong>
-                    </div>
-                    <i class="fa-solid fa-star admin-stat-orange"></i>
-                    <small class="up orange"><i class="fa-solid fa-caret-up"></i> 42%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Movie Ratings</span>
-                        <strong>11.2K</strong>
-                    </div>
-                    <i class="fa-solid fa-film admin-stat-red"></i>
-                    <small class="up green"><i class="fa-solid fa-caret-up"></i> 28%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Series Ratings</span>
-                        <strong>7.2K</strong>
-                    </div>
-                    <i class="fa-solid fa-tv admin-stat-cyan"></i>
-                    <small class="up cyan"><i class="fa-solid fa-caret-up"></i> 31%</small>
-                </article>
-                <article class="admin-stat-card">
-                    <div>
-                        <span>Average Score</span>
-                        <strong>8.7</strong>
-                    </div>
-                    <i class="fa-solid fa-chart-line admin-stat-green"></i>
-                    <small class="up green"><i class="fa-solid fa-caret-up"></i> 12%</small>
-                </article>
-            </section>
+        <div class="rating-overview">
+            <article class="rating-score-card">
+                <strong>8.7</strong>
+                <span>Average Rating</span>
+            </article>
+            <div class="rating-bars">
+                <div class="rating-bar" style="--rating-width: 92%"><span>5 Star</span><i></i><strong>9.2K</strong></div>
+                <div class="rating-bar" style="--rating-width: 74%"><span>4 Star</span><i></i><strong>5.4K</strong></div>
+                <div class="rating-bar" style="--rating-width: 42%"><span>3 Star</span><i></i><strong>2.1K</strong></div>
+                <div class="rating-bar" style="--rating-width: 24%"><span>2 Star</span><i></i><strong>980</strong></div>
+                <div class="rating-bar" style="--rating-width: 12%"><span>1 Star</span><i></i><strong>720</strong></div>
+            </div>
+        </div>
 
-            <section class="rating-layout">
-                <article class="admin-panel rating-score-panel">
-                    <div class="admin-panel-header">
-                        <h2>Rating Overview</h2>
-                        <button class="admin-filter-btn" type="button">Today</button>
-                    </div>
-                    <div class="rating-score-wrap">
-                        <div class="rating-score-circle">
-                            <strong>8.7</strong>
-                            <span>Average</span>
-                        </div>
-                        <div class="rating-bars">
-                            <div class="rating-bar" style="--rating-width: 92%">
-                                <span>5 Star</span>
-                                <i></i>
-                                <strong>9.2K</strong>
-                            </div>
-                            <div class="rating-bar" style="--rating-width: 74%">
-                                <span>4 Star</span>
-                                <i></i>
-                                <strong>5.4K</strong>
-                            </div>
-                            <div class="rating-bar" style="--rating-width: 42%">
-                                <span>3 Star</span>
-                                <i></i>
-                                <strong>2.1K</strong>
-                            </div>
-                            <div class="rating-bar" style="--rating-width: 24%">
-                                <span>2 Star</span>
-                                <i></i>
-                                <strong>980</strong>
-                            </div>
-                            <div class="rating-bar" style="--rating-width: 12%">
-                                <span>1 Star</span>
-                                <i></i>
-                                <strong>720</strong>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+        <div class="admin-table-wrap">
+            <table class="admin-table rating-table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" aria-label="Select all ratings"></th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Rating</th>
+                        <th>Reviews</th>
+                        <th>Status</th>
+                        <th>Last Rated</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="ratingTableBody">
+                    <tr data-rating-row data-rating-type="movie">
+                        <td><input type="checkbox" aria-label="Select Last Night"></td>
+                        <td><span class="rating-thumb">16:9</span><div><strong>Last Night</strong><small>Movie rating summary</small></div></td>
+                        <td><span class="rating-badge movie">Movie</span></td>
+                        <td><span class="rating-stars">★★★★★</span> 9.4</td>
+                        <td>2,820</td>
+                        <td><span class="rating-status good">Published</span></td>
+                        <td>14 July, 2026</td>
+                        <td><div class="rating-row-actions"><button type="button" aria-label="View rating"><i class="fa-solid fa-eye"></i></button><button class="danger" type="button" aria-label="Delete rating"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-rating-row data-rating-type="series">
+                        <td><input type="checkbox" aria-label="Select The Last Breath"></td>
+                        <td><span class="rating-thumb">16:9</span><div><strong>The Last Breath</strong><small>Series rating summary</small></div></td>
+                        <td><span class="rating-badge series">Series</span></td>
+                        <td><span class="rating-stars">★★★★★</span> 9.1</td>
+                        <td>2,140</td>
+                        <td><span class="rating-status good">Published</span></td>
+                        <td>13 July, 2026</td>
+                        <td><div class="rating-row-actions"><button type="button" aria-label="View rating"><i class="fa-solid fa-eye"></i></button><button class="danger" type="button" aria-label="Delete rating"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                    <tr data-rating-row data-rating-type="review">
+                        <td><input type="checkbox" aria-label="Select Dino Land"></td>
+                        <td><span class="rating-thumb">16:9</span><div><strong>Dino Land</strong><small>Needs review</small></div></td>
+                        <td><span class="rating-badge series">Series</span></td>
+                        <td><span class="rating-stars">★★★★☆</span> 8.6</td>
+                        <td>1,520</td>
+                        <td><span class="rating-status review">Review</span></td>
+                        <td>11 July, 2026</td>
+                        <td><div class="rating-row-actions"><button type="button" aria-label="View rating"><i class="fa-solid fa-eye"></i></button><button class="danger" type="button" aria-label="Delete rating"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                <article class="admin-panel rating-featured-panel">
-                    <div class="admin-panel-header">
-                        <h2>Top Rated</h2>
-                        <div class="rating-tabs" aria-label="Rating filter">
-                            <button type="button" class="active" data-rating-filter="all">All</button>
-                            <button type="button" data-rating-filter="movie">Movies</button>
-                            <button type="button" data-rating-filter="series">Series</button>
-                        </div>
-                    </div>
-                    <div class="rating-card-grid">
-                        <article class="rating-card" data-rating-type="movie">
-                            <div class="rating-poster">Movie</div>
-                            <div>
-                                <span>Movie</span>
-                                <h3>Last Night</h3>
-                                <p><i class="fa-solid fa-star"></i> 9.4 <small>2.8K reviews</small></p>
-                            </div>
-                        </article>
-                        <article class="rating-card" data-rating-type="series">
-                            <div class="rating-poster series">Series</div>
-                            <div>
-                                <span>Series</span>
-                                <h3>The Last Breath</h3>
-                                <p><i class="fa-solid fa-star"></i> 9.1 <small>2.1K reviews</small></p>
-                            </div>
-                        </article>
-                        <article class="rating-card" data-rating-type="movie">
-                            <div class="rating-poster">Movie</div>
-                            <div>
-                                <span>Movie</span>
-                                <h3>Jeon Woochie</h3>
-                                <p><i class="fa-solid fa-star"></i> 8.8 <small>1.9K reviews</small></p>
-                            </div>
-                        </article>
-                        <article class="rating-card" data-rating-type="series">
-                            <div class="rating-poster series">Series</div>
-                            <div>
-                                <span>Series</span>
-                                <h3>Dino Land</h3>
-                                <p><i class="fa-solid fa-star"></i> 8.6 <small>1.5K reviews</small></p>
-                            </div>
-                        </article>
-                    </div>
-                </article>
-            </section>
+        <div class="admin-table-footer">
+            <span id="ratingCountText">Showing 1 to 3 of 3 entries</span>
+            <div class="admin-pagination">
+                <button type="button">Previous</button>
+                <button type="button" class="active">1</button>
+                <button type="button">Next</button>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
 
-            <section class="admin-panel admin-table-panel rating-table-panel">
-                <div class="admin-panel-header">
-                    <h2>All Movie & Series Ratings</h2>
-                    <button class="admin-filter-btn" type="button">Export</button>
-                </div>
-                <div class="admin-table-toolbar">
-                    <label>Show
-                        <select>
-                            <option>10</option>
-                            <option>25</option>
-                            <option>50</option>
-                        </select>
-                        entries
-                    </label>
-                    <label>Search:
-                        <input type="search" class="rating-search-input">
-                    </label>
-                </div>
-                <div class="admin-table-wrap">
-                    <table class="admin-table rating-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Rating</th>
-                                <th>Reviews</th>
-                                <th>Status</th>
-                                <th>Last Rated</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="admin-thumb">16:9</span> Last Night</td>
-                                <td><span class="rating-badge movie">Movie</span></td>
-                                <td><span class="rating-stars">★★★★★</span> 9.4</td>
-                                <td>2,820</td>
-                                <td><span class="rating-status good">Published</span></td>
-                                <td>14 July,2026</td>
-                                <td><button class="rating-action-btn" type="button">View</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">16:9</span> The Last Breath</td>
-                                <td><span class="rating-badge series">Series</span></td>
-                                <td><span class="rating-stars">★★★★★</span> 9.1</td>
-                                <td>2,140</td>
-                                <td><span class="rating-status good">Published</span></td>
-                                <td>13 July,2026</td>
-                                <td><button class="rating-action-btn" type="button">View</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">16:9</span> Jeon Woochie</td>
-                                <td><span class="rating-badge movie">Movie</span></td>
-                                <td><span class="rating-stars">★★★★☆</span> 8.8</td>
-                                <td>1,960</td>
-                                <td><span class="rating-status good">Published</span></td>
-                                <td>12 July,2026</td>
-                                <td><button class="rating-action-btn" type="button">View</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">16:9</span> Dino Land</td>
-                                <td><span class="rating-badge series">Series</span></td>
-                                <td><span class="rating-stars">★★★★☆</span> 8.6</td>
-                                <td>1,520</td>
-                                <td><span class="rating-status review">Review</span></td>
-                                <td>11 July,2026</td>
-                                <td><button class="rating-action-btn" type="button">View</button></td>
-                            </tr>
-                            <tr>
-                                <td><span class="admin-thumb">16:9</span> Champions</td>
-                                <td><span class="rating-badge movie">Movie</span></td>
-                                <td><span class="rating-stars">★★★★☆</span> 8.2</td>
-                                <td>1,180</td>
-                                <td><span class="rating-status review">Review</span></td>
-                                <td>10 July,2026</td>
-                                <td><button class="rating-action-btn" type="button">View</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="admin-table-footer">
-                    <span>Showing 1 to 5 of 5 entries</span>
-                    <div class="admin-pagination">
-                        <button type="button">Previous</button>
-                        <button type="button" class="active">1</button>
-                        <button type="button">Next</button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script src="/static/js/script.js"></script>
-</body>
-</html>
+{% block script %}
+<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
+<script src="{{ url_for('static', filename='js/rating.js') }}"></script>
+{% endblock %}

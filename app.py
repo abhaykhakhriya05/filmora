@@ -17,6 +17,34 @@ def show_series():
 def seasons():
     return render_template("Seasons.html", active_page='seasons')
 
+@app.route('/episodes')
+def episodes():
+    return render_template("Episodes.html", active_page='episodes')
+
+@app.route('/category')
+def category():
+    return render_template("category.html", active_page='category')
+
+@app.route('/movie-list')
+def movie_list():
+    return render_template("movie_list.html", active_page='movie_list')
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template("admin_dashboard.html", active_page='dashboard')
+
+@app.route('/users')
+def users():
+    return render_template("users.html", active_page='users')
+
+@app.route('/comments')
+def comments():
+    return render_template("comment.html", active_page='comments')
+
+@app.route('/ratings')
+def ratings():
+    return render_template("rating.html", active_page='ratings')
+
 @app.route('/login')
 def login():
     return render_template("login.html")
