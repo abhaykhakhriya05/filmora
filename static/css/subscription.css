@@ -218,34 +218,6 @@
 }
 
 /* Global Footer Layout Expansion */
-.footer-bottom {
-    margin-top: 40px;
-    padding-top: 25px;
-    border-top: 1px solid #262626;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    font-size: 0.85rem;
-    color: #666;
-}
-
-@media(min-width: 768px) {
-    .footer-bottom {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-}
-
-.footer-policies a {
-    color: #666;
-    text-decoration: none;
-    margin-left: 15px;
-}
-
-.footer-policies a:hover {
-    color: #e50914;
-}
-
 
 /* --- Design System Foundations --- */
         :root {
@@ -905,49 +877,7 @@
         .cta-text p { color: var(--text-gray); font-size: 0.95rem; line-height: 1.5; }
 
         /* --- Fluid Global Footer System --- */
-        footer {
-            border-top: 1px solid var(--border-color);
-            background-color: #0a0a0a;
-            padding: 60px 0 30px 0;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 40px 30px;
-            margin-bottom: 50px;
-        }
-
-        .footer-grid h4 { font-size: 0.95rem; margin-bottom: 20px; color: var(--text-white); font-weight: 600; }
-        .footer-grid a { display: block; color: var(--text-gray); font-size: 0.85rem; margin-bottom: 12px; text-decoration: none; }
-        .footer-grid a:hover { color: var(--primary-red); }
-
-        .social-icons { display: flex; gap: 12px; flex-wrap: wrap; }
-        .social-icons a {
-            background-color: #141414; border: 1px solid var(--border-color);
-            width: 42px; height: 42px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-white); text-decoration: none;
-        }
-        .social-icons a:hover { background-color: var(--primary-red); transform: scale(1.08); }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border-color);
-            padding-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-policies { display: flex; flex-wrap: wrap; gap: 20px; }
-        .footer-policies a { text-decoration: none; color: var(--text-gray); }
-        .footer-policies a:hover { color: var(--text-white); }
-
-
+        
         /* --- HOTSTAR STYLE MOBILE BOTTOM NAVIGATION BAR BAR --- */
         .hotstar-bottom-nav {
             position: fixed;

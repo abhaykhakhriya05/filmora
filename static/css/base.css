@@ -4,8 +4,16 @@
     --card-border: #262626;
     --nav-bg: rgba(20, 20, 20, 0.95);
 }
-
-
+.footer-bottom 
+{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #999;
+}
+.footer-bottom p {
+    font-size: 0.8rem;
+}
 
 
 

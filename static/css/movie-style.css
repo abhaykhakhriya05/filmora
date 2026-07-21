@@ -492,60 +492,6 @@ body {
 }
 
 /* --- FOOTER LINK BLOCKS --- */
-footer {
-    background-color: #0f0f0f;
-    padding: 40px 5%;
-    border-top: 1px solid #262626;
-}
-
-.footer-grid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.footer-column {
-    flex: 1;
-    min-width: 160px;
-}
-
-.footer-grid h4 {
-    margin-bottom: 12px;
-    color: #fff;
-}
-
-.footer-grid a {
-    display: block;
-    color: #999;
-    text-decoration: none;
-    margin-bottom: 8px;
-    font-size: 0.85rem;
-}
-
-.footer-grid a:hover {
-    color: #e50914;
-}
-
-.social-icons {
-    display: flex;
-    gap: 10px;
-}
-
-.social-icons a {
-    background-color: #1a1a1a;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: white;
-    border: 1px solid #262626;
-    text-decoration: none;
-}
 
 /* --- HOTSTAR MOBILE NAV LAYOUT --- */
 .hotstar-bottom-nav {
