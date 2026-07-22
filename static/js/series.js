@@ -20,11 +20,34 @@ document.querySelectorAll('.row-section').forEach(section => {
 
 // 3. BACKGROUND HERO INTERFACE CAROUSEL
 const slides = document.querySelectorAll('.hero-slide');
-const dots = document.querySelectorAll('.carousel-dots .dot');
+const dotsContainer = document.querySelector('#hero-carousel-dots');
 let activeIndex = 0;
 
+slides.forEach((slide, index) => {
+    if (!dotsContainer) return;
+
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.id = `hero-dot-${index}`;
+    dot.dataset.index = index;
+
+    if (slide.classList.contains('active')) {
+        dot.classList.add('active');
+        activeIndex = index;
+    }
+
+    dotsContainer.appendChild(dot);
+});
+
+const dots = document.querySelectorAll('.carousel-dots .dot');
+
+if (slides.length > 0 && !slides[activeIndex].classList.contains('active')) {
+    slides[activeIndex].classList.add('active');
+    dots[activeIndex]?.classList.add('active');
+}
+
 function switchHeroSlide(targetIndex) {
-    if (slides.length === 0) return;
+    if (slides.length === 0 || !dots[targetIndex]) return;
     
     // Remove active class from old elements
     slides[activeIndex].classList.remove('active');
@@ -40,13 +63,13 @@ function switchHeroSlide(targetIndex) {
 
 dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
-        const index = parseInt(e.target.getAttribute('data-index'));
+        const index = parseInt(e.target.dataset.index, 10);
         switchHeroSlide(index);
     });
 });
 
 // Auto-play timer loop
-if (slides.length > 0) {
+if (slides.length > 0 && dots.length > 0) {
     setInterval(() => {
         let next = (activeIndex + 1) % slides.length;
         switchHeroSlide(next);
