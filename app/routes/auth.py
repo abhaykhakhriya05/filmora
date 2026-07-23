@@ -1,0 +1,78 @@
+from flask import Blueprint , render_template , request , redirect , url_for , session
+from app import genreted_db_connect
+from werkzeug.security import generate_password_hash , check_password_hash
+
+auth_bp = Blueprint('auth',__name__)
+
+
+@auth_bp.route("/login", methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        
+
+        connection = genreted_db_connect()
+        cursor = connection.cursor(dictionary=True)
+
+        if connection.is_connected:
+
+            cursor.execute("SELECT * FROM `users` WHERE email =  %s",(email,))
+            user = cursor.fetchone()
+
+
+            cursor.close()
+            connection.close()
+
+            if user and check_password_hash(user['password'],password) :
+                session['email'] = user[3]
+                session['loggedin'] = True
+
+                return redirect(url_for('auth.register'))
+            else : 
+                return "in vaild email,password"
+        
+        else :
+            return 'not connect'
+    return render_template('login.html')
+
+
+@auth_bp.route("/register", methods=['GET','POST'])
+def register():
+    if request.method == 'POST' :
+        firstName = request.form.get('firstName')
+        lastName = request.form.get('lastName')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        hash_password = generate_password_hash(password)
+
+        connction = genreted_db_connect()
+        cursour = connction.cursor()
+
+        if connction.is_connected():
+            cursour.execute('SELECT * FROM users WHERE email = %s', (email,))
+            accounts = cursour.fetchone()
+
+            if accounts :
+                connction.close()
+                cursour.close()
+                return redirect(url_for('auth.login'))
+            else:
+                insert_qurey = '''
+                    INSERT INTO users(firstName,lastName,email,password)VALUES(%s,%s,%s,%s)
+                '''
+
+                insert_values = (firstName,lastName,email,hash_password)
+
+                cursour.execute(insert_qurey,insert_values)
+                connction.commit()
+
+                cursour.close()
+                connction.close()
+
+                return redirect(url_for('auth.login'))
+    return render_template('register.html')
+            
+            
+
+
