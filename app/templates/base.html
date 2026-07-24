@@ -1,140 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} Flimora {% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo.png') }}">
+    <link
+      rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='image/logo.png') }}"
+    />
     {% block style %} {% endblock %}
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="navbar">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="logo">
-            <a href="{{ url_for('home') }}" style="text-decoration: none; color: #ffffff;">Filmora</a>
+      <div class="logo">
+        <img
+          src="{{ url_for('static', filename='image/logo.png') }}"
+          alt="logo"
+        />
+        <a href="" style="text-decoration: none; color: #ffffff">Filmora</a>
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a
+          href="{{ url_for('home.index') }}"
+          class="{{ 'active' if active_page == 'home' else '' }}"
+          >Home</a
+        >
+        <a href="" class="">Movies</a>
+        <a href="" class="">Series</a>
+        <a href="" class="">Subscription</a>
+      </nav>
 
-        </div>
-        <nav class="nav-links" id="navLinks">
-            <a href="{{ url_for('home') }}" class="{{ 'active' if active_page == 'home' else '' }}">Home</a>
-            <a href="{{ url_for('movies') }}" class="{{ 'active' if active_page == 'movies' else '' }}">Movies</a>
-            <a href="{{ url_for('series') }}" class="{{ 'active' if active_page == 'series' else '' }}">Series</a>
-            <a href="{{ url_for('subscription') }}"
-                class="{{ 'active' if active_page == 'subscription' else '' }}">Subscription</a>
-        </nav>
+      <div class="nav-actions">
+        <button class="search-btn" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
 
-        <div class="nav-actions">
-            <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-
-
-            <!-- Auth Container (Placed right next to the bell button) -->
-            <div class="auth-container logged-out" id="authWrapper">
-                <!-- State 1: User is NOT logged in -->
-                <button class="login-btn" id="loginBtn" onclick="login()">Log In</button>
-
-                <button class="login-btn" id="signupBtn" onclick="signup()">Sign Up</button>
-
-                <!-- State 2: User IS logged in -->
-                <div class="profile-dropdown" id="profileDropdown">
-                    <button class="profile-trigger-btn" aria-label="User Profile" type="button">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile" class="avatar-img">
-                    </button>
-                    <!-- Hidden dropdown menu contents -->
-                    <div class="dropdown-menu">
-                        <div class="dropdown-header">
-                            <p class="user-name">Abhay Khakhriya</p>
-                            <p class="user-email">bca.student@example.com</p>
-                        </div>
-                        <hr class="dropdown-divider">
-                        <a href="profile.html" class="dropdown-item"><i class="fa-regular fa-user"></i> Account</a>
-                        <a href="setting.html" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
-                        <hr class="dropdown-divider">
-                        <button class="dropdown-item logout-action" id="logoutBtn"><i
-                                class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</button>
-                    </div>
-                </div>
+        {% set is_logged_in = session.get('email') and session.get('firstName') %}
+        <div class="auth-container {{ 'logged-in' if is_logged_in else 'logged-out' }}" id="authWrapper">
+          {% if is_logged_in %}
+          <div class="profile-dropdown" id="profileDropdown">
+            <button
+              class="profile-trigger-btn"
+              aria-label="User Profile"
+              type="button"
+            >
+              <img
+                src="{{url_for('static', filename='image/logo.png' ) }}"
+                alt="Profile"
+                class="avatar-img"
+              />
+            </button>
+            <!-- Hidden dropdown menu contents -->
+            <div class="dropdown-menu">
+              <div class="dropdown-header">
+                <p class="user-name">{{session['firstName'] + ' ' + session['lastName']}}</p>
+                <p class="user-email">{{session['email']}}</p>
+              </div>
+              <hr class="dropdown-divider" />
+              <a href="" class="dropdown-item"
+                ><i class="fa-regular fa-user"></i> Account</a
+              >
+              <a href="" class="dropdown-item"
+                ><i class="fa-solid fa-gear"></i> Settings</a
+              >
+              <hr class="dropdown-divider" />
+              <button class="dropdown-item logout-action" id="logoutBtn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+              </button>
             </div>
+          </div>
+
+          {% else %}
+          <button class="login-btn" id="loginBtn" onclick="login()">
+            Log In
+          </button>
+
+          <button class="login-btn" id="signupBtn" onclick="signup()">
+            Sign Up
+          </button>
+          {% endif %}
         </div>
+      </div>
     </header>
 
     <nav class="hotstar-bottom-nav">
-        <a href="{{ url_for('home') }}" class="bottom-nav-link active">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-        </a>
-        <a href="{{ url_for('movies') }}" class="bottom-nav-link ">
-            <i class="fa-solid fa-film"></i>
-            <span>Movies</span>
-        </a>
-        <a href="{{ url_for('series') }}" class="bottom-nav-link">
-            <i class="fa-solid fa-headset"></i>
-            <span>Series</span>
-        </a>
-        <a href="{{ url_for('subscription') }}" class="bottom-nav-link">
-            <i class="fa-solid fa-gem"></i>
-            <span>Premium</span>
-        </a>
+      <a href="" class="bottom-nav-link active">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </a>
+      <a href="" class="bottom-nav-link">
+        <i class="fa-solid fa-film"></i>
+        <span>Movies</span>
+      </a>
+      <a href="" class="bottom-nav-link">
+        <i class="fa-solid fa-headset"></i>
+        <span>Series</span>
+      </a>
+      <a href="" class="bottom-nav-link">
+        <i class="fa-solid fa-gem"></i>
+        <span>Premium</span>
+      </a>
     </nav>
 
-
-    {% block content %}
-    {% endblock %}
-
+    {% block content %} {% endblock %}
 
     <footer>
-        <div class="footer-grid">
-            <div>
-                <h4>Home</h4>
-                <a href="{{ url_for('home') }}#categories">Categories</a><a
-                    href="{{ url_for('home') }}#must-watch">Must-Watch</a><a
-                    href="{{ url_for('subscription') }}">Pricing</a><a href="{{ url_for('faq') }}">FAQ</a>
-            </div>
-            <div>
-                <h4>Movies</h4>
-                <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
-            </div>
-            <div>
-                <h4>Shows</h4>
-                <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
-            </div>
-            <div>
-                <h4>Support</h4>
-                <a href="contact_us.html">Contact Us</a><a href="privacy_policy.html">Privacy Policy</a>
-            </div>
-            <div>
-                <h4>Connect With Us</h4>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/abhay_khakhriya?igsh=MWM5aGwwNjJ1ejM2Mw=="
-                        aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="https://www.linkedin.com/in/abhay-khakhriya-b0743a323?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-                        aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 filmora. All Rights Reserved</p>
-            </div>  
+      <div class="footer-grid">
+        <div>
+          <h4>Home</h4>
+          <a href="#categories">Categories</a
+          ><a href="#must-watch">Must-Watch</a><a href="">Pricing</a
+          ><a href="">FAQ</a>
         </div>
+        <div>
+          <h4>Movies</h4>
+          <a href="#">Genres</a><a href="#">Trending</a
+          ><a href="#">New Release</a><a href="#">Popular</a>
+        </div>
+        <div>
+          <h4>Shows</h4>
+          <a href="#">Genres</a><a href="#">Trending</a
+          ><a href="#">New Release</a><a href="#">Popular</a>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <a href="contact_us.html">Contact Us</a
+          ><a href="privacy_policy.html">Privacy Policy</a>
+        </div>
+        <div>
+          <h4>Connect With Us</h4>
+          <div class="social-icons">
+            <a
+              href="https://www.instagram.com/abhay_khakhriya?igsh=MWM5aGwwNjJ1ejM2Mw=="
+              aria-label="Instagram"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a href="" aria-label="Twitter"
+              ><i class="fa-brands fa-twitter"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/abhay-khakhriya-b0743a323?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              aria-label="LinkedIn"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 filmora. All Rights Reserved</p>
+        </div>
+      </div>
     </footer>
 
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const authWrapper = document.getElementById("authWrapper");
+        const loginBtn = document.getElementById("loginBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
 
-        function login() {
-           window.location.href = "/login";
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", function () {
+            window.location.href = "{{ url_for('auth.logout') }}";
+          });
         }
+      });
 
-        function signup() {
-            window.location.href = "/signup";
-        }
+      function login() {
+        window.location.href = "{{ url_for('auth.login') }}";
+      }
+
+      function signup() {
+        window.location.href = "{{ url_for('auth.register') }}";
+      }
     </script>
 
-    {% block script %}
-    {% endblock %}
-
-
-</body>
-
+    {% block script %} {% endblock %}
+  </body>
 </html>

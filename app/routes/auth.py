@@ -1,4 +1,4 @@
-from flask import Blueprint , render_template , request , redirect , url_for , session
+from flask import Blueprint , render_template , request , redirect , url_for , session ,Response
 from app import genreted_db_connect
 from werkzeug.security import generate_password_hash , check_password_hash
 
@@ -24,17 +24,27 @@ def login():
             cursor.close()
             connection.close()
 
+
             if user and check_password_hash(user['password'],password) :
-                session['email'] = user[3]
+                session['id'] = user['id'] 
+                session['firstName'] = user['firstName']
+                session['lastName'] = user['lastName']
+                session['email'] = user['email']
                 session['loggedin'] = True
 
-                return redirect(url_for('auth.register'))
+                return redirect(url_for('home.index'))
             else : 
                 return "in vaild email,password"
         
         else :
             return 'not connect'
     return render_template('login.html')
+
+
+@auth_bp.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('home.index'))
 
 
 @auth_bp.route("/register", methods=['GET','POST'])

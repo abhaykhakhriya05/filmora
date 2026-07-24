@@ -20,6 +20,8 @@ def create_app():
     app.config['SECRET_KEY'] = 'your-secret-key'
 
     from app.routes.auth import auth_bp
+    from app.routes.home import home_bp
     app.register_blueprint(auth_bp)
+    app.register_blueprint(home_bp)
 
     return app
