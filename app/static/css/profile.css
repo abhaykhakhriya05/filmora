@@ -1,0 +1,548 @@
+body {
+    background:
+        radial-gradient(circle at top right, rgba(229, 9, 20, 0.18), transparent 28rem),
+        linear-gradient(180deg, #181818 0%, #101010 100%);
+}
+
+.profile-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 16px 92px;
+}
+
+.profile-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 22px;
+}
+
+.profile-intro,
+.profile-card,
+.content-card,
+.reference-card {
+    background: rgba(22, 22, 22, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 8px;
+}
+
+.profile-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 260px;
+    padding: clamp(22px, 5vw, 42px);
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-intro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.18)),
+        url("/static/image/Avengers_Endgame.jpg") center/cover;
+    opacity: 0.42;
+}
+
+.profile-intro>* {
+    position: relative;
+}
+
+.profile-intro h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.profile-intro p {
+    color: #d2d2d2;
+    line-height: 1.6;
+    max-width: 650px;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 22px;
+}
+
+.avatar-panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-panel img {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background: #242424;
+    border: 2px solid rgba(229, 9, 20, 0.5);
+}
+
+.avatar-panel h2 {
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}
+
+.avatar-panel span,
+.muted-text {
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.member-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    background: var(--primary-red);
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.profile-btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: #2a2a2a;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border: 0;
+}
+
+.profile-btn-link.primary {
+    background: var(--primary-red);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.content-card {
+    padding: 20px;
+}
+
+.content-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+}
+
+.content-card h2 i {
+    color: var(--primary-red);
+}
+
+.info-list {
+    display: grid;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-row:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.info-row strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.info-row span,
+.info-row small {
+    color: #9f9f9f;
+    line-height: 1.4;
+}
+
+.status-pill {
+    color: #ffffff;
+    background: #292929;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 7px 12px;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.status-pill.primary {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+.watch-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.stat-box {
+    background: #1d1d1d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.stat-box strong {
+    display: block;
+    font-size: 1.55rem;
+    margin-bottom: 5px;
+}
+
+.stat-box span {
+    color: #a7a7a7;
+    font-size: 0.88rem;
+}
+
+.section-note {
+    color: #a7a7a7;
+    line-height: 1.5;
+    margin: -6px 0 16px;
+}
+
+.continue-list,
+.watchlist-grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x proximity;
+}
+
+.continue-list::-webkit-scrollbar,
+.watchlist-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.continue-list::-webkit-scrollbar-track,
+.watchlist-grid::-webkit-scrollbar-track {
+    background: #191919;
+    border-radius: 999px;
+}
+
+.continue-list::-webkit-scrollbar-thumb,
+.watchlist-grid::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 999px;
+}
+
+.continue-item,
+.watchlist-item {
+    flex: 0 0 min(360px, 86vw);
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    background: #1d1d1d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px;
+    scroll-snap-align: start;
+}
+
+.continue-item img,
+.watchlist-item img {
+    width: 96px;
+    height: 132px;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+    background: #242424;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.continue-item h3,
+.watchlist-item h3 {
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+}
+
+.continue-item p,
+.watchlist-item span,
+.device-row span,
+.preference-tag span {
+    color: #a7a7a7;
+    font-size: 0.86rem;
+    line-height: 1.4;
+}
+
+.progress-track {
+    height: 5px;
+    overflow: hidden;
+    background: #333;
+    border-radius: 999px;
+    margin: 12px 0 8px;
+}
+
+.progress-fill {
+    display: block;
+    height: 100%;
+    background: var(--primary-red);
+    border-radius: inherit;
+}
+
+.watchlist-item {
+    transform: translateY(0);
+    transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.watchlist-item:hover {
+    transform: translateY(-6px);
+    background: #242424;
+    border-color: rgba(229, 9, 20, 0.55);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.28);
+}
+
+.watchlist-poster {
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #242424;
+}
+
+.watchlist-item:hover img {
+    transform: scale(1.07);
+    filter: brightness(0.72);
+}
+
+.watchlist-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: #ffffff;
+    background: var(--primary-red);
+    border-radius: 50%;
+    opacity: 0;
+    transform: translate(-50%, -42%) scale(0.9);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.watchlist-item:hover .watchlist-play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.watchlist-item h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.watchlist-meta {
+    min-width: 0;
+}
+
+.device-list,
+.preference-list {
+    display: grid;
+    gap: 12px;
+}
+
+.device-row,
+.preference-tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px;
+    background: #1d1d1d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+.device-row strong,
+.preference-tag strong {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.device-row i,
+.preference-tag i {
+    color: var(--primary-red);
+}
+
+.reference-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+}
+
+.reference-card {
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    color: #fff;
+    text-decoration: none;
+    padding: 16px;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.reference-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(229, 9, 20, 0.55);
+    background: #242424;
+}
+
+.reference-card i {
+    color: var(--primary-red);
+    font-size: 1.3rem;
+}
+
+.reference-card strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.reference-card span {
+    color: #aaa;
+    font-size: 0.86rem;
+    line-height: 1.4;
+}
+
+.wide-card {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 820px) {
+
+    .continue-item,
+    .watchlist-item {
+        flex-basis: min(330px, 82vw);
+    }
+}
+
+@media (max-width: 920px) {
+
+    .profile-hero,
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 620px) {
+    .profile-shell {
+        padding: 18px 12px 88px;
+    }
+
+    .profile-intro {
+        min-height: 220px;
+    }
+
+    .avatar-panel,
+    .info-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-actions a,
+    .profile-actions button {
+        width: 100%;
+    }
+
+    .watch-stats,
+    .reference-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .continue-item,
+    .watchlist-item {
+        grid-template-columns: 76px minmax(0, 1fr);
+    }
+
+    .continue-item img,
+    .watchlist-item img {
+        width: 76px;
+        height: 104px;
+    }
+
+    .device-row,
+    .preference-tag {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 420px) {
+    .profile-shell {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .profile-intro,
+    .profile-card,
+    .content-card {
+        padding: 16px;
+    }
+
+    .profile-intro h1 {
+        font-size: 2rem;
+    }
+
+    .continue-item,
+    .watchlist-item {
+        grid-template-columns: 64px minmax(0, 1fr);
+        gap: 10px;
+        padding: 8px;
+        flex-basis: min(300px, 88vw);
+    }
+
+    .continue-item img,
+    .watchlist-item img {
+        width: 64px;
+        height: 92px;
+    }
+
+    .watchlist-item {
+        padding: 8px;
+    }
+
+    .watchlist-item h3 {
+        font-size: 0.9rem;
+    }
+}

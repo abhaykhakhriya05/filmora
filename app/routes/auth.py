@@ -44,6 +44,7 @@ def login():
 @auth_bp.route("/logout")
 def logout():
     session.clear()
+    session['loggedin'] = False
     return redirect(url_for('home.index'))
 
 
@@ -82,6 +83,17 @@ def register():
 
                 return redirect(url_for('auth.login'))
     return render_template('register.html')
+
+
+
+@auth_bp.route('/profile')
+def profile():
+    
+    if 'email' not in session :
+        return redirect(url_for('auth.login'))
+    
+    return render_template('profile.html')
+        
             
             
 

@@ -44,7 +44,7 @@
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
-        {% set is_logged_in = session.get('email') and session.get('firstName') %}
+        {% set is_logged_in = session.get('loggedin')  %}
         <div class="auth-container {{ 'logged-in' if is_logged_in else 'logged-out' }}" id="authWrapper">
           {% if is_logged_in %}
           <div class="profile-dropdown" id="profileDropdown">
@@ -66,7 +66,7 @@
                 <p class="user-email">{{session['email']}}</p>
               </div>
               <hr class="dropdown-divider" />
-              <a href="" class="dropdown-item"
+              <a href="{{url_for('auth.profile')}}" class="dropdown-item"
                 ><i class="fa-regular fa-user"></i> Account</a
               >
               <a href="" class="dropdown-item"
