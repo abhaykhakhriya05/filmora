@@ -7,36 +7,58 @@ auth_bp = Blueprint('auth',__name__)
 
 @auth_bp.route("/login", methods=['GET','POST'])
 def login():
+    
     if request.method == 'POST':
+        
         email = request.form.get('email')
         password = request.form.get('password')
         
 
         connection = genreted_db_connect()
         cursor = connection.cursor(dictionary=True)
+        
+        
 
         if connection.is_connected:
-
-            cursor.execute("SELECT * FROM `users` WHERE email =  %s",(email,))
-            user = cursor.fetchone()
-
-
+            
+            cursor.execute("SELECT * FROM `admin_dashboard` WHERE email =  %s",(email,))
+            admin_user = cursor.fetchone()
+            
             cursor.close()
             connection.close()
+            
+            if admin_user and password == admin_user['password'] :
+                # session["admin_email"] = admin_user['email']
+                # session["admin_id"] = admin_user['admin_id']
+                # session['admin_login'] = True
+                # return redirect(url_for('admin.dashboard'))
+                return '''
+                        <h1>{admin_user['email']}<h1>
+                    '''
+            
+            
 
-
-            if user and check_password_hash(user['password'],password) :
-                session['id'] = user['id'] 
-                session['firstName'] = user['firstName']
-                session['lastName'] = user['lastName']
-                session['email'] = user['email']
-                session['loggedin'] = True
-                session['subscribed'] = user['subscribed']
-
-                return redirect(url_for('home.index'))
             else : 
-                return "in vaild email,password"
-        
+                cursor.execute("SELECT * FROM `users` WHERE email =  %s",(email,))
+                user = cursor.fetchone()
+
+
+                cursor.close()
+                connection.close()
+
+
+                if user and check_password_hash(user['password'],password) :
+                    session['id'] = user['id'] 
+                    session['firstName'] = user['firstName']
+                    session['lastName'] = user['lastName']
+                    session['email'] = user['email']
+                    session['loggedin'] = True
+                    session['subscribed'] = user['subscribed']
+
+                    return redirect(url_for('home.index'))
+                else : 
+                    return "in vaild email,password"
+            
         else :
             return 'not connect'
     return render_template('login.html')

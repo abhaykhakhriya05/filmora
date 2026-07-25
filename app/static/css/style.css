@@ -3,6 +3,7 @@
    ========================================================================== */
 :root {
     --primary-red: #e50914;
+    --dark-red: #f11212;
     --dark-bg: #141414;
     --card-border: #262626;
     --nav-bg: rgba(20, 20, 20, 0.95);
@@ -85,7 +86,7 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-red);
+    background-color: var(--dark-red);
     color: white;
 }
 
@@ -330,7 +331,7 @@ body {
     }
 
     .play-overlay-btn {
-        background-color: var(--primary-red);
+        background-color:rgba(241, 18, 18, 0.162);
         color: white;
         border: none;
         width: 40px;
@@ -341,7 +342,7 @@ body {
 
     .standard-card:hover {
         transform: translateY(-5px);
-        border-color: var(--primary-red);
+        border-color: rgba(241, 18, 18, 0.292);
     }
 
     .standard-card:hover .hover-overlay {

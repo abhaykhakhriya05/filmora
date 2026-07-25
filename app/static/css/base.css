@@ -1,5 +1,5 @@
 :root {
-    --primary-red: #e50914;
+    --primary-red: rgba(241, 18, 18, 0.13);
     --dark-bg: #141414;
     --card-border: #262626;
     --nav-bg: rgba(20, 20, 20, 0.95);
@@ -172,7 +172,7 @@ footer {
     .nav-links a.active,
     .nav-links a:hover {
         color: #ffffff;
-        background-color: #1f1f1f;
+        background-color: rgba(241, 18, 18, 0.13);
     }
 }
 
@@ -306,7 +306,7 @@ footer {
 }
 
 .login-btn:hover {
-    background-color: #b80710;
+    background-color:rgba(241, 18, 18, 0.13);
 }
 
 /* Profile Avatar Button Setup */

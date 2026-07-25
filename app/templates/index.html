@@ -75,7 +75,7 @@
 
         <section class="row-section">
             <div class="row-header">
-                <h2>Trending Now</h2>
+                <h2>Movies</h2>
                 <div class="slider-controls">
                     <button class="control-btn prev" aria-label="Scroll left"><i class="fa-solid fa-arrow-left"></i></button>
                     <button class="control-btn next" aria-label="Scroll right"><i class="fa-solid fa-arrow-right"></i></button>
@@ -83,12 +83,17 @@
             </div>
             <div class="cards-slider">
                 <div class="standard-card">
+                     <a href="{{url_for('auth.setting')}}" style="text-decoration: none;">
                     <div class="card-img-wrapper">
+                        
                         <img src="https://picsum.photos/300/450?random=50" alt="The Dark Knight">
+                       
                         <div class="hover-overlay">
                             <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
                         </div>
+                        
                     </div>
+                     </a>
                     <div class="card-content">
                         <h3>The Dark Knight</h3>
                         <div class="card-meta">
@@ -96,68 +101,9 @@
                             <span><i class="fa-solid fa-eye"></i> 4.8M</span>
                         </div>
                     </div>
+                    
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=51" alt="Inception">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Inception</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 28m</span>
-                            <span><i class="fa-solid fa-eye"></i> 3.2M</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=52" alt="Interstellar">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Interstellar</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 49m</span>
-                            <span><i class="fa-solid fa-eye"></i> 5.1M</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=53" alt="Gladiator II">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Gladiator II</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 28m</span>
-                            <span><i class="fa-solid fa-eye"></i> 2.9M</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=54" alt="Dune: Part Two">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Dune: Part Two</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 46m</span>
-                            <span><i class="fa-solid fa-eye"></i> 4.2M</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+               
         </section>
 
         <section class="row-section" id="must-watch">
