@@ -66,10 +66,10 @@
                 <p class="user-email">{{session['email']}}</p>
               </div>
               <hr class="dropdown-divider" />
-              <a href="{{url_for('auth.profile')}}" class="dropdown-item"
+              <a href="{{url_for('auth.profile', user_id = session['id'])}}" class="dropdown-item"
                 ><i class="fa-regular fa-user"></i> Account</a
               >
-              <a href="" class="dropdown-item"
+              <a href="{{url_for('auth.setting' )}}" class="dropdown-item"
                 ><i class="fa-solid fa-gear"></i> Settings</a
               >
               <hr class="dropdown-divider" />

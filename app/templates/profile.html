@@ -16,20 +16,34 @@
 {% block content %}
 
 <main class="profile-shell">
+    {% set is_logged_in = session.get('loggedin') %}
+    {% set image_url = session.get('dp')%}
+    {% set isSubscribed = session.get('subscribed')%}
+    {% if is_logged_in %}
     <section class="profile-hero">
         <div class="profile-intro">
+            {% if isSubscribed == 'free' %}
+
+            {% else %}
             <span class="member-badge"><i class="fa-solid fa-crown"></i> Premium Profile</span>
-            <h1>Abhay Khakhriya</h1>
+            {% endif %}
+            <h1>{{ session['firstName']}}</h1>
             <p>Manage account details, continue watching, and jump quickly to the important Filmora pages from one
                 responsive profile dashboard.</p>
         </div>
 
         <aside class="profile-card">
             <div class="avatar-panel">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile avatar">
+                
+                {% if image_url == '' %}
+                <img src="{{session['dp']}}" alt="Profile avatar">
+                {% else %}
+                <img src="{{url_for('static',filename = 'image/logo.png')}}" alt="Profile avatar">
+                {% endif %}
+
                 <div>
-                    <h2>Abhay </h2>
-                    <span>bca.student@example.com</span>
+                    <h2>{{ session['firstName'] + session['lastName'] }}</h2>
+                    <span>{{session['email']}}</span>
                 </div>
             </div>
             <p class="muted-text">Premium member with HD streaming, watchlist sync, and personalized recommendations
@@ -41,43 +55,10 @@
             </div>
         </aside>
     </section>
+    {% endif %}
 
     <section class="profile-grid">
-        <article class="content-card">
-            <h2><i class="fa-regular fa-user"></i> Account Details</h2>
-            <div class="info-list">
-                <div class="info-row">
-                    <div>
-                        <strong>Display name</strong>
-                        <span>Abhay Khakhriya</span>
-                    </div>
-                    <span class="status-pill">Editable</span>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <strong>Email address</strong>
-                        <span>bca.student@example.com</span>
-                    </div>
-                    <span class="status-pill primary">Verified</span>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <strong>Subscription</strong>
-                        <span>Premium Plan</span>
-                    </div>
-                    <span class="status-pill primary">Active</span>
-                </div>
-                <div class="info-row">
-                    <div>
-                        <strong>Default quality</strong>
-                        <span>Auto HD on supported devices</span>
-                    </div>
-                    <span class="status-pill">Auto</span>
-                </div>
-            </div>
-        </article>
-
-        <article class="content-card">
+        <article class="content-card wide-card">
             <h2><i class="fa-solid fa-chart-simple"></i> Watch Summary</h2>
             <div class="watch-stats">
                 <div class="stat-box">
@@ -289,6 +270,9 @@
                         <span>Review privacy details.</span>
                     </div>
                 </a>
+                 {% if is_logged_in %}
+
+                 {% else %}
                 <a class="reference-card" href="login.html">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <div>
@@ -303,6 +287,7 @@
                         <span>Create an account.</span>
                     </div>
                 </a>
+                {% endif %}
             </div>
         </article>
     </section>

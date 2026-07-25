@@ -8,7 +8,6 @@ home_bp = Blueprint('home',__name__)
 def index():
 
    
-
     return render_template('index.html',active_page = 'home')
 
 

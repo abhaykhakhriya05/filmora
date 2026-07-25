@@ -5,14 +5,14 @@ body {
 }
 
 .profile-shell {
-    max-width: 1180px;
+    max-width: 1220px;
     margin: 0 auto;
     padding: 28px 16px 92px;
 }
 
 .profile-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     gap: 22px;
     align-items: stretch;
     margin-bottom: 22px;
@@ -43,7 +43,7 @@ body {
     inset: 0;
     background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.18)),
-        url("/static/image/Avengers_Endgame.jpg") center/cover;
+         center/cover;
     opacity: 0.42;
 }
 
@@ -60,7 +60,7 @@ body {
 .profile-intro p {
     color: #d2d2d2;
     line-height: 1.6;
-    max-width: 650px;
+    max-width: 500px;
 }
 
 .profile-card {
@@ -69,6 +69,7 @@ body {
     justify-content: space-between;
     gap: 18px;
     padding: 22px;
+    width: 100%;
 }
 
 .avatar-panel {

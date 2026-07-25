@@ -31,6 +31,7 @@ def login():
                 session['lastName'] = user['lastName']
                 session['email'] = user['email']
                 session['loggedin'] = True
+                session['subscribed'] = user['subscribed']
 
                 return redirect(url_for('home.index'))
             else : 
@@ -86,13 +87,19 @@ def register():
 
 
 
-@auth_bp.route('/profile')
-def profile():
+@auth_bp.route('/profile/<int:user_id>')
+def profile(user_id):
     
     if 'email' not in session :
         return redirect(url_for('auth.login'))
     
     return render_template('profile.html')
+
+
+@auth_bp.route('/setting')
+def setting():
+    
+    return render_template('setting.html')
         
             
             
