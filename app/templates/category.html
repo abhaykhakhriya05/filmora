@@ -10,6 +10,14 @@
 
 {% block content %}
 <main class="admin-main category-page">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="category-alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <section class="admin-panel category-list-panel">
         <div class="admin-panel-header category-list-header">
             <div>
@@ -105,36 +113,36 @@
             </button>
         </header>
 
-        <form class="category-form" id="categoryForm">
+        <form class="category-form" id="categoryForm" action="{{url_for('admin.Categories')}}" method="post" enctype="multipart/form-data">
             <fieldset class="category-form-section">
                 <legend>Category</legend>
                 <div class="category-form-grid two">
                     <label>Category Name <b>*</b>
-                        <input type="text" id="categoryName" placeholder="Enter category name" required>
+                        <input type="text" name="Cname" id="categoryName" placeholder="Enter category name" required>
                     </label>
                     <label>Slug
-                        <input type="text" id="categorySlug" placeholder="category-slug">
+                        <input type="text" name='Cslug' id="categorySlug" placeholder="category-slug">
                     </label>
                 </div>
                 <label>Description
-                    <textarea id="categoryDescription" rows="4" placeholder="Description"></textarea>
+                    <textarea name='Cdescription' id="categoryDescription" rows="4" placeholder="Description"></textarea>
                 </label>
                 <div class="category-form-grid four">
                     <label>Type
-                        <select id="categoryType">
+                        <select id="categoryType" name="Ctype">
                             <option>Movies & Series</option>
                             <option>Movies</option>
                             <option>Series</option>
                         </select>
                     </label>
                     <label>Display Order
-                        <input type="number" id="categoryOrder" min="1" value="1">
+                        <input type="number" name='Cdisplay' id="categoryOrder" min="1" value="1">
                     </label>
                     <label>Items
-                        <input type="number" id="categoryItems" min="0" value="0">
+                        <input type="number" name='Citems' id="categoryItems" min="0" value="0">
                     </label>
                     <label>Status
-                        <select id="categoryStatus">
+                        <select name='Cstatus' id="categoryStatus">
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="featured">Featured</option>
@@ -143,7 +151,7 @@
                 </div>
                 <div class="category-form-grid two">
                     <label>Icon
-                        <select id="categoryIcon">
+                        <select name='Cicon' id="categoryIcon">
                             <option value="fa-layer-group">Default</option>
                             <option value="fa-bolt">Action</option>
                             <option value="fa-masks-theater">Drama</option>
@@ -153,16 +161,17 @@
                         </select>
                     </label>
                     <label>Thumbnail
-                        <input type="file" accept="image/*">
+                        <input name="Cfile" type="file" accept="image/*">
                     </label>
                 </div>
             </fieldset>
 
             <footer class="category-modal-footer">
-                <button class="category-save-btn" type="submit">
+                <input type="submit" class="category-save-btn fa-solid fa-floppy-disk" value="Save">
+                <!-- <button class="category-save-btn" type="submit">
                     <i class="fa-solid fa-floppy-disk"></i>
                     Save
-                </button>
+                </button>-->
                 <button class="category-close-btn" type="button" data-close-category-modal>
                     <i class="fa-solid fa-angles-left"></i>
                     Close

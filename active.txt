@@ -7,3 +7,38 @@
 {% if active_page == 'show_series' %}active{% endif %}
 {% if active_page == 'seasons' %}active{% endif %}
 {% if active_page == 'episodes' %}active{% endif %}
+
+
+
+           
+            
+           
+               
+            
+                if categories :
+                    connction.close()
+                    cursour.close()
+                    return "data Copy"
+                else :
+                    # store file name 
+                    filename = secure_filename(Cfile.filename)
+                    # save file
+                    Cfile.save('/app/static/image',filename)
+                    # insert categoris database
+                    Cqurey = '''INSERT INTO `category`(`category_name`, `slug`, `category_description`, `category_type`, `category_display`, `tems`, `category_status`, `category_Icon`, `category_thumbnail`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
+                    Cvalue = (Cname,Cslug,Cdescription,Ctype,Cdisplay,Citems,Cstatus,Cicon,Cfile.filename)
+                    cursour.execute(Cqurey,Cvalue)
+                    connction.commit()
+                    
+                    connction.close()
+                    cursour.close()
+                    return 'succe'
+            else :
+                return 'Database Not Conncted'
+
+
+
+
+            
+            
+            

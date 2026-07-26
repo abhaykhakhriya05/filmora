@@ -113,41 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (categoryForm && categoryTableBody) {
+    if (categoryForm) {
         categoryForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const name = categoryName.value.trim();
-            const slug = categorySlug.value.trim() || slugify(name);
-            const description = document.getElementById("categoryDescription").value.trim() || "New category";
-            const type = document.getElementById("categoryType").value;
-            const order = document.getElementById("categoryOrder").value || "1";
-            const items = document.getElementById("categoryItems").value || "0";
-            const status = document.getElementById("categoryStatus").value;
-            const icon = document.getElementById("categoryIcon").value;
-            const statusClass = status === "inactive" ? "" : "active";
+            const name = categoryName?.value.trim();
 
             if (!name) {
+                event.preventDefault();
                 alert("Please enter category name.");
-                return;
             }
-
-            categoryTableBody.insertAdjacentHTML("beforeend", `
-                <tr data-category-row data-category-status="${escapeHTML(status)}">
-                    <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
-                    <td><span class="category-thumb"><i class="fa-solid ${escapeHTML(icon)}"></i></span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(description)}</small></div></td>
-                    <td>${escapeHTML(slug)}</td>
-                    <td>${escapeHTML(type)}</td>
-                    <td>${escapeHTML(items)}</td>
-                    <td>${escapeHTML(order)}</td>
-                    <td><span class="category-switch ${statusClass}"></span></td>
-                    <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                </tr>
-            `);
-
-            categoryForm.reset();
-            closeCategoryModal();
-            updateCategoryRows();
         });
     }
 
