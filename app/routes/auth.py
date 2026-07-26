@@ -24,20 +24,15 @@ def login():
             cursor.execute("SELECT * FROM `admin_dashboard` WHERE email =  %s",(email,))
             admin_user = cursor.fetchone()
             
-            cursor.close()
-            connection.close()
+            
             
             if admin_user and password == admin_user['password'] :
-                # session["admin_email"] = admin_user['email']
-                # session["admin_id"] = admin_user['admin_id']
-                # session['admin_login'] = True
-                # return redirect(url_for('admin.dashboard'))
-                return '''
-                        <h1>{admin_user['email']}<h1>
-                    '''
+                session["admin_email"] = admin_user['email']
+                session["admin_id"] = admin_user['admin_id']
+                session['admin_login'] = True
+                return redirect(url_for('admin.dashboard'))
+               
             
-            
-
             else : 
                 cursor.execute("SELECT * FROM `users` WHERE email =  %s",(email,))
                 user = cursor.fetchone()

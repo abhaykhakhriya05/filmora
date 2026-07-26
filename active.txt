@@ -1,9 +1,9 @@
-{% if active_page == 'dashboard' %}active{% endif %}
+
 {% if active_page == 'ratings' %}active{% endif %}
 {% if active_page == 'comments' %}active{% endif %}
 {% if active_page == 'users' %}active{% endif %}
  {% if active_page == 'movie_list' %}active{% endif %}
-{% if active_page == 'category' %}active{% endif %}
+
 {% if active_page == 'show_series' %}active{% endif %}
 {% if active_page == 'seasons' %}active{% endif %}
 {% if active_page == 'episodes' %}active{% endif %}
