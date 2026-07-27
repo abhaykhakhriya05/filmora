@@ -18,64 +18,39 @@ def dashboard():
     return render_template('admin_dashboard.html',active_page = 'dashboard')
 
 # Categories page
-@admin_bp.route('/Categories',methods=['GET','POST'])
+@admin_bp.route('/Categories')
 def Categories():
-        if 'admin_email' not in session:
-            return redirect(url_for('auth.login'))
-        
-        if request.method == 'POST':
-            Cname = request.form.get('Cname', '').strip()
-            Cslug = request.form.get('Cslug', '').strip()
-            Cdescription = request.form.get('Cdescription', '').strip()
-            Ctype = request.form.get('Ctype', '')
-            Cdisplay = request.form.get('Cdisplay', '')
-            Citems = request.form.get('Citems', '')
-            Cstatus = request.form.get('Cstatus', '')
-            Cicon = request.form.get('Cicon', '')
-            Cfile = request.files.get('Cfile')
-            
-            if not Cname:
-                flash('Category name is required.', 'danger')
-                return redirect(url_for('admin.show_category'))
-
-            connction = genreted_db_connect()
-            cursour = connction.cursor(dictionary=True)
-
-            if not connction.is_connected():
-                cursour.close()
-                connction.close()
-                flash('Database connection failed.', 'danger')
-                return redirect(url_for('admin.show_category'))
-
-            cursour.execute("SELECT * FROM `category` WHERE category_name = %s", (Cname,))
-            categories = cursour.fetchone()
-
-            if categories:
-                cursour.close()
-                connction.close()
-                flash('Category already exists.', 'warning')
-                return redirect(url_for('admin.show_category'))
-
-            uploaded_file = None
-            if Cfile and Cfile.filename:
-                filename = secure_filename(Cfile.filename)
-                if filename:
-                    os.makedirs(FILE_PATH, exist_ok=True)
-                    save_path = os.path.join(FILE_PATH, filename)
-                    Cfile.save(save_path)
-                    uploaded_file = filename
-
-            Cqurey = '''INSERT INTO `category`(`category_name`, `slug`, `category_description`, `category_type`, `category_display`, `tems`, `category_status`, `category_Icon`, `category_thumbnail`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
-            Cvalue = (Cname, Cslug, Cdescription, Ctype, Cdisplay, Citems, Cstatus, Cicon, uploaded_file)
-            cursour.execute(Cqurey, Cvalue)
-            connction.commit()
-            cursour.close()
-            connction.close()
-
-            flash('Category saved successfully.', 'success')
-            return redirect(url_for('admin.show_category'))
-
-        
-@admin_bp.route('/show_category')
-def show_category():
+    
+    if 'admin_login' not in session :
+        return redirect(url_for('auth.login'))
+    
     return render_template('category.html',active_page = 'category')
+    
+        
+        
+@admin_bp.route('/send_category',methods=['GET','POST'])
+def send_category():
+    
+    if request.method == 'POST':
+        
+         Cname = request.form.get('Cname', '').strip()
+         Cslug = request.form.get('Cslug', '').strip()
+         Cdescription = request.form.get('Cdescription', '').strip()
+         Ctype = request.form.get('Ctype', '')
+         Cdisplay = request.form.get('Cdisplay', '')
+         Citems = request.form.get('Citems', '')
+         Cstatus = request.form.get('Cstatus', '')
+         Cicon = request.form.get('Cicon', '')
+         Cfile = request.files.get('Cfile')
+         
+         if not Cname :
+             flash("Image File Is reqvried")
+             return(redirect(url_for('admin.Categories')))
+         
+         connction = genreted_db_connect()
+         cursor = connction.cursor()
+         
+         if connction.is_connected():
+             
+             cursor.execute("SELECT * FROM WHERE category_name = ")
+    
