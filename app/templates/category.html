@@ -58,36 +58,19 @@
                     </tr>
                 </thead>
                 <tbody id="categoryTableBody">
+                    {% for ct in cat %}
                     <tr data-category-row data-category-status="active">
                         <td><input type="checkbox" aria-label="Select Action"></td>
-                        <td><span class="category-thumb"><i class="fa-solid fa-bolt"></i></span><div><strong>Action</strong><small>High energy movies and shows</small></div></td>
-                        <td>action</td>
-                        <td>Movies & Series</td>
-                        <td>42</td>
-                        <td>1</td>
-                        <td><span class="category-switch active"></span></td>
-                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                        <td><span class="category-thumb"><i class="fa-solid fa-bolt"></i></span><div><strong>{{ct.category_name}}</strong><small>{{ct.category_description}}</small></div></td>
+                        <td>{{ct.slug}}</td>
+                        <td>{{ct.category_type}}</td>
+                        <td>{{ct.tems}}</td>
+                        <td>{{ct.category_display}}</td>
+                        <td><span class="category-switch {% if ct.category_status == active %}active{% endif %}"></span></td>
+                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="danger" type="button" aria-label="Delete"><a href="{{url_for('admin.delete_category' , ct_id = ct.c_id )}}" style="text-decoration: none;"><i class="fa-solid fa-trash"></i></a></button></div></td>
                     </tr>
-                    <tr data-category-row data-category-status="featured">
-                        <td><input type="checkbox" aria-label="Select Drama"></td>
-                        <td><span class="category-thumb"><i class="fa-solid fa-masks-theater"></i></span><div><strong>Drama</strong><small>Character-driven stories</small></div></td>
-                        <td>drama</td>
-                        <td>Series</td>
-                        <td>31</td>
-                        <td>2</td>
-                        <td><span class="category-switch active"></span></td>
-                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
-                    <tr data-category-row data-category-status="inactive">
-                        <td><input type="checkbox" aria-label="Select Kids"></td>
-                        <td><span class="category-thumb"><i class="fa-solid fa-child-reaching"></i></span><div><strong>Kids</strong><small>Family-safe collection</small></div></td>
-                        <td>kids</td>
-                        <td>Movies</td>
-                        <td>18</td>
-                        <td>5</td>
-                        <td><span class="category-switch"></span></td>
-                        <td><div class="category-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -113,7 +96,7 @@
             </button>
         </header>
 
-        <form class="category-form" id="categoryForm" action="" method="post" enctype="multipart/form-data">
+        <form class="category-form" id="categoryForm" action="{{url_for('admin.send_category')}}" method="post" enctype="multipart/form-data">
             <fieldset class="category-form-section">
                 <legend>Category</legend>
                 <div class="category-form-grid two">
