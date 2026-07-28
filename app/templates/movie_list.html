@@ -109,24 +109,24 @@
             </button>
         </header>
 
-        <form class="movie-form" id="movieForm" method="post"  >
+        <form class="movie-form" id="movieForm" method="post" action = "" >
             <fieldset class="movie-form-section">
                 <legend>Movie</legend>
                 <label>Movie Name <b>*</b>
-                    <input type="text" id="movieName" placeholder="Enter movie name" required>
+                    <input type="text" id="movieName" name = "movie_name" placeholder="Enter movie name" required>
                 </label>
                 <label>Description
-                    <textarea id="movieDescription" rows="4" placeholder="Description"></textarea>
+                    <textarea id="movieDescription" name = "movie_desc" rows="4" placeholder="Description"></textarea>
                 </label>
                 <div class="movie-form-grid two">
                     <label>Movie Access
-                        <select id="movieAccess">
+                        <select id="movieAccess" name="movie_access">
                             <option>Free</option>
                             <option>Premium</option>
                         </select>
                     </label>
                     <label>Language
-                        <select id="movieLanguage">
+                        <select id="movieLanguage" name="movie_language">
                             <option>Hindi</option>
                             <option>English</option>
                             <option>World</option>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="movie-form-grid four">
                     <label>Genre
-                        <select id="movieGenre">
+                        <select id="movieGenre" name="movie_cat">
                             {% for cat in cate %}
                             <option>{{cat.category_name}}</option>
                             {% endfor %}
@@ -143,13 +143,16 @@
                         </select>
                     </label>
                     <label>Release Year
-                        <input type="number" id="movieYear" min="1900" placeholder="2026">
+                        <input type="number" name="movie_year" id="movieYear" min="1900" placeholder="2026">
+                    </label>
+                    <label>Release Year
+                        <input type="date" name="movie_date" id="movieYear" min="1900" placeholder="2026">
                     </label>
                     <label>Duration
-                        <input type="text" id="movieDuration" placeholder="120 min">
+                        <input type="text" name="movie_duration" id="movieDuration" placeholder="120 min">
                     </label>
                     <label>Status
-                        <select id="movieStatus">
+                        <select id="movieStatus" name = "movie_status">
                             <option value="published">Published</option>
                             <option value="draft">Draft</option>
                             <option value="premium">Premium</option>
@@ -158,10 +161,10 @@
                 </div>
                 <div class="movie-form-grid two">
                     <label>Thumbnail
-                        <input type="file" accept="image/*">
+                        <input type="file" name = "movie_thumb" accept="image/*">
                     </label>
                     <label>Poster
-                        <input type="file" accept="image/*">
+                        <input type="file" name = "movie_poster" accept="image/*">
                     </label>
                 </div>
             </fieldset>
@@ -176,16 +179,16 @@
                 </div>
                 <div class="movie-inline-form three">
                     <label>Type
-                        <select id="movieCastType">
+                        <select id="movieCastType" name = "cast_type[]">
                             <option>Cast</option>
                             <option>Crew</option>
                         </select>
                     </label>
                     <label>Name
-                        <input type="text" id="movieCastName" placeholder="Enter name">
+                        <input type="text" name ="cast_name[]" id="movieCastName" placeholder="Enter name">
                     </label>
                     <label>Role
-                        <input type="text" id="movieCastRole" placeholder="Director, Actor">
+                        <input type="text" name = "cast_role[]" id="movieCastRole" placeholder="Director, Actor">
                     </label>
                 </div>
                 <div class="movie-mini-table-wrap">
@@ -220,7 +223,7 @@
                 </div>
                 <div class="movie-inline-form three">
                     <label>Quality
-                        <select id="movieVideoQuality">
+                        <select id="movieVideoQuality" name = "video_quality[]">
                             <option>1080P</option>
                             <option>720P</option>
                             <option>480P</option>
@@ -228,10 +231,10 @@
                         </select>
                     </label>
                     <label>Video
-                        <input type="file" id="movieVideoFile" accept="video/*">
+                        <input type="file" name = "video_file[]" id="movieVideoFile" accept="video/*">
                     </label>
                     <label>Download
-                        <select id="movieVideoDownload">
+                        <select id="movieVideoDownload" name = "video_download[]">
                             <option>Enabled</option>
                             <option>Disabled</option>
                         </select>
@@ -269,10 +272,10 @@
                 </div>
                 <div class="movie-inline-form two">
                     <label>Language
-                        <input type="text" id="movieSubtitleLanguage" placeholder="English">
+                        <input type="text" id="movieSubtitleLanguage" placeholder="English" name = "subtitle_lang[]">
                     </label>
                     <label>Subtitle
-                        <input type="file" id="movieSubtitleFile" accept=".srt,.vtt,.ass,.ssa">
+                        <input type="file" id="movieSubtitleFile" accept=".srt,.vtt,.ass,.ssa" name = "subtitle_file[]">
                     </label>
                 </div>
                 <div class="movie-mini-table-wrap">
@@ -293,6 +296,21 @@
                         </tbody>
                     </table>
                 </div>
+            </fieldset>
+
+            <fieldset class="movie-form-section">
+                <legend>SEO</legend>
+                <div class="movie-form-grid two">
+                    <label>SEO Title
+                        <input type="text" name="seo_title" id="movieSeoTitle" placeholder="Enter SEO title">
+                    </label>
+                    <label>SEO Keywords
+                        <input type="text" name="seo_keywords" id="movieSeoKeywords" placeholder="movie, action, premium">
+                    </label>
+                </div>
+                <label>SEO Description
+                    <textarea id="movieSeoDescription" name="seo_description" rows="4" placeholder="Enter SEO description"></textarea>
+                </label>
             </fieldset>
 
             <footer class="movie-modal-footer">

@@ -78,6 +78,7 @@ movie_access
 movie_language
 movie_categories
 movie_release_date
+movie_release_year
 movie_duration
 movie_status
 movie_thumbnail
@@ -94,6 +95,25 @@ movie_cast_id
 movie_cast_type
 movie_cast_name
 movie_cast_role
+
+
+----------------------------
+movie video Database : movie_file
+----------------------------
+movie_id
+movie_file_id
+movie_quality
+movie_file
+movie_download
+
+--------------------------------------------
+movie Subtitles Database : movie_subtitles
+--------------------------------------------
+movie_id
+movie_subtitle_id
+movie_Language
+movie_subtitle
+
 
 
 

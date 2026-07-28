@@ -34,6 +34,7 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for cat in cate %}
                 <div class="genre-card">
                     <div class="genre-grid">
                         <img src="https://picsum.photos/100/150?random=1" alt="Action 1">
@@ -41,35 +42,9 @@
                         <img src="https://picsum.photos/100/150?random=3" alt="Action 3">
                         <img src="https://picsum.photos/100/150?random=4" alt="Action 4">
                     </div>
-                    <div class="genre-footer">Action <i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="genre-footer">{{cat.category_name}} <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
-                <div class="genre-card">
-                    <div class="genre-grid">
-                        <img src="https://picsum.photos/100/150?random=5" alt="Adventure 1">
-                        <img src="https://picsum.photos/100/150?random=6" alt="Adventure 2">
-                        <img src="https://picsum.photos/100/150?random=7" alt="Adventure 3">
-                        <img src="https://picsum.photos/100/150?random=8" alt="Adventure 4">
-                    </div>
-                    <div class="genre-footer">Adventure <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-                <div class="genre-card">
-                    <div class="genre-grid">
-                        <img src="https://picsum.photos/100/150?random=9" alt="Comedy 1">
-                        <img src="https://picsum.photos/100/150?random=10" alt="Comedy 2">
-                        <img src="https://picsum.photos/100/150?random=11" alt="Comedy 3">
-                        <img src="https://picsum.photos/100/150?random=12" alt="Comedy 4">
-                    </div>
-                    <div class="genre-footer">Comedy <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
-                <div class="genre-card">
-                    <div class="genre-grid">
-                        <img src="https://picsum.photos/100/150?random=13" alt="Drama 1">
-                        <img src="https://picsum.photos/100/150?random=14" alt="Drama 2">
-                        <img src="https://picsum.photos/100/150?random=15" alt="Drama 3">
-                        <img src="https://picsum.photos/100/150?random=16" alt="Drama 4">
-                    </div>
-                    <div class="genre-footer">Drama <i class="fa-solid fa-arrow-right"></i></div>
-                </div>
+                {% endfor %}
             </div>
         </section>
 
@@ -81,12 +56,16 @@
                     <button class="control-btn next" aria-label="Scroll right"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
+
+            {% for movie in movies %}
+            {% if movie %}
+            
             <div class="cards-slider">
                 <div class="standard-card">
                      <a href="{{url_for('auth.setting')}}" style="text-decoration: none;">
                     <div class="card-img-wrapper">
                         
-                        <img src="https://picsum.photos/300/450?random=50" alt="The Dark Knight">
+                        <img src="{{ url_for('static','image',filename=image_file) }}" alt="{{movie.movie_name}}">
                        
                         <div class="hover-overlay">
                             <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
@@ -95,15 +74,19 @@
                     </div>
                      </a>
                     <div class="card-content">
-                        <h3>The Dark Knight</h3>
+                        <h3> {{movie.movie_name}}</h3>
                         <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 32m</span>
+                            <span><i class="fa-regular fa-clock"></i> {{movie.movie_duration}}</span>
                             <span><i class="fa-solid fa-eye"></i> 4.8M</span>
                         </div>
                     </div>
                     
                 </div>
-               
+            </div>
+            {% else %}
+               <h1>Movies Not Exits</h1>
+            {% endif %}
+            {% endfor %}   
         </section>
 
         <section class="row-section" id="must-watch">

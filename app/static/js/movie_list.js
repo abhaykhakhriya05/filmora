@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieVideoTableBody = document.getElementById("movieVideoTableBody");
     const movieSubtitleTableBody = document.getElementById("movieSubtitleTableBody");
     let activeMovieFilter = "all";
+    let editingMovieRow = null;
 
     const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({
         "&": "&amp;",
@@ -54,9 +55,78 @@ document.addEventListener("DOMContentLoaded", () => {
         movieModal.classList.remove("is-open");
         movieModal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("movie-modal-open");
+        editingMovieRow = null;
+        movieForm?.setAttribute("data-mode", "add");
+
+        const modalTitle = document.getElementById("movieModalTitle");
+        if (modalTitle) {
+            modalTitle.textContent = "Add New Movie";
+        }
     };
 
-    const openModal = () => {
+    const populateMovieForm = (row) => {
+        if (!movieForm || !row) {
+            return;
+        }
+
+        const nameInput = movieForm.querySelector('input[name="movie_name"]');
+        const descriptionInput = movieForm.querySelector('textarea[name="movie_desc"]');
+        const accessSelect = movieForm.querySelector('select[name="movie_access"]');
+        const languageSelect = movieForm.querySelector('select[name="movie_language"]');
+        const genreSelect = movieForm.querySelector('select[name="movie_cat"]');
+        const yearInput = movieForm.querySelector('input[name="movie_year"]');
+        const durationInput = movieForm.querySelector('input[name="movie_duration"]');
+        const statusSelect = movieForm.querySelector('select[name="movie_status"]');
+
+        const movieCell = row.cells[1];
+        const titleText = movieCell?.querySelector("strong")?.textContent.trim() || "";
+        const metaText = movieCell?.querySelector("small")?.textContent.trim() || "";
+        const qualityText = row.cells[2]?.textContent.trim() || "";
+        const genreText = row.cells[3]?.textContent.trim() || "";
+        const yearText = row.cells[4]?.textContent.trim() || "";
+        const languageText = row.cells[5]?.textContent.trim() || "";
+        const accessText = row.cells[6]?.textContent.trim() || "";
+        const statusText = row.dataset.movieStatus || "published";
+
+        if (nameInput) {
+            nameInput.value = titleText;
+        }
+
+        if (descriptionInput) {
+            descriptionInput.value = metaText;
+        }
+
+        if (accessSelect) {
+            accessSelect.value = accessText || "Free";
+        }
+
+        if (languageSelect) {
+            languageSelect.value = languageText || "Hindi";
+        }
+
+        if (genreSelect) {
+            genreSelect.value = genreText || "";
+        }
+
+        if (yearInput) {
+            yearInput.value = yearText;
+        }
+
+        if (durationInput) {
+            durationInput.value = metaText.split(" ")[0] || "120 min";
+        }
+
+        if (statusSelect) {
+            statusSelect.value = statusText;
+        }
+
+        const modalTitle = document.getElementById("movieModalTitle");
+        if (modalTitle) {
+            modalTitle.textContent = "Edit Movie";
+        }
+    };
+
+    const openModal = (row = null) => {
         if (!movieModal) {
             return;
         }
@@ -64,7 +134,21 @@ document.addEventListener("DOMContentLoaded", () => {
         movieModal.classList.add("is-open");
         movieModal.setAttribute("aria-hidden", "false");
         document.body.classList.add("movie-modal-open");
-        document.getElementById("movieName")?.focus();
+
+        if (row) {
+            editingMovieRow = row;
+            movieForm?.setAttribute("data-mode", "edit");
+            populateMovieForm(row);
+        } else {
+            editingMovieRow = null;
+            movieForm?.setAttribute("data-mode", "add");
+            const modalTitle = document.getElementById("movieModalTitle");
+            if (modalTitle) {
+                modalTitle.textContent = "Add New Movie";
+            }
+        }
+
+        document.querySelector('input[name="movie_name"]')?.focus();
     };
 
     const deleteMiniRow = (tableBody) => {
@@ -110,6 +194,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (movieTableBody) {
         movieTableBody.addEventListener("click", (event) => {
+            const editButton = event.target.closest('button[aria-label="Edit"]');
+
+            if (editButton) {
+                const row = editButton.closest("tr[data-movie-row]");
+                if (row) {
+                    openModal(row);
+                }
+                return;
+            }
+
             const deleteButton = event.target.closest(".danger");
 
             if (deleteButton) {
@@ -220,19 +314,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            movieTableBody.insertAdjacentHTML("beforeend", `
-                <tr data-movie-row data-movie-status="${escapeHTML(status)}">
-                    <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
-                    <td><span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div></td>
-                    <td>${escapeHTML(qualities)}</td>
-                    <td>${escapeHTML(genre)}</td>
-                    <td>${escapeHTML(year)}</td>
-                    <td>${escapeHTML(language)}</td>
-                    <td>${escapeHTML(access)}</td>
-                    <td><span class="movie-switch ${statusClass}"></span></td>
-                    <td><div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                </tr>
-            `);
+            if (editingMovieRow) {
+                editingMovieRow.dataset.movieStatus = status;
+                editingMovieRow.cells[1].innerHTML = `<span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div>`;
+                editingMovieRow.cells[2].textContent = qualities;
+                editingMovieRow.cells[3].textContent = genre;
+                editingMovieRow.cells[4].textContent = year;
+                editingMovieRow.cells[5].textContent = language;
+                editingMovieRow.cells[6].textContent = access;
+                editingMovieRow.cells[7].innerHTML = `<span class="movie-switch ${statusClass}"></span>`;
+                editingMovieRow.cells[8].innerHTML = `<div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div>`;
+            } else {
+                movieTableBody.insertAdjacentHTML("beforeend", `
+                    <tr data-movie-row data-movie-status="${escapeHTML(status)}">
+                        <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
+                        <td><span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div></td>
+                        <td>${escapeHTML(qualities)}</td>
+                        <td>${escapeHTML(genre)}</td>
+                        <td>${escapeHTML(year)}</td>
+                        <td>${escapeHTML(language)}</td>
+                        <td>${escapeHTML(access)}</td>
+                        <td><span class="movie-switch ${statusClass}"></span></td>
+                        <td><div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    </tr>
+                `);
+            }
 
             movieForm.reset();
             closeMovieModal();

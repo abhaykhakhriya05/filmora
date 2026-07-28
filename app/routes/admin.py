@@ -156,4 +156,9 @@ def movie_list():
     
     return render_template('movie_list.html',cate=cate)
 
+# @admin_bp.route('/movie_send',methods = ['GET','POST'])
+# def movie_send():
+    
+    
+
 
