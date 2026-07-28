@@ -1,5 +1,6 @@
 from flask import Blueprint , redirect , render_template , request ,Response,url_for,session, flash
-from app import genreted_db_connect
+from app import genreted_db_connect , genreted_uid
+from mysql.connector import Error
 from werkzeug.utils import  secure_filename
 import os
 
@@ -156,8 +157,80 @@ def movie_list():
     
     return render_template('movie_list.html',cate=cate)
 
-# @admin_bp.route('/movie_send',methods = ['GET','POST'])
-# def movie_send():
+@admin_bp.route('/movie_send',methods = ['GET','POST'])
+def movie_send():
+    
+    if request.method == 'POST':
+        # insilization input
+        movie_id = genreted_uid(10)
+        movie_name = request.form.get('movie_name')
+        movie_desc = request.form.get('movie_desc')
+        movie_access = request.form.get('movie_access')
+        movie_language = request.form.get('movie_language')
+        movie_cat = request.form.get('movie_cat')
+        movie_year = request.form.get('movie_year')
+        movie_date = request.form.get('movie_date')
+        movie_duration = request.form.get('movie_duration')
+        movie_status = request.form.get('movie_status')
+        movie_thumb = request.files.get('movie_thumb')
+        movie_poster = request.files.get('movie_poster')
+        seo_title = request.form.get('seo_title')
+        seo_keywords = request.form.get('seo_keywords')
+        seo_description = request.form.get('seo_description')
+        
+        # connction object
+        connction = genreted_db_connect()
+        cursor = connction.cursor(dictionary=True)
+        try:
+            if connction.is_connected():
+                cursor.execute("SELECT * FROM `movies` WHERE movie_name = %s",(movie_name,))
+                movies = cursor.fetchone()
+                
+                if movies : 
+                    connction.close()
+                    cursor.close()
+                    flash("Movies Only Exitest")
+                else:
+                    
+                    # thumbmail save server
+                    movie_thumb_file = None
+                    if movie_thumb and movie_thumb.filename :
+                        thumb_filename = secure_filename(movie_thumb.filename)
+                        if movie_thumb : 
+                            os.makedirs(FILE_PATH,exist_ok=True)
+                            thumb_path = os.path.join(FILE_PATH,thumb_filename)
+                            movie_thumb.save(thumb_path)
+                            movie_thumb_file = thumb_filename
+                    
+                    # poster save to server
+                    movie_poster_file = None
+                    if movie_poster and movie_poster.filename :
+                        poster_filename = secure_filename(movie_poster.filename)  
+                        if movie_poster :
+                            os.makedirs(FILE_PATH,exist_ok=True)
+                            poster_path = os.path.join(FILE_PATH,poster_filename)
+                            movie_poster.save(poster_path)   
+                            movie_thumb_file = poster_filename
+                    
+                    # insert into database
+                    movies_qurry = '''
+                           
+                        '''               
+                    
+            else:
+                connction.close()
+                cursor.close()
+                flash('Database Not Conncted','danger')
+                return redirect(url_for('admin.movie_list'))
+            
+        except Error as e:
+            flash(f'Error Is {e}')
+        finally:
+            connction.close()
+            cursor.close()        
+        
+            
+                
     
     
 

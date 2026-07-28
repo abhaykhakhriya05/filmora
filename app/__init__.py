@@ -1,6 +1,16 @@
 from flask import Flask
 import mysql.connector as db
+import random
+import string
 import os
+
+def genreted_uid(size):
+    
+    char = string.ascii_uppercase + string.digits
+    rendom_list = random.choice(char, k = size)
+    rendom_uid = "".join(rendom_list)
+    
+    return rendom_uid
 
 
 def genreted_db_connect():
