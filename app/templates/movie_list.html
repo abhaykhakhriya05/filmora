@@ -109,7 +109,7 @@
             </button>
         </header>
 
-        <form class="movie-form" id="movieForm">
+        <form class="movie-form" id="movieForm" method="post"  >
             <fieldset class="movie-form-section">
                 <legend>Movie</legend>
                 <label>Movie Name <b>*</b>
@@ -136,11 +136,10 @@
                 <div class="movie-form-grid four">
                     <label>Genre
                         <select id="movieGenre">
-                            <option>Action</option>
-                            <option>Drama</option>
-                            <option>Horror</option>
-                            <option>Thriller</option>
-                            <option>Fantasy</option>
+                            {% for cat in cate %}
+                            <option>{{cat.category_name}}</option>
+                            {% endfor %}
+                            
                         </select>
                     </label>
                     <label>Release Year

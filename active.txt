@@ -63,3 +63,38 @@ if 'admin_email' not in session:
 
             flash('Category saved successfully.', 'success')
             return redirect(url_for('admin.show_category'))
+
+
+
+
+
+-------------------------------
+Add movie Database List : Movies
+-------------------------------
+movie_id
+movie_name
+movie_description
+movie_access
+movie_language
+movie_categories
+movie_release_date
+movie_duration
+movie_status
+movie_thumbnail
+movie_poster
+Ishomepage = True/False
+Isposter = True/False
+
+
+-----------------------------
+Cast / Crew add Database: movie_cast
+------------------------------
+movie_id
+movie_cast_id
+movie_cast_type
+movie_cast_name
+movie_cast_role
+
+
+
+

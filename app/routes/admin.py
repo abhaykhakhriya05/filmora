@@ -7,6 +7,7 @@ admin_bp = Blueprint('admin',__name__)
 
 # store a save file path in the application static folder
 APP_ROOT = os.path.dirname(admin_bp.root_path)
+VIDEO_FILE = os.path.join(APP_ROOT,'static', 'video')
 FILE_PATH = os.path.join(APP_ROOT, 'static', 'image')
 os.makedirs(FILE_PATH, exist_ok=True)
 
@@ -136,5 +137,23 @@ def delete_category(ct_id):
         connction.close()
 
     return redirect(url_for('admin.Categories'))
+
+
+# movie desshborad 
+
+@admin_bp.route('/movie_list')
+def movie_list():
+    if 'admin_login' not in session:
+        return redirect(url_for('auth.login'))
+    
+    connction = genreted_db_connect()
+    cursor = connction.cursor(dictionary=True)
+    
+    if connction.is_connected():
+        cursor.execute("SELECT `category_name` FROM category")
+        cate = cursor.fetchall()
+        
+    
+    return render_template('movie_list.html',cate=cate)
 
 
