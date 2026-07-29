@@ -177,6 +177,15 @@ def movie_send():
         seo_title = request.form.get('seo_title')
         seo_keywords = request.form.get('seo_keywords')
         seo_description = request.form.get('seo_description')
+        # input Cast value
+        cast_type = request.form.getlist('cast_type[]')
+        cast_name = request.form.getlist('cast_name[]')
+        cast_role = request.form.getlist('cast_role[]')
+        # input movie files
+        video_quality = request.form.getlist('video_quality[]')
+        video_file = request.files.getlist('video_file[]')
+        video_download = request.form.getlist('video_download[]')
+        
         
         # connction object
         connction = genreted_db_connect()
@@ -210,12 +219,25 @@ def movie_send():
                             os.makedirs(FILE_PATH,exist_ok=True)
                             poster_path = os.path.join(FILE_PATH,poster_filename)
                             movie_poster.save(poster_path)   
-                            movie_thumb_file = poster_filename
+                            movie_poster_file = poster_filename
                     
                     # insert into database
                     movies_qurry = '''
-                           
-                        '''               
+                           INSERT INTO movies(movie_id,movie_name,movie_name,movie_language,movie_categories,movie_release_date,movie_release_year,movie_duration,movie_status,movie_thumbnail,movie_poster,seo_title,seo_keywords,seo_description)
+                           VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        ''' 
+                        
+                    #  insert values
+                    movies_values = (movie_id,movie_name,movie_language,movie_cat,movie_date,movie_year,movie_duration,movie_status,movie_thumb_file,movie_poster_file,seo_title,seo_keywords,seo_description)
+                    cursor.execute(movies_qurry,movies_values)
+                    connction.commit()
+                    
+                    # insert into cast value cast database
+                    
+                    cast_qurry = '''
+                        INSERT INTO movie_cast(movie_id,movie_cast_id,movie_cast_type,movie_cast_name,movie_cast_role)VALUES(%s,%s,%s,%s,%s)
+                    '''
+                    
                     
             else:
                 connction.close()
