@@ -6,11 +6,10 @@ import os
 
 def genreted_uid(size):
     
-    char = string.ascii_uppercase + string.digits
-    rendom_list = random.choice(char, k = size)
-    rendom_uid = "".join(rendom_list)
+    pool = string.ascii_uppercase + string.digits
+    random_code = ''.join(random.choices(pool, k=8))
     
-    return rendom_uid
+    return random_code
 
 
 def genreted_db_connect():

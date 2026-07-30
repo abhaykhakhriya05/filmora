@@ -1,4 +1,4 @@
-from flask import Blueprint , redirect , render_template , request ,Response,url_for,session, flash
+from flask import Blueprint , redirect , render_template , request ,Response,url_for,session, flash ,current_app
 from app import genreted_db_connect , genreted_uid
 from mysql.connector import Error
 from werkzeug.utils import  secure_filename
@@ -9,7 +9,8 @@ admin_bp = Blueprint('admin',__name__)
 # store a save file path in the application static folder
 APP_ROOT = os.path.dirname(admin_bp.root_path)
 VIDEO_FILE = os.path.join(APP_ROOT,'static', 'video')
-FILE_PATH = os.path.join(APP_ROOT, 'static', 'image')
+FILE_PATH = os.path.join(APP_ROOT,'static', 'image')
+SUBTITLE_PATH = os.path.join(APP_ROOT,'static', 'subtitle')
 os.makedirs(FILE_PATH, exist_ok=True)
 
 @admin_bp.route('/dashboard')
@@ -157,135 +158,161 @@ def movie_list():
     
     return render_template('movie_list.html',cate=cate)
 
-@admin_bp.route('/movie_send',methods = ['GET','POST'])
+@admin_bp.route('/movie_send', methods=['GET', 'POST'])
 def movie_send():
-    
+
+    movie_id = genreted_uid(10)
+    movie_name = request.form.get('movie_name', '').strip()
+    movie_desc = request.form.get('movie_desc', '').strip()
+    movie_access = request.form.get('movie_access', '').strip()
+    movie_language = request.form.get('movie_language', '').strip()
+    movie_cat = request.form.get('movie_cat', '').strip()
+    movie_year = request.form.get('movie_year', '').strip()
+    movie_date = request.form.get('movie_date', '').strip()
+    movie_duration = request.form.get('movie_duration', '').strip()
+    movie_status = request.form.get('movie_status', '').strip()
+    movie_thumb = request.files.get('movie_thumb')
+    movie_poster = request.files.get('movie_poster')
+    seo_title = request.form.get('seo_title', '').strip()
+    seo_keywords = request.form.get('seo_keywords', '').strip()
+    seo_description = request.form.get('seo_description', '').strip()
+
+    cast_type = request.form.getlist('cast_type[]')
+    cast_name = request.form.getlist('cast_name[]')
+    cast_role = request.form.getlist('cast_role[]')
+    video_quality = request.form.getlist('video_quality[]')
+    video_file = request.files.getlist('video_file[]')
+    video_download = request.form.getlist('video_download[]')
+    subtitle_lang = request.form.getlist('subtitle_lang[]')
+    subtitle_file = request.files.getlist('subtitle_file[]')
+
+    connction = genreted_db_connect()
+    cursor = connction.cursor(dictionary=True)
+
     if request.method == 'POST':
-        # insilization input
-        movie_id = genreted_uid(10)
-        movie_name = request.form.get('movie_name')
-        movie_desc = request.form.get('movie_desc')
-        movie_access = request.form.get('movie_access')
-        movie_language = request.form.get('movie_language')
-        movie_cat = request.form.get('movie_cat')
-        movie_year = request.form.get('movie_year')
-        movie_date = request.form.get('movie_date')
-        movie_duration = request.form.get('movie_duration')
-        movie_status = request.form.get('movie_status')
-        movie_thumb = request.files.get('movie_thumb')
-        movie_poster = request.files.get('movie_poster')
-        seo_title = request.form.get('seo_title')
-        seo_keywords = request.form.get('seo_keywords')
-        seo_description = request.form.get('seo_description')
-        # input Cast value
-        cast_type = request.form.getlist('cast_type[]')
-        cast_name = request.form.getlist('cast_name[]')
-        cast_role = request.form.getlist('cast_role[]')
-        # input movie files
-        video_quality = request.form.getlist('video_quality[]')
-        video_file = request.files.getlist('video_file[]')
-        video_download = request.form.getlist('video_download[]')
         
+        try:
+            
+            if not connction.is_connected():
+                flash('Database Not Connected', 'danger')
+                return redirect(url_for('admin.movie_list'))
+
+            cursor.execute("SELECT * FROM `movies` WHERE movie_name = %s", (movie_name,))
+            movies = cursor.fetchone()
+
+            if movies:
+                flash('Movie already exists.', 'warning')
+                return redirect(url_for('admin.movie_list'))
+
+            movie_thumb_file = None
+            if movie_thumb and movie_thumb.filename:
+                thumb_filename = secure_filename(movie_thumb.filename)
+                os.makedirs(FILE_PATH, exist_ok=True)
+                thumb_path = os.path.join(FILE_PATH, thumb_filename)
+                movie_thumb.save(thumb_path)
+                movie_thumb_file = thumb_filename
+
+            movie_poster_file = None
+            if movie_poster and movie_poster.filename:
+                poster_filename = secure_filename(movie_poster.filename)
+                os.makedirs(FILE_PATH, exist_ok=True)
+                poster_path = os.path.join(FILE_PATH, poster_filename)
+                movie_poster.save(poster_path)
+                movie_poster_file = poster_filename
+
+            movies_query = '''
+                INSERT INTO movies(
+                    movie_id, movie_name, movie_description, movie_access,
+                    movie_language, movie_categories, movie_release_date,
+                    movie_release_year, movie_duration, movie_status,
+                    movie_thumbnail, movie_poster, ishomepage, isposter,
+                    seo_title, seo_keywords, seo_description
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            '''
+            movies_values = (
+                movie_id,
+                movie_name,
+                movie_desc,
+                movie_access,
+                movie_language,
+                movie_cat,
+                movie_date,
+                movie_year,
+                movie_duration,
+                movie_status,
+                movie_thumb_file,
+                movie_poster_file,
+                0,
+                0,
+                seo_title,
+                seo_keywords,
+                seo_description,
+            )
+            cursor.execute(movies_query, movies_values)
+
+            cast_query = '''
+                INSERT INTO movie_cast(movie_id, movie_cast_id, movie_cast_type, movie_cast_name, movie_cast_role)
+                VALUES (%s, %s, %s, %s, %s)
+            '''
+            for i in range(len(cast_name)):
+                if cast_name[i].strip():
+                    cast_id = genreted_uid(8)
+                    cast_values = (movie_id, cast_id, cast_type[i], cast_name[i], cast_role[i])
+                    cursor.execute(cast_query, cast_values)
+
+            video_query = '''
+                INSERT INTO movie_file(movie_id, movie_file_id, movie_quality, movie_file, movie_download)
+                VALUES (%s, %s, %s, %s, %s)
+            '''
+            video_count = max(len(video_quality), len(video_file), len(video_download))
+            for i in range(video_count):
+                file_id = genreted_uid(8)
+                v_file = video_file[i] if i < len(video_file) else None
+                movie_file = None
+                if v_file and v_file.filename:
+                    v_filename = secure_filename(v_file.filename)
+                    os.makedirs(VIDEO_FILE, exist_ok=True)
+                    v_path = os.path.join(VIDEO_FILE, v_filename)
+                    v_file.save(v_path)
+                    movie_file = v_filename
+
+                quality = video_quality[i] if i < len(video_quality) else ''
+                download_value = video_download[i] if i < len(video_download) else 'Disabled'
+                is_downloadable = 1 if download_value == 'Enabled' else 0
+                video_values = (movie_id, file_id, quality, movie_file, is_downloadable)
+                cursor.execute(video_query, video_values)
+
+            subtitle_query = '''
+                INSERT INTO movie_subtitles(movie_id, movie_subtitle_id, movie_sub_language, movie_subtitle)
+                VALUES (%s, %s, %s, %s)
+            '''
+            subtitle_count = max(len(subtitle_lang), len(subtitle_file))
+            for i in range(subtitle_count):
+                subtitle_id = genreted_uid(8)
+                s_file = subtitle_file[i] if i < len(subtitle_file) else None
+                sub_file = None
+                if s_file and s_file.filename:
+                    s_filename = secure_filename(f"{movie_id}_{s_file.filename}")
+                    os.makedirs(SUBTITLE_PATH, exist_ok=True)
+                    s_path = os.path.join(SUBTITLE_PATH, s_filename)
+                    s_file.save(s_path)
+                    sub_file = s_filename
+
+                languages = subtitle_lang[i] if i < len(subtitle_lang) else 'english'
+                subtitle_values = (movie_id, subtitle_id, languages, sub_file)
+                cursor.execute(subtitle_query, subtitle_values)
+
+            connction.commit()
+            flash('Movie uploaded successfully.', 'success')
+            return redirect(url_for('admin.movie_list'))
+
+        except Error as e:
+            connction.rollback()
+            flash(f'Error: {e}', 'danger')
+            return redirect(url_for('admin.movie_list'))
+        finally:
+            cursor.close()
+            connction.close()
         
-        # connction object
-        connction = genreted_db_connect()
-        cursor = connction.cursor(dictionary=True)
-        
-        if request.method == "POST":
-            
-            try:
-                if connction.is_connected():
-                    cursor.execute("SELECT * FROM `movies` WHERE movie_name = %s",(movie_name,))
-                    movies = cursor.fetchone()
-                    
-                    if movies : 
-                        connction.close()
-                        cursor.close()
-                        flash("Movies Only Exitest")
-                    else:
-                        
-                        # thumbmail save server
-                        movie_thumb_file = None
-                        if movie_thumb and movie_thumb.filename :
-                            thumb_filename = secure_filename(movie_thumb.filename)
-                            if movie_thumb : 
-                                os.makedirs(FILE_PATH,exist_ok=True)
-                                thumb_path = os.path.join(FILE_PATH,thumb_filename)
-                                movie_thumb.save(thumb_path)
-                                movie_thumb_file = thumb_filename
-                        
-                        # poster save to server
-                        movie_poster_file = None
-                        if movie_poster and movie_poster.filename :
-                            poster_filename = secure_filename(movie_poster.filename)  
-                            if movie_poster :
-                                os.makedirs(FILE_PATH,exist_ok=True)
-                                poster_path = os.path.join(FILE_PATH,poster_filename)
-                                movie_poster.save(poster_path)   
-                                movie_poster_file = poster_filename
-                        
-                        # insert into database
-                        movies_qurry = '''
-                            INSERT INTO movies(movie_id,movie_name,movie_name,movie_language,movie_categories,movie_release_date,movie_release_year,movie_duration,movie_status,movie_thumbnail,movie_poster,seo_title,seo_keywords,seo_description)
-                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                            ''' 
-                            
-                        #  insert values
-                        movies_values = (movie_id,movie_name,movie_language,movie_cat,movie_date,movie_year,movie_duration,movie_status,movie_thumb_file,movie_poster_file,seo_title,seo_keywords,seo_description)
-                        cursor.execute(movies_qurry,movies_values)
-                        connction.commit()
-                        
-                        # insert into cast value cast database
-                        
-                        cast_qurry = '''
-                            INSERT INTO movie_cast(movie_id,movie_cast_id,movie_cast_type,movie_cast_name,movie_cast_role)VALUES(%s,%s,%s,%s,%s)
-                        '''
-                        for i in range(len(cast_name)):
-                            if cast_name[i].split():
-                                cast_id = genreted_uid(8)
-                                cast_values = (movie_id,cast_id,cast_type[i],cast_name[i],cast_role[i])
-                                cursor.execute(cast_qurry,cast_values)
-                                connction.commit()
-                                
-                        # movie video file insert
-                        
-                        video_qurry = '''
-                                INSERT INTO movie_file(movie_id,movie_file_id,movie_quality,movie_file,movie_download)VALUES(%s,%s,%s,%s,%s)
-                        '''
-                        
-                        for i in range(len(video_file)):
-                            file_id = genreted_uid(8)
-                            v_file = video_file[i]
-                            movie_file = None
-                            if v_file and v_file.filename:
-                                v_filename = secure_filename(v_file.filename)
-                                if v_file:
-                                    os.makedirs(VIDEO_FILE,exist_ok=True)
-                                    v_path = os.path.join(VIDEO_FILE,v_filename)
-                                    v_file.save(v_path)
-                                    movie_file = v_filename
-                            
-                            if video_download[i] == 'Enabled':
-                                is_downloadable = 1
-                            else:
-                                is_downloadable = 0
-                                
-                            video_values = (movie_id,file_id,video_quality[i],v_filename,is_downloadable)   
-                else:
-                    connction.close()
-                    cursor.close()
-                    flash('Database Not Conncted','danger')
-                    return redirect(url_for('admin.movie_list'))
-                
-            except Error as e:
-                flash(f'Error Is {e}')
-            finally:
-                connction.close()
-                cursor.close()        
-            
-            
-                
-    
-    
 
 

@@ -291,60 +291,78 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (movieForm && movieTableBody) {
-        movieForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+    // if (movieForm && movieTableBody) {
+    //     movieForm.addEventListener("submit", async (event) => {
+    //         event.preventDefault();
 
-            const name = document.getElementById("movieName").value.trim();
-            const description = document.getElementById("movieDescription").value.trim() || "New movie";
-            const access = document.getElementById("movieAccess").value;
-            const language = document.getElementById("movieLanguage").value;
-            const genre = document.getElementById("movieGenre").value;
-            const year = document.getElementById("movieYear").value || "2026";
-            const duration = document.getElementById("movieDuration").value.trim() || "120 min";
-            const status = document.getElementById("movieStatus").value;
-            const statusClass = status === "draft" ? "" : "active";
-            const qualities = Array.from(movieVideoTableBody?.querySelectorAll("tr") || [])
-                .map((row) => row.children[0]?.textContent.trim())
-                .filter(Boolean)
-                .join("/") || "720P";
+    //         const nameInput = document.getElementById("movieName");
+    //         const name = nameInput?.value.trim() || "";
+    //         const description = document.getElementById("movieDescription")?.value.trim() || "New movie";
+    //         const access = document.getElementById("movieAccess")?.value || "Free";
+    //         const language = document.getElementById("movieLanguage")?.value || "Hindi";
+    //         const genre = document.getElementById("movieGenre")?.value || "";
+    //         const year = document.getElementById("movieYear")?.value || "2026";
+    //         const duration = document.getElementById("movieDuration")?.value.trim() || "120 min";
+    //         const status = document.getElementById("movieStatus")?.value || "published";
+    //         const statusClass = status === "draft" ? "" : "active";
+    //         const qualities = Array.from(movieVideoTableBody?.querySelectorAll("tr") || [])
+    //             .map((row) => row.children[0]?.textContent.trim())
+    //             .filter(Boolean)
+    //             .join("/") || "720P";
 
-            if (!name) {
-                alert("Please enter movie name.");
-                return;
-            }
+    //         if (!name) {
+    //             alert("Please enter movie name.");
+    //             nameInput?.focus();
+    //             return;
+    //         }
 
-            if (editingMovieRow) {
-                editingMovieRow.dataset.movieStatus = status;
-                editingMovieRow.cells[1].innerHTML = `<span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div>`;
-                editingMovieRow.cells[2].textContent = qualities;
-                editingMovieRow.cells[3].textContent = genre;
-                editingMovieRow.cells[4].textContent = year;
-                editingMovieRow.cells[5].textContent = language;
-                editingMovieRow.cells[6].textContent = access;
-                editingMovieRow.cells[7].innerHTML = `<span class="movie-switch ${statusClass}"></span>`;
-                editingMovieRow.cells[8].innerHTML = `<div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div>`;
-            } else {
-                movieTableBody.insertAdjacentHTML("beforeend", `
-                    <tr data-movie-row data-movie-status="${escapeHTML(status)}">
-                        <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
-                        <td><span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div></td>
-                        <td>${escapeHTML(qualities)}</td>
-                        <td>${escapeHTML(genre)}</td>
-                        <td>${escapeHTML(year)}</td>
-                        <td>${escapeHTML(language)}</td>
-                        <td>${escapeHTML(access)}</td>
-                        <td><span class="movie-switch ${statusClass}"></span></td>
-                        <td><div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
-                `);
-            }
+    //         try {
+    //             const formData = new FormData(movieForm);
+    //             const response = await fetch(movieForm.action, {
+    //                 method: movieForm.method || "POST",
+    //                 body: formData,
+    //                 headers: { "X-Requested-With": "XMLHttpRequest" }
+    //             });
 
-            movieForm.reset();
-            closeMovieModal();
-            updateMovieRows();
-        });
-    }
+    //             if (!response.ok && response.status >= 400) {
+    //                 throw new Error(`Request failed with status ${response.status}`);
+    //             }
+
+    //             if (editingMovieRow) {
+    //                 editingMovieRow.dataset.movieStatus = status;
+    //                 editingMovieRow.cells[1].innerHTML = `<span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div>`;
+    //                 editingMovieRow.cells[2].textContent = qualities;
+    //                 editingMovieRow.cells[3].textContent = genre;
+    //                 editingMovieRow.cells[4].textContent = year;
+    //                 editingMovieRow.cells[5].textContent = language;
+    //                 editingMovieRow.cells[6].textContent = access;
+    //                 editingMovieRow.cells[7].innerHTML = `<span class="movie-switch ${statusClass}"></span>`;
+    //                 editingMovieRow.cells[8].innerHTML = `<div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div>`;
+    //             } else {
+    //                 movieTableBody.insertAdjacentHTML("beforeend", `
+    //                     <tr data-movie-row data-movie-status="${escapeHTML(status)}">
+    //                         <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
+    //                         <td><span class="movie-thumb">4:3</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(duration)} ${escapeHTML(description)}</small></div></td>
+    //                         <td>${escapeHTML(qualities)}</td>
+    //                         <td>${escapeHTML(genre)}</td>
+    //                         <td>${escapeHTML(year)}</td>
+    //                         <td>${escapeHTML(language)}</td>
+    //                         <td>${escapeHTML(access)}</td>
+    //                         <td><span class="movie-switch ${statusClass}"></span></td>
+    //                         <td><div class="movie-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+    //                     </tr>
+    //                 `);
+    //             }
+
+    //             movieForm.reset();
+    //             closeMovieModal();
+    //             updateMovieRows();
+    //         } catch (error) {
+    //             console.error("Movie save failed:", error);
+    //             alert("Movie form could not be submitted. Please try again.");
+    //         }
+    //     });
+    // }
 
     updateMovieRows();
 });

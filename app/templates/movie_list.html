@@ -109,7 +109,7 @@
             </button>
         </header>
 
-        <form class="movie-form" id="movieForm" method="post" action = "{{url_for('admin.movie_send')}}" >
+        <form class="movie-form" id="movieForm" method="post" action="{{ url_for('admin.movie_send') }}" enctype="multipart/form-data">
             <fieldset class="movie-form-section">
                 <legend>Movie</legend>
                 <label>Movie Name <b>*</b>
@@ -314,7 +314,9 @@
             </fieldset>
 
             <footer class="movie-modal-footer">
-                <button class="movie-save-btn" type="submit">
+
+                <!-- <input type="submit" class="category-save-btn fa-solid fa-floppy-disk" value="Save"> -->
+               <button class="movie-save-btn" type="submit">
                     <i class="fa-solid fa-floppy-disk"></i>
                     Save
                 </button>
