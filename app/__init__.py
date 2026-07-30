@@ -7,9 +7,11 @@ import os
 def genreted_uid(size):
     
     pool = string.ascii_uppercase + string.digits
-    random_code = ''.join(random.choices(pool, k=8))
+    random_code = ''.join(random.choices(pool, k=size))
     
     return random_code
+
+
 
 
 def genreted_db_connect():

@@ -65,7 +65,7 @@
                      <a href="{{url_for('auth.setting')}}" style="text-decoration: none;">
                     <div class="card-img-wrapper">
                         
-                        <img src="{{ url_for('static','image',filename=image_file) }}" alt="{{movie.movie_name}}">
+                        <img src="{{ url_for('static', filename='image/' + movie.movie_poster) }}" alt="{{movie.movie_poster}}">
                        
                         <div class="hover-overlay">
                             <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>

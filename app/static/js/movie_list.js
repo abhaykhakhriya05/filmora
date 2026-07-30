@@ -232,9 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             movieCastTableBody.insertAdjacentHTML("beforeend", `
                 <tr>
-                    <td>${escapeHTML(type)}</td>
-                    <td>${escapeHTML(name)}</td>
-                    <td>${escapeHTML(role)}</td>
+                    <td>${escapeHTML(type)}<input type="hidden" name="cast_type[]" value="${escapeHTML(type)}"></td>
+                    <td>${escapeHTML(name)}<input type="hidden" name="cast_name[]" value="${escapeHTML(name)}"></td>
+                    <td>${escapeHTML(role)}<input type="hidden" name="cast_role[]" value="${escapeHTML(role)}"></td>
                     <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete cast or crew"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `);
@@ -257,10 +257,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             movieVideoTableBody.insertAdjacentHTML("beforeend", `
                 <tr>
-                    <td>${escapeHTML(quality)}</td>
-                    <td>${escapeHTML(fileName)}</td>
-                    <td>${escapeHTML(download)}</td>
-                    <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete video"><i class="fa-solid fa-trash"></i></button></td>
+                    <td>${escapeHTML(quality)}<input type="hidden" name="video_quality[]" value="${escapeHTML(quality)}"></td>
+                    <td>${escapeHTML(fileName)}<input type="hidden" name="video_file[]" value="${escapeHTML(fileName)}"></td>
+                    <td>${escapeHTML(download)}<input type="hidden" name="video_download[]" value="${escapeHTML(download)}"></td>
+                    <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete cast or crew"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `);
             fileInput.value = "";
