@@ -190,67 +190,99 @@ def movie_send():
         # connction object
         connction = genreted_db_connect()
         cursor = connction.cursor(dictionary=True)
-        try:
-            if connction.is_connected():
-                cursor.execute("SELECT * FROM `movies` WHERE movie_name = %s",(movie_name,))
-                movies = cursor.fetchone()
-                
-                if movies : 
+        
+        if request.method == "POST":
+            
+            try:
+                if connction.is_connected():
+                    cursor.execute("SELECT * FROM `movies` WHERE movie_name = %s",(movie_name,))
+                    movies = cursor.fetchone()
+                    
+                    if movies : 
+                        connction.close()
+                        cursor.close()
+                        flash("Movies Only Exitest")
+                    else:
+                        
+                        # thumbmail save server
+                        movie_thumb_file = None
+                        if movie_thumb and movie_thumb.filename :
+                            thumb_filename = secure_filename(movie_thumb.filename)
+                            if movie_thumb : 
+                                os.makedirs(FILE_PATH,exist_ok=True)
+                                thumb_path = os.path.join(FILE_PATH,thumb_filename)
+                                movie_thumb.save(thumb_path)
+                                movie_thumb_file = thumb_filename
+                        
+                        # poster save to server
+                        movie_poster_file = None
+                        if movie_poster and movie_poster.filename :
+                            poster_filename = secure_filename(movie_poster.filename)  
+                            if movie_poster :
+                                os.makedirs(FILE_PATH,exist_ok=True)
+                                poster_path = os.path.join(FILE_PATH,poster_filename)
+                                movie_poster.save(poster_path)   
+                                movie_poster_file = poster_filename
+                        
+                        # insert into database
+                        movies_qurry = '''
+                            INSERT INTO movies(movie_id,movie_name,movie_name,movie_language,movie_categories,movie_release_date,movie_release_year,movie_duration,movie_status,movie_thumbnail,movie_poster,seo_title,seo_keywords,seo_description)
+                            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                            ''' 
+                            
+                        #  insert values
+                        movies_values = (movie_id,movie_name,movie_language,movie_cat,movie_date,movie_year,movie_duration,movie_status,movie_thumb_file,movie_poster_file,seo_title,seo_keywords,seo_description)
+                        cursor.execute(movies_qurry,movies_values)
+                        connction.commit()
+                        
+                        # insert into cast value cast database
+                        
+                        cast_qurry = '''
+                            INSERT INTO movie_cast(movie_id,movie_cast_id,movie_cast_type,movie_cast_name,movie_cast_role)VALUES(%s,%s,%s,%s,%s)
+                        '''
+                        for i in range(len(cast_name)):
+                            if cast_name[i].split():
+                                cast_id = genreted_uid(8)
+                                cast_values = (movie_id,cast_id,cast_type[i],cast_name[i],cast_role[i])
+                                cursor.execute(cast_qurry,cast_values)
+                                connction.commit()
+                                
+                        # movie video file insert
+                        
+                        video_qurry = '''
+                                INSERT INTO movie_file(movie_id,movie_file_id,movie_quality,movie_file,movie_download)VALUES(%s,%s,%s,%s,%s)
+                        '''
+                        
+                        for i in range(len(video_file)):
+                            file_id = genreted_uid(8)
+                            v_file = video_file[i]
+                            movie_file = None
+                            if v_file and v_file.filename:
+                                v_filename = secure_filename(v_file.filename)
+                                if v_file:
+                                    os.makedirs(VIDEO_FILE,exist_ok=True)
+                                    v_path = os.path.join(VIDEO_FILE,v_filename)
+                                    v_file.save(v_path)
+                                    movie_file = v_filename
+                            
+                            if video_download[i] == 'Enabled':
+                                is_downloadable = 1
+                            else:
+                                is_downloadable = 0
+                                
+                            video_values = (movie_id,file_id,video_quality[i],v_filename,is_downloadable)   
+                else:
                     connction.close()
                     cursor.close()
-                    flash("Movies Only Exitest")
-                else:
-                    
-                    # thumbmail save server
-                    movie_thumb_file = None
-                    if movie_thumb and movie_thumb.filename :
-                        thumb_filename = secure_filename(movie_thumb.filename)
-                        if movie_thumb : 
-                            os.makedirs(FILE_PATH,exist_ok=True)
-                            thumb_path = os.path.join(FILE_PATH,thumb_filename)
-                            movie_thumb.save(thumb_path)
-                            movie_thumb_file = thumb_filename
-                    
-                    # poster save to server
-                    movie_poster_file = None
-                    if movie_poster and movie_poster.filename :
-                        poster_filename = secure_filename(movie_poster.filename)  
-                        if movie_poster :
-                            os.makedirs(FILE_PATH,exist_ok=True)
-                            poster_path = os.path.join(FILE_PATH,poster_filename)
-                            movie_poster.save(poster_path)   
-                            movie_poster_file = poster_filename
-                    
-                    # insert into database
-                    movies_qurry = '''
-                           INSERT INTO movies(movie_id,movie_name,movie_name,movie_language,movie_categories,movie_release_date,movie_release_year,movie_duration,movie_status,movie_thumbnail,movie_poster,seo_title,seo_keywords,seo_description)
-                           VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                        ''' 
-                        
-                    #  insert values
-                    movies_values = (movie_id,movie_name,movie_language,movie_cat,movie_date,movie_year,movie_duration,movie_status,movie_thumb_file,movie_poster_file,seo_title,seo_keywords,seo_description)
-                    cursor.execute(movies_qurry,movies_values)
-                    connction.commit()
-                    
-                    # insert into cast value cast database
-                    
-                    cast_qurry = '''
-                        INSERT INTO movie_cast(movie_id,movie_cast_id,movie_cast_type,movie_cast_name,movie_cast_role)VALUES(%s,%s,%s,%s,%s)
-                    '''
-                    
-                    
-            else:
+                    flash('Database Not Conncted','danger')
+                    return redirect(url_for('admin.movie_list'))
+                
+            except Error as e:
+                flash(f'Error Is {e}')
+            finally:
                 connction.close()
-                cursor.close()
-                flash('Database Not Conncted','danger')
-                return redirect(url_for('admin.movie_list'))
+                cursor.close()        
             
-        except Error as e:
-            flash(f'Error Is {e}')
-        finally:
-            connction.close()
-            cursor.close()        
-        
             
                 
     
