@@ -57,12 +57,13 @@
                 </div>
             </div>
 
-            {% for movie in movies %}
-            {% if movie %}
+           
             
             <div class="cards-slider">
+                {% for movie in movies %}
+                {% if movie %}
                 <div class="standard-card">
-                     <a href="{{url_for('auth.setting')}}" style="text-decoration: none;">
+                     <a href="{{url_for('home.movie_view', movie_id = movie.movie_id)}}" style="text-decoration: none;">
                     <div class="card-img-wrapper">
                         
                         <img src="{{ url_for('static', filename='image/' + movie.movie_poster) }}" alt="{{movie.movie_poster}}">
@@ -82,11 +83,12 @@
                     </div>
                     
                 </div>
-            </div>
-            {% else %}
+                  {% else %}
                <h1>Movies Not Exits</h1>
-            {% endif %}
-            {% endfor %}   
+                {% endif %}
+                {% endfor %}   
+            </div>
+          
         </section>
 
         <section class="row-section" id="must-watch">
@@ -98,81 +100,27 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for most_reviewed_movie in most_reviewed_movies %}
+                {% if most_reviewed_movie %}
                 <div class="standard-card">
                     <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=60" alt="Avatar: The Way of Water">
+                        <img src="{{ url_for('static', filename='image/' + most_reviewed_movie.movie_poster) }}" alt="{{ most_reviewed_movie.movie_title }}">
                         <div class="hover-overlay">
                             <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
                         </div>
                     </div>
                     <div class="card-content">
-                        <h3>Avatar: Water</h3>
+                        <h3>{{ most_reviewed_movie.movie_title }}</h3>
                         <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 3h 12m</span>
-                            <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
+                            <span><i class="fa-regular fa-clock"></i> {{ most_reviewed_movie.movie_duration }}</span>
+                            <span class="rating"><i class="fa-solid fa-star"></i> {{ most_reviewed_movie.review }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=61" alt="Oppenheimer">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Oppenheimer</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 3h 00m</span>
-                            <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=62" alt="Spider-Man: No Way Home">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Spider-Man: NWH</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 28m</span>
-                            <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=63" alt="Blade Runner 2049">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>Blade Runner 2049</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 44m</span>
-                            <span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper">
-                        <img src="https://picsum.photos/300/450?random=64" alt="The Matrix Resurrections">
-                        <div class="hover-overlay">
-                            <button class="play-overlay-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        <h3>The Matrix</h3>
-                        <div class="card-meta">
-                            <span><i class="fa-regular fa-clock"></i> 2h 28m</span>
-                            <span class="rating"><i class="fa-solid fa-star"></i> 4.2</span>
-                        </div>
-                    </div>
-                </div>
+                {% else %}
+                <h1>Most Reviewed Movies Not Available</h1>
+                {% endif %}
+                {% endfor %}
             </div>
         </section>
 

@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const movieModal = document.getElementById("movieModal");
     const openMovieModal = document.getElementById("openMovieModal");
     const closeMovieModalButtons = document.querySelectorAll("[data-close-movie-modal]");
+    const flashModal = document.getElementById("flashMessageModal");
+    const flashCloseButtons = document.querySelectorAll("[data-close-flash-modal]");
     const movieForm = document.getElementById("movieForm");
     const movieTableBody = document.getElementById("movieTableBody");
     const movieSearchInput = document.getElementById("movieSearchInput");
@@ -62,6 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modalTitle) {
             modalTitle.textContent = "Add New Movie";
         }
+    };
+
+    const closeFlashModal = () => {
+        if (!flashModal) {
+            return;
+        }
+
+        flashModal.classList.remove("is-open");
+        flashModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("movie-modal-open");
     };
 
     const populateMovieForm = (row) => {
@@ -173,9 +185,28 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", closeMovieModal);
     });
 
+    flashCloseButtons.forEach((button) => {
+        button.addEventListener("click", closeFlashModal);
+    });
+
+    if (flashModal) {
+        const flashItems = flashModal.querySelectorAll(".flash-message-item");
+        if (flashItems.length) {
+            flashModal.classList.add("is-open");
+            flashModal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("movie-modal-open");
+            window.setTimeout(closeFlashModal, 3500);
+        }
+    }
+
     document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && movieModal?.classList.contains("is-open")) {
-            closeMovieModal();
+        if (event.key === "Escape") {
+            if (movieModal?.classList.contains("is-open")) {
+                closeMovieModal();
+            }
+            if (flashModal?.classList.contains("is-open")) {
+                closeFlashModal();
+            }
         }
     });
 
@@ -244,52 +275,79 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (addMovieVideoBtn && movieVideoTableBody) {
-        addMovieVideoBtn.addEventListener("click", () => {
-            const quality = document.getElementById("movieVideoQuality").value;
-            const fileInput = document.getElementById("movieVideoFile");
-            const download = document.getElementById("movieVideoDownload").value;
-            const fileName = fileInput.files[0]?.name;
+    addMovieVideoBtn.addEventListener("click", () => {
+        const quality = document.getElementById("movieVideoQuality").value;
+        const fileInput = document.getElementById("movieVideoFile");
+        const download = document.getElementById("movieVideoDownload").value;
+        const file = fileInput.files[0];
 
-            if (!fileName) {
-                alert("Please choose a video file.");
-                return;
-            }
+        if (!file) {
+            alert("Please choose a video file.");
+            return;
+        }
 
-            movieVideoTableBody.insertAdjacentHTML("beforeend", `
-                <tr>
-                    <td>${escapeHTML(quality)}<input type="hidden" name="video_quality[]" value="${escapeHTML(quality)}"></td>
-                    <td>${escapeHTML(fileName)}<input type="hidden" name="video_file[]" value="${escapeHTML(fileName)}"></td>
-                    <td>${escapeHTML(download)}<input type="hidden" name="video_download[]" value="${escapeHTML(download)}"></td>
-                    <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete cast or crew"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>
-            `);
-            fileInput.value = "";
-        });
-    }
+        // Build a hidden file input that actually carries the selected File
+        const hiddenFileInput = document.createElement("input");
+        hiddenFileInput.type = "file";
+        hiddenFileInput.name = "video_file[]";
+        hiddenFileInput.style.display = "none";
 
-    if (addMovieSubtitleBtn && movieSubtitleTableBody) {
-        addMovieSubtitleBtn.addEventListener("click", () => {
-            const languageInput = document.getElementById("movieSubtitleLanguage");
-            const fileInput = document.getElementById("movieSubtitleFile");
-            const language = languageInput.value.trim();
-            const fileName = fileInput.files[0]?.name;
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        hiddenFileInput.files = dt.files;
 
-            if (!language || !fileName) {
-                alert("Please enter subtitle language and choose a subtitle file.");
-                return;
-            }
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${escapeHTML(quality)}<input type="hidden" name="video_quality[]" value="${escapeHTML(quality)}"></td>
+            <td>${escapeHTML(file.name)}</td>
+            <td>${escapeHTML(download)}<input type="hidden" name="video_download[]" value="${escapeHTML(download === 'Enabled' ? '1' : '0')}"></td>
+            <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete video">
+                    <i class="fa-solid fa-trash"></i>
+                </button></td>
+        `;
+        row.querySelector("td:nth-child(2)").appendChild(hiddenFileInput);
 
-            movieSubtitleTableBody.insertAdjacentHTML("beforeend", `
-                <tr>
-                    <td>${escapeHTML(language)}</td>
-                    <td>${escapeHTML(fileName)}</td>
-                    <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete subtitle"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>
-            `);
-            languageInput.value = "";
-            fileInput.value = "";
-        });
-    }
+        movieVideoTableBody.appendChild(row);
+        fileInput.value = "";
+    });
+}
+
+if (addMovieSubtitleBtn && movieSubtitleTableBody) {
+    addMovieSubtitleBtn.addEventListener("click", () => {
+        const languageInput = document.getElementById("movieSubtitleLanguage");
+        const fileInput = document.getElementById("movieSubtitleFile");
+        const language = languageInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (!language || !file) {
+            alert("Please enter subtitle language and choose a subtitle file.");
+            return;
+        }
+
+        const hiddenFileInput = document.createElement("input");
+        hiddenFileInput.type = "file";
+        hiddenFileInput.name = "subtitle_file[]";
+        hiddenFileInput.style.display = "none";
+
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        hiddenFileInput.files = dt.files;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${escapeHTML(language)}<input type="hidden" name="subtitle_lang[]" value="${escapeHTML(language)}"></td>
+            <td>${escapeHTML(file.name)}</td>
+            <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete subtitle">
+                    <i class="fa-solid fa-trash"></i>
+                </button></td>
+        `;
+        row.querySelector("td:nth-child(2)").appendChild(hiddenFileInput);
+
+        movieSubtitleTableBody.appendChild(row);
+        languageInput.value = "";
+        fileInput.value = "";
+    });
+}
 
     // if (movieForm && movieTableBody) {
     //     movieForm.addEventListener("submit", async (event) => {

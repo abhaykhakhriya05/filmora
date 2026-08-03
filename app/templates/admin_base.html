@@ -89,10 +89,79 @@
         </header>
 
 
+        <div class="flash-message-modal" id="flashMessageModal" aria-hidden="true">
+            <div class="flash-message-backdrop" data-close-flash-modal></div>
+            <div class="flash-message-dialog" role="dialog" aria-modal="true" aria-labelledby="flashMessageTitle">
+                <div class="flash-message-header">
+                    <h3 id="flashMessageTitle">Notification</h3>
+                    <button class="flash-message-close" type="button" data-close-flash-modal aria-label="Close notification">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="flash-message-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="flash-message-item {{ category }}">
+                                    <div class="flash-message-icon">
+                                        {% if category == 'success' %}
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        {% elif category == 'warning' %}
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        {% else %}
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <strong>{{ category|capitalize }}</strong>
+                                        <p>{{ message }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+
         {% block content %}
         {% endblock %}
 
     </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const flashModal = document.getElementById("flashMessageModal");
+                const flashCloseButtons = document.querySelectorAll("[data-close-flash-modal]");
+
+                const closeFlashModal = () => {
+                    if (!flashModal) {
+                        return;
+                    }
+
+                    flashModal.classList.remove("is-open");
+                    flashModal.setAttribute("aria-hidden", "true");
+                    document.body.classList.remove("flash-modal-open");
+                };
+
+                if (flashModal && flashModal.querySelector(".flash-message-item")) {
+                    flashModal.classList.add("is-open");
+                    flashModal.setAttribute("aria-hidden", "false");
+                    document.body.classList.add("flash-modal-open");
+                    window.setTimeout(closeFlashModal, 3500);
+                }
+
+                flashCloseButtons.forEach((button) => {
+                    button.addEventListener("click", closeFlashModal);
+                });
+
+                document.addEventListener("keydown", (event) => {
+                    if (event.key === "Escape" && flashModal?.classList.contains("is-open")) {
+                        closeFlashModal();
+                    }
+                });
+            });
+        </script>
 
         {% block script %} {% endblock %}
 

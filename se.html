@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% set primary_file = movie_file[0] if movie_file else none %}
+
+{% block title %} Filmora - {{ movies.movie_name if movies else "Watch Movie" }} {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/movie_view.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back_ios" />
+{% endblock %}
+
+{% block content %}
+    <main class="container movie-view-page">
+        {% if movies %}
+        <section class="video-player-workspace show-controls" id="playerWorkspace">
+            <video
+                id="mainVideoPlayer"
+                src="{{ url_for('static', filename='video/' + primary_file.movie_file) if primary_file else '' }}"
+                preload="metadata"
+            >
+                {% for subtitle in movie_subtitle %}
+                <track
+                    kind="subtitles"
+                    srclang="{{ subtitle.movie_sub_language|lower }}"
+                    label="{{ subtitle.movie_sub_language }}"
+                    src="{{ url_for('static', filename='subtitle/' + subtitle.movie_subtitle) }}"
+                >
+                {% endfor %}
+            </video>
+
+            <div class="tap-zone-left" id="leftTapZone">
+                <div class="ripple-notice"><i class="fa-solid fa-backward"></i></div>
+            </div>
+            <div class="tap-zone-right" id="rightTapZone">
+                <div class="ripple-notice"><i class="fa-solid fa-forward"></i></div>
+            </div>
+
+            <div class="video-subtitle-overlay" id="subtitleOverlay">Subtitles Layer</div>
+
+            <div class="player-ui-overlay" id="playerUiOverlay">
+                <div class="player-top-panel">
+                    <div class="time-counter-stream">
+                        <span id="currentTime">00:00</span> / <span id="totalDuration">00:00</span>
+                    </div>
+
+                    <div class="top-right-controls">
+                        <div class="custom-select-menu">
+                            <button class="select-toggle-btn" id="audioToggleBtn">
+                                <i class="fa-solid fa-volume-high"></i> Audio
+                            </button>
+                            <div class="select-dropdown-list" id="audioMenu" style="width: 160px; padding: 10px;">
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="width: 100%; accent-color: var(--primary-red); cursor: pointer; margin-bottom: 8px;">
+                                <button class="dropdown-option-item active" data-audio="{{ movies.movie_language|lower }}">
+                                    {{ movies.movie_language or "Default" }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="custom-select-menu">
+                            <button class="select-toggle-btn"><i class="fa-regular fa-comment-dots"></i> Subtitles</button>
+                            <div class="select-dropdown-list" id="subtitleMenu">
+                                <button class="dropdown-option-item active" data-cc="off">Off</button>
+                                {% for subtitle in movie_subtitle %}
+                                <button class="dropdown-option-item" data-cc="{{ subtitle.movie_sub_language|lower }}">
+                                    {{ subtitle.movie_sub_language }}
+                                </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="custom-select-menu">
+                            <button class="select-toggle-btn"><i class="fa-solid fa-sliders"></i> Quality</button>
+                            <div class="select-dropdown-list" id="qualityMenu">
+                                {% for file in movie_file %}
+                                <button class="dropdown-option-item {{ 'active' if loop.first else '' }}" data-quality="{{ file.movie_quality }}">
+                                    {{ file.movie_quality }}
+                                </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <button class="mobile-settings-btn" id="mobileSettingsOpenBtn" title="Settings">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="player-center-controls" id="centerControlsBlock">
+                    <button class="center-player-btn" id="rewindBtn" title="Rewind 10s"><i class="fa-solid fa-backward"></i></button>
+                    <button class="center-player-btn main-play" id="playPauseBtn" title="Play/Pause"><i class="fa-solid fa-play"></i></button>
+                    <button class="center-player-btn" id="forwardBtn" title="Forward 10s"><i class="fa-solid fa-forward"></i></button>
+                </div>
+
+                <div class="player-bottom-panel">
+                    <div class="timeline-slider-wrapper" id="timelineWrapper">
+                        <div class="timeline-progress-bar" id="timelineProgress"></div>
+                    </div>
+                    <button class="fullscreen-btn" id="fullScreenBtn"><i class="fa-solid fa-expand"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <div class="sheet-backdrop" id="sheetBackdrop"></div>
+        <div class="mobile-bottom-sheet" id="mobileBottomSheet">
+            <div class="sheet-header">
+                <h3>Video Settings</h3>
+                <button class="sheet-close-btn" id="sheetCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="sheet-section">
+                <div class="sheet-section-title">Audio Track</div>
+                <div class="sheet-options-grid">
+                    <button class="sheet-opt-btn active">{{ movies.movie_language or "Default" }}</button>
+                </div>
+            </div>
+
+            <div class="sheet-section">
+                <div class="sheet-section-title">Subtitles (CC)</div>
+                <div class="sheet-options-grid">
+                    <button class="sheet-opt-btn active">Off</button>
+                    {% for subtitle in movie_subtitle %}
+                    <button class="sheet-opt-btn">{{ subtitle.movie_sub_language }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="sheet-section">
+                <div class="sheet-section-title">Video Quality</div>
+                <div class="sheet-options-grid">
+                    {% for file in movie_file %}
+                    <button class="sheet-opt-btn {{ 'active' if loop.first else '' }}">{{ file.movie_quality }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <section class="movie-meta-grid">
+            <div class="meta-left-rail">
+                <div class="movie-title-card-area">
+                    <h1>{{ movies.movie_name }}</h1>
+                    <div class="quick-tags-strip">
+                        <span class="age-rating-pill">{{ movies.movie_access }}</span>
+                        <span>{{ movies.movie_release_year }}</span>
+                        <span>&bull;</span>
+                        <span>{{ movies.movie_duration }}</span>
+                        <span>&bull;</span>
+                        <span>{{ movies.movie_categories }}</span>
+                    </div>
+                </div>
+
+                <div class="interactive-actions-bar">
+                    <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button>
+                    <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">14.2k</span> Likes</button>
+                    <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i> Share</button>
+                    {% if primary_file and primary_file.movie_download %}
+                    <a class="action-node-btn" id="downloadBtn" href="{{ url_for('static', filename='video/' + primary_file.movie_file) }}" download>
+                        <i class="fa-solid fa-arrow-down"></i> Download
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <h3 class="section-block-title">Description</h3>
+                    <p class="description-paragraph">{{ movies.movie_description }}</p>
+                </div>
+
+                {% if cast %}
+                <div>
+                    <h3 class="section-block-title">Cast & Crew</h3>
+                    <div class="cast-avatar-track">
+                        {% for member in cast %}
+                        <div class="cast-avatar-card">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ member.movie_cast_name|urlencode }}" alt="{{ member.movie_cast_name }}">
+                            <p>{{ member.movie_cast_name }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="sidebar-specs-panel">
+                <div class="spec-item-group">
+                    <div class="spec-label-title"><i class="fa-regular fa-calendar"></i> Released Year</div>
+                    <div class="spec-value-output">{{ movies.movie_release_year }}</div>
+                </div>
+                <div class="spec-item-group">
+                    <div class="spec-label-title"><i class="fa-solid fa-globe"></i> Languages</div>
+                    <div class="languages-flex-wrap">
+                        <span class="lang-node-pill">{{ movies.movie_language }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="movie-empty-state">
+            <h1>Movie not found</h1>
+            <a href="{{ url_for('home.index') }}" class="action-node-btn">Back to Home</a>
+        </section>
+        {% endif %}
+    </main>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/view.js') }}"></script>
+{% endblock %}

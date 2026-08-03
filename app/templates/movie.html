@@ -74,22 +74,19 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for movie in movies %}
+                {% if movie %}
+ 
                 <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=11" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Dune: Part Two</h3><div class="card-meta"><span>2h 46m</span><span class="badge-red">New</span></div></div>
+                    <a href="{{url_for('home.movie_view', movie_id = movie.movie_id)}}" style="text-decoration: none;">
+                    <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + movie.movie_poster) }}" alt="{{ movie.movie_title }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    </a>
+                    <div class="card-content"><h3>{{ movie.movie_title }}</h3><div class="card-meta"><span>{{ movie.movie_duration }}</span><span class="badge-red">New</span></div></div>
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=12" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Civil War</h3><div class="card-meta"><span>1h 49m</span><span class="badge-red">New</span></div></div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=13" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Furiosa: Saga</h3><div class="card-meta"><span>2h 28m</span><span class="badge-red">New</span></div></div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=14" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>The Fall Guy</h3><div class="card-meta"><span>2h 06m</span><span class="badge-red">New</span></div></div>
-                </div>
+                {% else %}
+                <h1> No movies available </h1>
+                {% endif %}
+                {% endfor %}
             </div>
         </section>
 
@@ -103,18 +100,15 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for most_reviewed_movie in most_reviewed_movies %}
+                {% if most_reviewed_movie %}
                 <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=21" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Oppenheimer</h3><div class="card-meta"><span>3h 00m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
+                    <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + most_reviewed_movie.movie_poster) }}" alt="{{ most_reviewed_movie.movie_title }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>{{ most_reviewed_movie.movie_title }}</h3><div class="card-meta"><span>{{ most_reviewed_movie.movie_duration }}</span><span class="rating"><i class="fa-solid fa-star"></i> {{ most_reviewed_movie.review }}</span></div></div>
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=22" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Blade Runner 2049</h3><div class="card-meta"><span>2h 44m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.7</span></div></div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=23" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>The Dark Knight</h3><div class="card-meta"><span>2h 32m</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
-                </div>
+                {% endif %}
+                {% endfor %}
+
             </div>
         </section>
 
@@ -153,14 +147,16 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for upcoming_movie in upcoming_movies %}
+                {% if upcoming_movie %}
                 <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=41" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-bell"></i></button></div></div>
-                    <div class="card-content"><h3>Avatar 3</h3><div class="card-meta"><span>Dec 2026</span><span class="badge-blue">Remind Me</span></div></div>
+                    <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + upcoming_movie.movie_poster) }}" alt="{{ upcoming_movie.movie_name }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-bell"></i></button></div></div>
+                    <div class="card-content"><h3>{{ upcoming_movie.movie_title }}</h3><div class="card-meta"><span>{{ upcoming_movie.movie_release_date }}</span><span class="badge-blue">Remind Me</span></div></div>
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=42" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-bell"></i></button></div></div>
-                    <div class="card-content"><h3>The Batman Part II</h3><div class="card-meta"><span>Oct 2026</span><span class="badge-blue">Remind Me</span></div></div>
-                </div>
+                {% else %}
+                <h1> No upcoming movies available </h1>
+                {% endif %}
+                {% endfor %}
             </div>
         </section>
 

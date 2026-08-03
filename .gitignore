@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+
+# Videos
+*.mp4
+*.mkv
+*.avi
+*.mov
+
+# Images (જો મોટી હોય)
+*.zip
+*.rar
+
+.vscode

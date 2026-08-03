@@ -1,4 +1,4 @@
-from flask import Blueprint , render_template , request , redirect , url_for , session ,Response
+from flask import Blueprint , render_template , request , redirect , url_for , session ,Response,flash
 from app import genreted_db_connect
 from werkzeug.security import generate_password_hash , check_password_hash
 
@@ -30,6 +30,7 @@ def login():
                 session["admin_email"] = admin_user['email']
                 session["admin_id"] = admin_user['admin_id']
                 session['admin_login'] = True
+                flash('Admin Login Successfully.', 'success')
                 return redirect(url_for('admin.dashboard'))
                
             
@@ -49,6 +50,7 @@ def login():
                     session['email'] = user['email']
                     session['loggedin'] = True
                     session['subscribed'] = user['subscribed']
+                    flash('Login Successfully.', 'success')
 
                     return redirect(url_for('home.index'))
                 else : 
@@ -63,6 +65,7 @@ def login():
 def logout():
     session.clear()
     session['loggedin'] = False
+    flash('Logout Successfully Please Login.', 'success')
     return redirect(url_for('home.index'))
 
 
@@ -99,7 +102,9 @@ def register():
                 cursour.close()
                 connction.close()
 
+                flash('Create Account Successfully.', 'success')
                 return redirect(url_for('auth.login'))
+                
     return render_template('register.html')
 
 

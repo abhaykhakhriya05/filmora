@@ -1,30 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamVibe - Watch Movie</title>
-    <link rel="stylesheet" href="/static/css/movie_view.css">
+{% extends "base.html" %}
+
+{% set primary_file = movie_file[0] if movie_file else none %}
+
+{% block title %} Filmora - {{ movies.movie_name if movies else "Watch Movie" }} {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/movie_view.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back_ios" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
-       
-</head>
-<body>
+{% endblock %}
 
-    <header class="navbar">
-        <div class="logo">
-            <span class="logo-icon"><i class="material-symbols-outlined">arrow_back_ios</i></span>
-        </div>
-      
-    
-    </header>
-
-    <main class="container">
-        
+{% block content %}
+    <main class="container movie-view-page">
+        {% if movies %}
         <section class="video-player-workspace show-controls" id="playerWorkspace">
-            <video id="mainVideoPlayer" src="/static/video/video.mp4" preload="metadata"></video>
-            
+            <video
+                id="mainVideoPlayer"
+                src="{{ url_for('static', filename='video/' + primary_file.movie_file) if primary_file else '' }}"
+                preload="metadata"
+            >
+                {% for subtitle in movie_subtitle %}
+                <track
+                    kind="subtitles"
+                    srclang="{{ subtitle.movie_sub_language|lower }}"
+                    label="{{ subtitle.movie_sub_language }}"
+                    src="{{ url_for('static', filename='subtitle/' + subtitle.movie_subtitle) }}"
+                >
+                {% endfor %}
+            </video>
+
             <div class="tap-zone-left" id="leftTapZone">
                 <div class="ripple-notice"><i class="fa-solid fa-backward"></i></div>
             </div>
@@ -42,37 +46,54 @@
 
                     <div class="top-right-controls">
                         <div class="custom-select-menu">
-                            <button class="select-toggle-btn" id="audioToggleBtn"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            <button class="select-toggle-btn" id="audioToggleBtn">
+                                <i class="fa-solid fa-volume-high"></i> Audio
+                            </button>
                             <div class="select-dropdown-list" id="audioMenu" style="width: 160px; padding: 10px;">
                                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="width: 100%; accent-color: var(--primary-red); cursor: pointer; margin-bottom: 8px;">
-                                <button class="dropdown-option-item active" data-audio="hindi">Hindi Track</button>
-                                <button class="dropdown-option-item" data-audio="english">English Dub</button>
+                                <button class="dropdown-option-item active" data-setting="audio" data-audio="{{ movies.movie_language|lower }}">
+                                    {{ movies.movie_language or "Default" }}
+                                </button>
                             </div>
                         </div>
 
                         <div class="custom-select-menu">
                             <button class="select-toggle-btn"><i class="fa-regular fa-comment-dots"></i> Subtitles</button>
                             <div class="select-dropdown-list" id="subtitleMenu">
-                                <button class="dropdown-option-item active" data-cc="off">Off</button>
-                                <button class="dropdown-option-item" data-cc="en">English CC</button>
-                                <button class="dropdown-option-item" data-cc="es">Español</button>
+                                <button class="dropdown-option-item active" data-setting="subtitle" data-subtitle-src="" data-subtitle-label="Off">Off</button>
+                                {% for subtitle in movie_subtitle %}
+                                <button
+                                    class="dropdown-option-item"
+                                    data-setting="subtitle"
+                                    data-subtitle-src="{{ url_for('static', filename='subtitle/' + subtitle.movie_subtitle) }}"
+                                    data-subtitle-label="{{ subtitle.movie_sub_language }}"
+                                    data-cc="{{ subtitle.movie_sub_language|lower }}"
+                                >
+                                    {{ subtitle.movie_sub_language }}
+                                </button>
+                                {% endfor %}
                             </div>
                         </div>
 
                         <div class="custom-select-menu">
                             <button class="select-toggle-btn"><i class="fa-solid fa-sliders"></i> Quality</button>
                             <div class="select-dropdown-list" id="qualityMenu">
-                                <button class="dropdown-option-item" data-quality="1080">1080p HD</button>
-                                <button class="dropdown-option-item active" data-quality="720">720p Auto</button>
-                                <button class="dropdown-option-item" data-quality="480">480p Data</button>
+                                {% for file in movie_file %}
+                                <button
+                                    class="dropdown-option-item {{ 'active' if loop.first else '' }}"
+                                    data-setting="quality"
+                                    data-quality="{{ file.movie_quality }}"
+                                    data-video-src="{{ url_for('static', filename='video/' + file.movie_file) }}"
+                                >
+                                    {{ file.movie_quality }}
+                                </button>
+                                {% endfor %}
                             </div>
                         </div>
 
-                         <button class="mobile-settings-btn" id="mobileSettingsOpenBtn" title="Settings">
+                        <button class="mobile-settings-btn" id="mobileSettingsOpenBtn" title="Settings">
                             <i class="fa-solid fa-gear"></i>
                         </button>
-
-
                     </div>
                 </div>
 
@@ -91,37 +112,46 @@
             </div>
         </section>
 
-
-         <div class="sheet-backdrop" id="sheetBackdrop"></div>
+        <div class="sheet-backdrop" id="sheetBackdrop"></div>
         <div class="mobile-bottom-sheet" id="mobileBottomSheet">
             <div class="sheet-header">
                 <h3>Video Settings</h3>
                 <button class="sheet-close-btn" id="sheetCloseBtn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <div class="sheet-section">
                 <div class="sheet-section-title">Audio Track</div>
                 <div class="sheet-options-grid">
-                    <button class="sheet-opt-btn active">Hindi [Original]</button>
-                    <button class="sheet-opt-btn">English Dub</button>
+                    <button class="sheet-opt-btn active" data-setting="audio" data-audio="{{ movies.movie_language|lower }}">{{ movies.movie_language or "Default" }}</button>
                 </div>
             </div>
 
             <div class="sheet-section">
                 <div class="sheet-section-title">Subtitles (CC)</div>
                 <div class="sheet-options-grid">
-                    <button class="sheet-opt-btn active">Off</button>
-                    <button class="sheet-opt-btn">English</button>
-                    <button class="sheet-opt-btn">Español</button>
+                    <button class="sheet-opt-btn active" data-setting="subtitle" data-subtitle-src="" data-subtitle-label="Off">Off</button>
+                    {% for subtitle in movie_subtitle %}
+                    <button
+                        class="sheet-opt-btn"
+                        data-setting="subtitle"
+                        data-subtitle-src="{{ url_for('static', filename='subtitle/' + subtitle.movie_subtitle) }}"
+                        data-subtitle-label="{{ subtitle.movie_sub_language }}"
+                    >{{ subtitle.movie_sub_language }}</button>
+                    {% endfor %}
                 </div>
             </div>
 
             <div class="sheet-section">
                 <div class="sheet-section-title">Video Quality</div>
                 <div class="sheet-options-grid">
-                    <button class="sheet-opt-btn">1080p HD</button>
-                    <button class="sheet-opt-btn active">720p Auto</button>
-                    <button class="sheet-opt-btn">480p Data Saver</button>
+                    {% for file in movie_file %}
+                    <button
+                        class="sheet-opt-btn {{ 'active' if loop.first else '' }}"
+                        data-setting="quality"
+                        data-quality="{{ file.movie_quality }}"
+                        data-video-src="{{ url_for('static', filename='video/' + file.movie_file) }}"
+                    >{{ file.movie_quality }}</button>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -129,14 +159,14 @@
         <section class="movie-meta-grid">
             <div class="meta-left-rail">
                 <div class="movie-title-card-area">
-                    <h1>Section 375</h1>
+                    <h1>{{ movies.movie_name }}</h1>
                     <div class="quick-tags-strip">
-                        <span class="age-rating-pill">UA 16+</span>
-                        <span>2019</span>
-                        <span>•</span>
-                        <span>2h 4m</span>
-                        <span>•</span>
-                        <span>Courtroom Drama</span>
+                        <span class="age-rating-pill">{{ movies.movie_access }}</span>
+                        <span>{{ movies.movie_release_year }}</span>
+                        <span>&bull;</span>
+                        <span>{{ movies.movie_duration }}</span>
+                        <span>&bull;</span>
+                        <span>{{ movies.movie_categories }}</span>
                     </div>
                 </div>
 
@@ -144,47 +174,42 @@
                     <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button>
                     <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">14.2k</span> Likes</button>
                     <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i> Share</button>
-                    <button class="action-node-btn" id="downloadBtn"><i class="fa-solid fa-arrow-down"></i> Download</button>
+                    {% if primary_file and primary_file.movie_download %}
+                    <a class="action-node-btn" id="downloadBtn" href="{{ url_for('static', filename='video/' + primary_file.movie_file) }}" download>
+                        <i class="fa-solid fa-arrow-down"></i> Download
+                    </a>
+                    {% endif %}
                 </div>
 
                 <div>
                     <h3 class="section-block-title">Description</h3>
-                    <p class="description-paragraph">A celebrated Bollywood movie director Rohan Khurana stands accused by a female member of his crew, Anjali Dangle, of raping her at his residence. Rohan is arrested and produced before a session court judge where formal charges are written out against him. Advocate Manish Marwah takes up Rohan's defense while the prosecution is handled by his former mentee Hrishita Madkaikar, sparking off a brilliant battle of wits inside the courtroom layout.</p>
+                    <p class="description-paragraph">{{ movies.movie_description }}</p>
                 </div>
 
+                {% if cast %}
                 <div>
                     <h3 class="section-block-title">Cast & Crew</h3>
                     <div class="cast-avatar-track">
+                        {% for member in cast %}
                         <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Akshaye" alt="Cast">
-                            <p>Akshaye Khanna</p>
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ member.movie_cast_name|urlencode }}" alt="{{ member.movie_cast_name }}">
+                            <p>{{ member.movie_cast_name }}</p>
                         </div>
-                        <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rhea" alt="Cast">
-                            <p>Richa Chadha</p>
-                        </div>
-                        <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Meera" alt="Cast">
-                            <p>Meera Chopra</p>
-                        </div>
-                        <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Cast">
-                            <p>Rahul Bhat</p>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
+                {% endif %}
             </div>
 
             <div class="sidebar-specs-panel">
                 <div class="spec-item-group">
                     <div class="spec-label-title"><i class="fa-regular fa-calendar"></i> Released Year</div>
-                    <div class="spec-value-output">2019</div>
+                    <div class="spec-value-output">{{ movies.movie_release_year }}</div>
                 </div>
                 <div class="spec-item-group">
                     <div class="spec-label-title"><i class="fa-solid fa-globe"></i> Languages</div>
                     <div class="languages-flex-wrap">
-                        <span class="lang-node-pill">Hindi</span>
-                        <span class="lang-node-pill">English</span>
+                        <span class="lang-node-pill">{{ movies.movie_language }}</span>
                     </div>
                 </div>
             </div>
@@ -193,243 +218,423 @@
         <section class="recommended-section">
             <h3 class="section-block-title" style="font-size: 1.25rem; color: #fff;">Recommended Movies</h3>
             <div class="recommended-media-grid">
+                {% for rec in recommended_movies %}
                 <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Drishyam 2</h4><p class="poster-card-meta">Thriller • 2h 20m</p></div>
+                    <div class="poster-img-container"><img src="{{ url_for('static', filename='images/' + rec.movie_poster) }}" alt="{{ rec.movie_name }}"></div>
+                    <div class="poster-card-details"><h4 class="poster-card-title">{{ rec.movie_name }}</h4><p class="poster-card-meta">{{ rec.movie_categories }} &bull; {{ rec.movie_duration }}</p></div>
                 </div>
-                <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Talvar</h4><p class="poster-card-meta">Mystery Drama • 2h 12m</p></div>
-                </div>
-                <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Article 15</h4><p class="poster-card-meta">Crime Thriller • 2h 10m</p></div>
-                </div>
+                {% endfor %}
             </div>
         </section>
-
+        {% else %}
+        <section class="movie-empty-state">
+            <h1>Movie not found</h1>
+            <a href="{{ url_for('home.index') }}" class="action-node-btn">Back to Home</a>
+        </section>
+        {% endif %}
     </main>
+{% endblock %}
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div><h4>Platform</h4><a href="#">Categories</a><a href="#">Devices</a></div>
-                <div><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2026 streamvibe. All Rights Reserved</p></div>
-        </div>
-    </footer>
-
-    <!-- <nav class="hotstar-bottom-nav">
-        <a href="index.html" class="bottom-nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
-        <a href="movie.html" class="bottom-nav-link active"><i class="fa-solid fa-film"></i><span>Movies</span></a>
-        <a href="series.html" class="bottom-nav-link"><i class="fa-solid fa-headset"></i><span>Series</span></a>
-        <a href="subscription.html" class="bottom-nav-link"><i class="fa-solid fa-gem"></i><span>Premium</span></a>
-    </nav> -->
-
+{% block script %}
     <script>
-        const video = document.getElementById('mainVideoPlayer');
-        const workspace = document.getElementById('playerWorkspace');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const rewindBtn = document.getElementById('rewindBtn');
-        const forwardBtn = document.getElementById('forwardBtn');
-        const audioToggleBtn = document.getElementById('audioToggleBtn');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const currentTimeEl = document.getElementById('currentTime');
-        const totalDurationEl = document.getElementById('totalDuration');
-        const timelineWrapper = document.getElementById('timelineWrapper');
-        const timelineProgress = document.getElementById('timelineProgress');
-        const fullScreenBtn = document.getElementById('fullScreenBtn');
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.getElementById("mainVideoPlayer");
+            const workspace = document.getElementById("playerWorkspace");
 
-        const mobileSettingsOpenBtn = document.getElementById('mobileSettingsOpenBtn');
-        const mobileBottomSheet = document.getElementById('mobileBottomSheet');
-        const sheetBackdrop = document.getElementById('sheetBackdrop');
-        const sheetCloseBtn = document.getElementById('sheetCloseBtn');
-
-        let controlsTimeout;
-
-        // --- INTELLIGENT AUTO-HIDE ON HOVER & IDLE ---
-        function resetControlsTimeout() {
-            workspace.classList.add('show-controls');
-            clearTimeout(controlsTimeout);
-            
-            // જો વીડિયો ચાલુ હોય તો જ 2.5 സെકન્ડ પછી કંટ્રોલ્સ હાઈડ થશે
-            if (!video.paused) {
-                controlsTimeout = setTimeout(() => {
-                    workspace.classList.remove('show-controls');
-                }, 2500);
+            if (!video || !workspace) {
+                return;
             }
-        }
 
-        // ઈવેન્ટ્સ ટ્રેકિંગ (આખા પ્લેયર પર માઉસ ફરે, ક્લિક થાય કે ટચ થાય ત્યારે દેખાશે)
-        workspace.addEventListener('mousemove', resetControlsTimeout);
-        workspace.addEventListener('click', resetControlsTimeout);
-        workspace.addEventListener('touchstart', resetControlsTimeout);
+            const playPauseBtn = document.getElementById("playPauseBtn");
+            const rewindBtn = document.getElementById("rewindBtn");
+            const forwardBtn = document.getElementById("forwardBtn");
+            const audioToggleBtn = document.getElementById("audioToggleBtn");
+            const volumeSlider = document.getElementById("volumeSlider");
+            const currentTimeEl = document.getElementById("currentTime");
+            const totalDurationEl = document.getElementById("totalDuration");
+            const timelineWrapper = document.getElementById("timelineWrapper");
+            const timelineProgress = document.getElementById("timelineProgress");
+            const fullScreenBtn = document.getElementById("fullScreenBtn");
+            const mobileSettingsOpenBtn = document.getElementById("mobileSettingsOpenBtn");
+            const mobileBottomSheet = document.getElementById("mobileBottomSheet");
+            const sheetBackdrop = document.getElementById("sheetBackdrop");
+            const sheetCloseBtn = document.getElementById("sheetCloseBtn");
+            const leftZone = document.getElementById("leftTapZone");
+            const rightZone = document.getElementById("rightTapZone");
+            const likeBtn = document.getElementById("likeBtn");
+            const whitelistBtn = document.getElementById("whitelistBtn");
+            const subtitleOverlay = document.getElementById("subtitleOverlay");
 
-        // બધા બટનો પર Hover કે ક્લિક કરવાથી ટાઈમર રીસેટ થાય તે માટે લૂપ
-        document.querySelectorAll('.center-player-btn, .select-toggle-btn, .timeline-slider-wrapper, .fullscreen-btn').forEach(button => {
-            button.addEventListener('mouseenter', resetControlsTimeout);
-            button.addEventListener('click', (e) => {
-                e.stopPropagation(); // ક્લિક કરવા પર પ્રોપગેશન રોકે છે
+            let controlsTimeout;
+            let subtitleCues = [];
+
+            function resetControlsTimeout() {
+                workspace.classList.add("show-controls");
+                clearTimeout(controlsTimeout);
+
+                if (!video.paused) {
+                    controlsTimeout = setTimeout(() => {
+                        workspace.classList.remove("show-controls");
+                    }, 2500);
+                }
+            }
+
+            function togglePlayState() {
+                playPauseBtn.classList.add("animate-click");
+                setTimeout(() => playPauseBtn.classList.remove("animate-click"), 500);
+
+                if (video.paused) {
+                    video.play();
+                    setTimeout(() => {
+                        playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    }, 150);
+                } else {
+                    video.pause();
+                    setTimeout(() => {
+                        playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    }, 150);
+                }
+
+                resetControlsTimeout();
+            }
+
+            function triggerZoneAnimation(zone) {
+                zone.classList.remove("ripple-active");
+                void zone.offsetWidth;
+                zone.classList.add("ripple-active");
+            }
+
+            function formatTimeDisplay(seconds) {
+                if (Number.isNaN(seconds)) {
+                    return "00:00";
+                }
+
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins < 10 ? "0" + mins : mins}:${secs < 10 ? "0" + secs : secs}`;
+            }
+
+            function parseSubtitleTime(value) {
+                const parts = value.trim().replace(",", ".").split(":");
+                const hours = Number(parts[0]) || 0;
+                const minutes = Number(parts[1]) || 0;
+                const seconds = Number(parts[2]) || 0;
+                return (hours * 3600) + (minutes * 60) + seconds;
+            }
+
+            function parseSrt(text) {
+                return text
+                    .replace(/\r/g, "")
+                    .trim()
+                    .split(/\n\n+/)
+                    .map((block) => {
+                        const lines = block.split("\n").filter(Boolean);
+                        const timeLine = lines.find((line) => line.includes("-->"));
+
+                        if (!timeLine) {
+                            return null;
+                        }
+
+                        const [start, end] = timeLine.split("-->").map((item) => item.trim());
+                        const timeIndex = lines.indexOf(timeLine);
+
+                        return {
+                            start: parseSubtitleTime(start),
+                            end: parseSubtitleTime(end),
+                            text: lines.slice(timeIndex + 1).join("<br>"),
+                        };
+                    })
+                    .filter(Boolean);
+            }
+
+            function updateSubtitleOverlay() {
+                if (!subtitleOverlay || subtitleCues.length === 0) {
+                    return;
+                }
+
+                const activeCue = subtitleCues.find((cue) => video.currentTime >= cue.start && video.currentTime <= cue.end);
+
+                if (activeCue) {
+                    subtitleOverlay.innerHTML = activeCue.text;
+                    subtitleOverlay.style.display = "block";
+                } else {
+                    subtitleOverlay.textContent = "";
+                    subtitleOverlay.style.display = "none";
+                }
+            }
+
+            function setGroupActive(button) {
+                const parent = button.parentElement;
+
+                if (!parent) {
+                    return;
+                }
+
+                parent.querySelectorAll(".dropdown-option-item, .sheet-opt-btn").forEach((item) => {
+                    item.classList.remove("active");
+                });
+                button.classList.add("active");
+            }
+
+            function syncMatchingControls(setting, value) {
+                document.querySelectorAll(`[data-setting="${setting}"]`).forEach((button) => {
+                    const key = setting === "quality" ? "videoSrc" : setting === "subtitle" ? "subtitleSrc" : "audio";
+                    const buttonValue = button.dataset[key] || "";
+                    const isMatch = buttonValue === value;
+
+                    if (isMatch) {
+                        setGroupActive(button);
+                    }
+                });
+            }
+
+            async function setSubtitle(src) {
+                subtitleCues = [];
+
+                if (subtitleOverlay) {
+                    subtitleOverlay.textContent = "";
+                    subtitleOverlay.style.display = "none";
+                }
+
+                if (!src) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch(src);
+                    const text = await response.text();
+                    subtitleCues = parseSrt(text);
+                    updateSubtitleOverlay();
+                } catch (error) {
+                    console.log("Subtitle load failed:", error.message);
+                }
+            }
+
+            function setQuality(src) {
+                if (!src || video.currentSrc.endsWith(src)) {
+                    return;
+                }
+
+                const wasPlaying = !video.paused;
+                const currentTime = video.currentTime || 0;
+                video.src = src;
+                video.load();
+
+                video.addEventListener("loadedmetadata", () => {
+                    video.currentTime = Math.min(currentTime, video.duration || currentTime);
+
+                    if (wasPlaying) {
+                        video.play();
+                    }
+                }, { once: true });
+            }
+
+            function handleSettingButton(button) {
+                const setting = button.dataset.setting;
+
+                setGroupActive(button);
+
+                if (setting === "subtitle") {
+                    const src = button.dataset.subtitleSrc || "";
+                    syncMatchingControls("subtitle", src);
+                    setSubtitle(src);
+                }
+
+                if (setting === "quality") {
+                    const src = button.dataset.videoSrc || "";
+                    syncMatchingControls("quality", src);
+                    setQuality(src);
+                }
+
+                if (setting === "audio") {
+                    syncMatchingControls("audio", button.dataset.audio || "");
+                }
+
+                resetControlsTimeout();
+            }
+
+            function changeVolume(delta) {
+                const nextVolume = Math.min(1, Math.max(0, video.volume + delta));
+                video.volume = nextVolume;
+                video.muted = nextVolume === 0;
+
+                if (volumeSlider) {
+                    volumeSlider.value = String(nextVolume);
+                }
+
+                audioToggleBtn.innerHTML = video.muted
+                    ? '<i class="fa-solid fa-volume-xmark"></i> Audio'
+                    : '<i class="fa-solid fa-volume-high"></i> Audio';
+
+                resetControlsTimeout();
+            }
+
+            function seekVideo(seconds) {
+                video.currentTime = Math.min(video.duration || video.currentTime + seconds, Math.max(0, video.currentTime + seconds));
+                resetControlsTimeout();
+            }
+
+            workspace.addEventListener("mousemove", resetControlsTimeout);
+            workspace.addEventListener("click", resetControlsTimeout);
+            workspace.addEventListener("touchstart", resetControlsTimeout);
+
+            document.querySelectorAll(".center-player-btn, .select-toggle-btn, .timeline-slider-wrapper, .fullscreen-btn").forEach((button) => {
+                button.addEventListener("mouseenter", resetControlsTimeout);
+                button.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    resetControlsTimeout();
+                });
+            });
+
+            playPauseBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                togglePlayState();
+            });
+
+            leftZone.addEventListener("click", (event) => {
+                event.stopPropagation();
+                video.currentTime = Math.max(0, video.currentTime - 10);
+                triggerZoneAnimation(leftZone);
                 resetControlsTimeout();
             });
-        });
 
-        // --- PREMIUM INTERACTIVE PLAY / PAUSE LOGIC WITH SPIN & RIPPLE ---
-        function togglePlayState() {
-            playPauseBtn.classList.add('animate-click');
-            
-            setTimeout(() => {
-                playPauseBtn.classList.remove('animate-click');
-            }, 500);
-
-            if (video.paused) {
-                video.play();
-                setTimeout(() => {
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                }, 150);
-            } else {
-                video.pause();
-                setTimeout(() => {
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                }, 150);
-            }
-            resetControlsTimeout();
-        }
-        
-        playPauseBtn.addEventListener('click', (e) => { 
-            e.stopPropagation(); 
-            togglePlayState(); 
-        });
-
-        // --- DOUBLE TAP / CLICK TO SKIP ---
-        const leftZone = document.getElementById('leftTapZone');
-        const rightZone = document.getElementById('rightTapZone');
-
-        function triggerZoneAnimation(zone) {
-            zone.classList.remove('ripple-active');
-            void zone.offsetWidth; // Force CSS reflow calculation
-            zone.classList.add('ripple-active');
-        }
-
-        leftZone.addEventListener('click', (e) => {
-            e.stopPropagation();
-            video.currentTime = Math.max(0, video.currentTime - 10);
-            triggerZoneAnimation(leftZone);
-            resetControlsTimeout();
-        });
-
-        rightZone.addEventListener('click', (e) => {
-            e.stopPropagation();
-            video.currentTime = Math.min(video.duration, video.currentTime + 10);
-            triggerZoneAnimation(rightZone);
-            resetControlsTimeout();
-        });
-
-        forwardBtn.addEventListener('click', (e) => { e.stopPropagation(); video.currentTime += 10; resetControlsTimeout(); });
-        rewindBtn.addEventListener('click', (e) => { e.stopPropagation(); video.currentTime -= 10; resetControlsTimeout(); });
-
-        // --- TIMELINE COUNTERS DISPATCH SYNCS ---
-        function formatTimeDisplay(seconds) {
-            if (isNaN(seconds)) return "00:00";
-            let mins = Math.floor(seconds / 60);
-            let secs = Math.floor(seconds % 60);
-            return `${mins < 10 ? '0' + mins : mins}:${secs < 10 ? '0' + secs : secs}`;
-        }
-
-        video.addEventListener('timeupdate', () => {
-            if (video.duration) {
-                timelineProgress.style.width = ((video.currentTime / video.duration) * 100) + '%';
-            }
-            currentTimeEl.textContent = formatTimeDisplay(video.currentTime);
-        });
-
-        video.addEventListener('loadedmetadata', () => {
-            totalDurationEl.textContent = formatTimeDisplay(video.duration);
-        });
-
-        timelineWrapper.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const rect = timelineWrapper.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            video.currentTime = (clickX / rect.width) * video.duration;
-            resetControlsTimeout();
-        });
-
-        volumeSlider.addEventListener('input', (e) => {
-            video.volume = e.target.value;
-            video.muted = (video.volume === 0);
-            audioToggleBtn.innerHTML = video.muted ? '<i class="fa-solid fa-volume-xmark"></i> Audio' : '<i class="fa-solid fa-volume-high"></i> Audio';
-            resetControlsTimeout();
-        });
-
-        fullScreenBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (!document.fullscreenElement) {
-                workspace.requestFullscreen().catch(err => console.log(err.message));
-            } else {
-                document.exitFullscreen();
-
-            }
-            resetControlsTimeout();
-        });
-
-        document.querySelectorAll('.dropdown-option-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const parent = item.parentElement;
-                parent.querySelectorAll('.dropdown-option-item').forEach(el => el.classList.remove('active'));
-                item.classList.add('active');
+            rightZone.addEventListener("click", (event) => {
+                event.stopPropagation();
+                video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                triggerZoneAnimation(rightZone);
                 resetControlsTimeout();
             });
-        });
 
-        // Metadata Button Toggles
-        const likeBtn = document.getElementById('likeBtn');
-        const whitelistBtn = document.getElementById('whitelistBtn');
+            forwardBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                video.currentTime += 10;
+                resetControlsTimeout();
+            });
 
-        if(likeBtn) {
-            likeBtn.addEventListener('click', () => {
-                likeBtn.classList.toggle('active');
-                const likeCount = document.getElementById('likeCount');
-                if(likeCount) {
-                    likeCount.textContent = likeBtn.classList.contains('active') ? "14.3k" : "14.2k";
+            rewindBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                video.currentTime -= 10;
+                resetControlsTimeout();
+            });
+
+            document.addEventListener("keydown", (event) => {
+                const activeElement = document.activeElement;
+                const isTyping = activeElement && ["INPUT", "TEXTAREA", "SELECT"].includes(activeElement.tagName);
+
+                if (isTyping) {
+                    return;
+                }
+
+                if (event.code === "Space") {
+                    event.preventDefault();
+                    togglePlayState();
+                }
+
+                if (event.key === "ArrowUp") {
+                    event.preventDefault();
+                    changeVolume(0.1);
+                }
+
+                if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    changeVolume(-0.1);
+                }
+
+                if (event.key === "ArrowRight") {
+                    event.preventDefault();
+                    seekVideo(10);
+                }
+
+                if (event.key === "ArrowLeft") {
+                    event.preventDefault();
+                    seekVideo(-10);
                 }
             });
-        }
 
-        if(whitelistBtn) {
-            whitelistBtn.addEventListener('click', () => {
-                whitelistBtn.classList.toggle('active');
-                whitelistBtn.innerHTML = whitelistBtn.classList.contains('active') ? 
-                    '<i class="fa-solid fa-bookmark"></i> Whitelisted' : '<i class="fa-regular fa-bookmark"></i> Whitelist';
+            video.addEventListener("timeupdate", () => {
+                if (video.duration) {
+                    timelineProgress.style.width = `${(video.currentTime / video.duration) * 100}%`;
+                }
+
+                currentTimeEl.textContent = formatTimeDisplay(video.currentTime);
+                updateSubtitleOverlay();
             });
-        }
 
+            video.addEventListener("loadedmetadata", () => {
+                totalDurationEl.textContent = formatTimeDisplay(video.duration);
+            });
 
-         // --- MOBILE BOTTOM SHEET CONTROLLER LOGIC ---
-        mobileSettingsOpenBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileBottomSheet.classList.add('open');
-            sheetBackdrop.style.display = 'block';
-        });
+            timelineWrapper.addEventListener("click", (event) => {
+                event.stopPropagation();
+                const rect = timelineWrapper.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                video.currentTime = (clickX / rect.width) * video.duration;
+                resetControlsTimeout();
+            });
 
-        function closeBottomSheet() {
-            mobileBottomSheet.classList.remove('open');
-            sheetBackdrop.style.display = 'none';
-        }
+            volumeSlider.addEventListener("input", (event) => {
+                video.volume = event.target.value;
+                video.muted = video.volume === 0;
+                audioToggleBtn.innerHTML = video.muted
+                    ? '<i class="fa-solid fa-volume-xmark"></i> Audio'
+                    : '<i class="fa-solid fa-volume-high"></i> Audio';
+                resetControlsTimeout();
+            });
 
-        sheetCloseBtn.addEventListener('click', closeBottomSheet);
-        sheetBackdrop.addEventListener('click', closeBottomSheet);
+            fullScreenBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
 
-        // Bottom sheet button configuration toggles
-        document.querySelectorAll('.sheet-opt-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const parent = btn.parentElement;
-                parent.querySelectorAll('.sheet-opt-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                if (!document.fullscreenElement) {
+                    workspace.requestFullscreen().catch((error) => console.log(error.message));
+                } else {
+                    document.exitFullscreen();
+                }
+
+                resetControlsTimeout();
+            });
+
+            document.querySelectorAll(".dropdown-option-item").forEach((item) => {
+                item.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    handleSettingButton(item);
+                });
+            });
+
+            likeBtn.addEventListener("click", () => {
+                likeBtn.classList.toggle("active");
+                const likeCount = document.getElementById("likeCount");
+
+                if (likeCount) {
+                    likeCount.textContent = likeBtn.classList.contains("active") ? "14.3k" : "14.2k";
+                }
+            });
+
+            whitelistBtn.addEventListener("click", () => {
+                whitelistBtn.classList.toggle("active");
+                whitelistBtn.innerHTML = whitelistBtn.classList.contains("active")
+                    ? '<i class="fa-solid fa-bookmark"></i> Whitelisted'
+                    : '<i class="fa-regular fa-bookmark"></i> Whitelist';
+            });
+
+            mobileSettingsOpenBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                mobileBottomSheet.classList.add("open");
+                sheetBackdrop.style.display = "block";
+            });
+
+            function closeBottomSheet() {
+                mobileBottomSheet.classList.remove("open");
+                sheetBackdrop.style.display = "none";
+            }
+
+            sheetCloseBtn.addEventListener("click", closeBottomSheet);
+            sheetBackdrop.addEventListener("click", closeBottomSheet);
+
+            document.querySelectorAll(".sheet-opt-btn").forEach((button) => {
+                button.addEventListener("click", () => {
+                    handleSettingButton(button);
+                });
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

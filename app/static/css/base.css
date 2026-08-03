@@ -412,3 +412,117 @@ footer {
     color: #ff4d4d;
 }
 
+
+body.flash-modal-open {
+    overflow: hidden;
+}
+
+.flash-message-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.flash-message-modal.is-open {
+    display: flex;
+}
+
+.flash-message-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.flash-message-dialog {
+    position: relative;
+    width: min(92vw, 460px);
+    max-height: 80vh;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+    background: #070707;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+}
+
+.flash-message-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #1f1f1f;
+}
+
+.flash-message-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.flash-message-close {
+    border: 0;
+    background: transparent;
+    color: #b7b7bb;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.flash-message-body {
+    display: grid;
+    gap: 12px;
+    padding: 18px 20px 20px;
+}
+
+.flash-message-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #252525;
+    background: #111113;
+}
+
+.flash-message-item.success {
+    border-color: rgba(35, 206, 116, 0.35);
+    background: rgba(35, 206, 116, 0.12);
+}
+
+.flash-message-item.warning {
+    border-color: rgba(255, 180, 0, 0.35);
+    background: rgba(255, 180, 0, 0.12);
+}
+
+.flash-message-item.danger {
+    border-color: rgba(241, 18, 18, 0.35);
+    background: rgba(241, 18, 18, 0.12);
+}
+
+.flash-message-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    flex: 0 0 auto;
+}
+
+.flash-message-item strong {
+    display: block;
+    color: #fff;
+    text-transform: capitalize;
+    margin-bottom: 4px;
+}
+
+.flash-message-item p {
+    margin: 0;
+    color: var(--admin-muted);
+    line-height: 1.5;
+}
+

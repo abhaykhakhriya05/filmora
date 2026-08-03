@@ -20,6 +20,7 @@
   </head>
 
   <body>
+    {% set nav_active = active_page|default('home') %}
     <header class="navbar">
       <div class="logo">
         <img
@@ -31,12 +32,12 @@
       <nav class="nav-links" id="navLinks">
         <a
           href="{{ url_for('home.index') }}"
-          class="{{ 'active' if active_page == 'home' else '' }}"
+          class="{{ 'active' if nav_active == 'home' else '' }}"
           >Home</a
         >
-        <a href="" class="">Movies</a>
-        <a href="" class="">Series</a>
-        <a href="" class="">Subscription</a>
+        <a href="{{ url_for('movie.movie') }}" class="{{ 'active' if nav_active == 'movie' else '' }}">Movies</a>
+        <a href="" class="{{ 'active' if nav_active == 'series' else '' }}">Series</a>
+        <a href="" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
       </nav>
 
       <div class="nav-actions">
@@ -93,23 +94,58 @@
     </header>
 
     <nav class="hotstar-bottom-nav">
-      <a href="" class="bottom-nav-link active">
+      <a href="{{ url_for('home.index') }}" class="bottom-nav-link {{ 'active' if nav_active == 'home' else '' }}">
         <i class="fa-solid fa-house"></i>
         <span>Home</span>
       </a>
-      <a href="" class="bottom-nav-link">
+      <a href="{{ url_for('movie.movie') }}" class="bottom-nav-link {{ 'active' if nav_active == 'movie' else '' }}">
         <i class="fa-solid fa-film"></i>
         <span>Movies</span>
       </a>
-      <a href="" class="bottom-nav-link">
+      <a href="" class="bottom-nav-link {{ 'active' if nav_active == 'series' else '' }}">
         <i class="fa-solid fa-headset"></i>
         <span>Series</span>
       </a>
-      <a href="" class="bottom-nav-link">
+      <a href="" class="bottom-nav-link {{ 'active' if nav_active == 'subscription' else '' }}">
         <i class="fa-solid fa-gem"></i>
         <span>Premium</span>
       </a>
     </nav>
+
+    <div class="flash-message-modal" id="flashMessageModal" aria-hidden="true">
+      <div class="flash-message-backdrop" data-close-flash-modal></div>
+      <div class="flash-message-dialog" role="dialog" aria-modal="true" aria-labelledby="flashMessageTitle">
+        <div class="flash-message-header">
+          <h3 id="flashMessageTitle">Notification</h3>
+          <button class="flash-message-close" type="button" data-close-flash-modal aria-label="Close notification">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="flash-message-body">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="flash-message-item {{ category }}">
+                  <div class="flash-message-icon">
+                    {% if category == 'success' %}
+                      <i class="fa-solid fa-circle-check"></i>
+                    {% elif category == 'warning' %}
+                      <i class="fa-solid fa-triangle-exclamation"></i>
+                    {% else %}
+                      <i class="fa-solid fa-circle-info"></i>
+                    {% endif %}
+                  </div>
+                  <div>
+                    <strong>{{ category|capitalize }}</strong>
+                    <p>{{ message }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
 
     {% block content %} {% endblock %}
 
@@ -165,12 +201,41 @@
         const authWrapper = document.getElementById("authWrapper");
         const loginBtn = document.getElementById("loginBtn");
         const logoutBtn = document.getElementById("logoutBtn");
+        const flashModal = document.getElementById("flashMessageModal");
+        const flashCloseButtons = document.querySelectorAll("[data-close-flash-modal]");
 
         if (logoutBtn) {
           logoutBtn.addEventListener("click", function () {
             window.location.href = "{{ url_for('auth.logout') }}";
           });
         }
+
+        const closeFlashModal = () => {
+          if (!flashModal) {
+            return;
+          }
+
+          flashModal.classList.remove("is-open");
+          flashModal.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("flash-modal-open");
+        };
+
+        if (flashModal && flashModal.querySelector(".flash-message-item")) {
+          flashModal.classList.add("is-open");
+          flashModal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("flash-modal-open");
+          window.setTimeout(closeFlashModal, 3500);
+        }
+
+        flashCloseButtons.forEach((button) => {
+          button.addEventListener("click", closeFlashModal);
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && flashModal?.classList.contains("is-open")) {
+            closeFlashModal();
+          }
+        });
       });
 
       function login() {

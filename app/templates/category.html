@@ -10,14 +10,6 @@
 
 {% block content %}
 <main class="admin-main category-page">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="category-alert {{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <section class="admin-panel category-list-panel">
         <div class="admin-panel-header category-list-header">
             <div>

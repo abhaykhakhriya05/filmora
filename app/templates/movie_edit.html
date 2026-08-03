@@ -1,125 +1,48 @@
-{% extends "admin_base.html" %}
+{% extends 'admin_base.html' %}
 
-{% block title %}Admin-Movie List{% endblock %}
-
-{% block style %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/movie_list.css') }}">
+{% block title %}
+    Edit Movie
 {% endblock %}
 
-{% block admin_heading %}Movie List{% endblock %}
+{% block style %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/movie_list.css') }}">
+    
+{% endblock %}
+
+{% block admin_heading %}Edit Movie{% endblock %}
 
 {% block content %}
-<main class="admin-main movie-list-page">
-    <section class="admin-panel movie-list-panel">
-        <div class="admin-panel-header movie-list-header">
-            <div>
-                <h2>All Movies</h2>
-                <p>Manage movie details, cast, video qualities, subtitles, access, and publishing status.</p>
-            </div>
-            <button class="movies-add-btn" id="openMovieModal" type="button">
-                <i class="fa-solid fa-plus"></i>
-                Add Movie
-            </button>
-        </div>
-
-        <div class="movies-filter-row">
-            <div class="movies-tabs" aria-label="Movie filter">
-                <button type="button" class="active" data-movie-filter="all">All</button>
-                <button type="button" data-movie-filter="published">Published</button>
-                <button type="button" data-movie-filter="draft">Draft</button>
-                <button type="button" data-movie-filter="premium">Premium</button>
-            </div>
-            <label class="movies-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="search" id="movieSearchInput" placeholder="Search movie">
-            </label>
-        </div>
-
-        <div class="admin-table-wrap">
-            <table class="admin-table movie-list-table">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" aria-label="Select all movies"></th>
-                        <th>Movie</th>
-                        <th>Quality</th>
-                        <th>Genre</th>
-                        <th>Year</th>
-                        <th>Language</th>
-                        <th>Access</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="movieTableBody">
-                    {% for movie in movies %}
-                        
-                    <tr data-movie-row data-movie-status="published">
-                        <td><input type="checkbox" aria-label="Select Arrival 1999"></td>
-                        <td><span class="movie-thumb">4:3</span><div><strong>{{movie.movie_name}}</strong><small>{{movie.movie_duration}} {{movie.movie_categories}} </small></div></td>
-                        <td>480/720/1080</td>
-                        <td>{{movie.movie_categories}}</td>
-                        <td>{{movie.movie_release_year}}</td>
-                        <td>{{movie.movie_language}}</td>
-                        <td>{{movie.movie_status}}</td>
-                        <td><span class="movie-switch active"></span></td>
-                        <td>
-                            <div class="movie-row-actions">
-                                <a class="movie-table-action" href="{{ url_for('admin.movie_edit', movie_id=movie.movie_id) }}" aria-label="Edit">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                                <a class="movie-table-action danger" href="{{ url_for('admin.delete_movie', movie_id=movie.movie_id) }}" aria-label="Delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="admin-table-footer">
-            <span id="movieCountText">Showing 1 to 3 of 3 entries</span>
-            <div class="admin-pagination">
-                <button type="button">Previous</button>
-                <button type="button" class="active">1</button>
-                <button type="button">Next</button>
-            </div>
-        </div>  
-    </section>
-</main>
-
-<div class="movie-modal" id="movieModal" aria-hidden="true">
-    <div class="movie-modal-backdrop" data-close-movie-modal></div>
-    <section class="movie-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="movieModalTitle">
+<main class="admin-main movie-edit-page">
+    <section class="movie-modal-dialog" aria-labelledby="movieModalTitle">
         <header class="movie-modal-header">
-            <h2 id="movieModalTitle">Add New Movie</h2>
-            <button class="movie-modal-close" type="button" data-close-movie-modal aria-label="Close modal">
+            <h2 id="movieModalTitle">Edit Movie</h2>
+            <a class="movie-modal-close" href="{{ url_for('admin.movie_list') }}" aria-label="Back to movie list">
                 <i class="fa-solid fa-xmark"></i>
-            </button>
+            </a>
         </header>
 
-        <form class="movie-form" id="movieForm" method="post" action="{{ url_for('admin.movie_send') }}" enctype="multipart/form-data">
+        <form class="movie-form" id="movieForm" method="post" action="{{ url_for('admin.movie_update', movie_id=movie.movie_id) }}" enctype="multipart/form-data">
             <fieldset class="movie-form-section">
                 <legend>Movie</legend>
                 <label>Movie Name <b>*</b>
-                    <input type="text" id="movieName" name = "movie_name" placeholder="Enter movie name" required>
+                    <input type="text" id="movieName" name="movie_name" value="{{ movie.movie_name or '' }}" placeholder="Enter movie name" required>
                 </label>
                 <label>Description
-                    <textarea id="movieDescription" name = "movie_desc" rows="4" placeholder="Description"></textarea>
+                    <textarea id="movieDescription" name="movie_desc" rows="4" placeholder="Description">{{ movie.movie_description or '' }}</textarea>
                 </label>
                 <div class="movie-form-grid two">
                     <label>Movie Access
                         <select id="movieAccess" name="movie_access">
-                            <option>Free</option>
-                            <option>Premium</option>
+                            <option value="Free" {% if movie.movie_access == 'Free' %}selected{% endif %}>Free</option>
+                            <option value="Premium" {% if movie.movie_access == 'Premium' %}selected{% endif %}>Premium</option>
                         </select>
                     </label>
                     <label>Language
                         <select id="movieLanguage" name="movie_language">
-                            <option>Hindi</option>
-                            <option>English</option>
-                            <option>World</option>
+                            <option value="Hindi" {% if movie.movie_language == 'Hindi' %}selected{% endif %}>Hindi</option>
+                            <option value="English" {% if movie.movie_language == 'English' %}selected{% endif %}>English</option>
+                            <option value="World" {% if movie.movie_language == 'World' %}selected{% endif %}>World</option>
                         </select>
                     </label>
                 </div>
@@ -127,25 +50,25 @@
                     <label>Genre
                         <select id="movieGenre" name="movie_cat">
                             {% for cat in cate %}
-                            <option>{{cat.category_name}}</option>
+                            <option value="{{ cat.category_name }}" {% if movie.movie_categories == cat.category_name %}selected{% endif %}>{{ cat.category_name }}</option>
                             {% endfor %}
                             
                         </select>
                     </label>
                     <label>Release Year
-                        <input type="number" name="movie_year" id="movieYear" min="1900" placeholder="2026">
+                        <input type="number" name="movie_year" id="movieYear" min="1900" value="{{ movie.movie_release_year or '' }}" placeholder="2026">
                     </label>
-                    <label>Release Year
-                        <input type="date" name="movie_date" id="movieYear" min="1900" placeholder="2026">
+                    <label>Release Date
+                        <input type="date" name="movie_date" id="movieDate" value="{{ movie.movie_release_date or '' }}">
                     </label>
                     <label>Duration
-                        <input type="text" name="movie_duration" id="movieDuration" placeholder="120 min">
+                        <input type="text" name="movie_duration" id="movieDuration" value="{{ movie.movie_duration or '' }}" placeholder="120 min">
                     </label>
                     <label>Status
-                        <select id="movieStatus" name = "movie_status">
-                            <option value="published">Published</option>
-                            <option value="draft">Draft</option>
-                            <option value="premium">Premium</option>
+                        <select id="movieStatus" name="movie_status">
+                            <option value="published" {% if movie.movie_status == 'published' %}selected{% endif %}>Published</option>
+                            <option value="draft" {% if movie.movie_status == 'draft' %}selected{% endif %}>Draft</option>
+                            <option value="premium" {% if movie.movie_status == 'premium' %}selected{% endif %}>Premium</option>
                         </select>
                     </label>
                 </div>
@@ -191,7 +114,16 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="movieCastTableBody"></tbody>
+                        <tbody id="movieCastTableBody">
+                            {% for item in cast %}
+                            <tr>
+                                <td>{{ item.movie_cast_type }}<input type="hidden" name="cast_type[]" value="{{ item.movie_cast_type }}"></td>
+                                <td>{{ item.movie_cast_name }}<input type="hidden" name="cast_name[]" value="{{ item.movie_cast_name }}"></td>
+                                <td>{{ item.movie_cast_role }}<input type="hidden" name="cast_role[]" value="{{ item.movie_cast_role }}"></td>
+                                <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete cast or crew"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </fieldset>
@@ -234,6 +166,14 @@
                             </tr>
                         </thead>
                         <tbody id="movieVideoTableBody">
+                            {% for item in videos %}
+                            <tr>
+                                <td>{{ item.movie_quality }}<input type="hidden" name="existing_video_quality[]" value="{{ item.movie_quality }}"></td>
+                                <td>{{ item.movie_file }}<input type="hidden" name="existing_video_file[]" value="{{ item.movie_file }}"></td>
+                                <td>{{ item.movie_download }}<input type="hidden" name="existing_video_download[]" value="{{ item.movie_download }}"></td>
+                                <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete video"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -265,11 +205,13 @@
                             </tr>
                         </thead>
                         <tbody id="movieSubtitleTableBody">
+                            {% for item in subtitles %}
                             <tr>
-                                <td>English</td>
-                                <td>English.srt</td>
+                                <td>{{ item.movie_sub_language }}<input type="hidden" name="existing_subtitle_lang[]" value="{{ item.movie_sub_language }}"></td>
+                                <td>{{ item.movie_subtitle }}<input type="hidden" name="existing_subtitle_file[]" value="{{ item.movie_subtitle }}"></td>
                                 <td><button type="button" class="movie-table-action danger" data-delete-mini-row aria-label="Delete subtitle"><i class="fa-solid fa-trash"></i></button></td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -279,14 +221,14 @@
                 <legend>SEO</legend>
                 <div class="movie-form-grid two">
                     <label>SEO Title
-                        <input type="text" name="seo_title" id="movieSeoTitle" placeholder="Enter SEO title">
+                        <input type="text" name="seo_title" id="movieSeoTitle" value="{{ movie.seo_title or '' }}" placeholder="Enter SEO title">
                     </label>
                     <label>SEO Keywords
-                        <input type="text" name="seo_keywords" id="movieSeoKeywords" placeholder="movie, action, premium">
+                        <input type="text" name="seo_keywords" id="movieSeoKeywords" value="{{ movie.seo_keywords or '' }}" placeholder="movie, action, premium">
                     </label>
                 </div>
                 <label>SEO Description
-                    <textarea id="movieSeoDescription" name="seo_description" rows="4" placeholder="Enter SEO description"></textarea>
+                    <textarea id="movieSeoDescription" name="seo_description" rows="4" placeholder="Enter SEO description">{{ movie.seo_description or '' }}</textarea>
                 </label>
             </fieldset>
 
@@ -297,17 +239,18 @@
                     <i class="fa-solid fa-floppy-disk"></i>
                     Save
                 </button>
-                <button class="movie-close-btn" type="button" data-close-movie-modal>
+                <a class="movie-close-btn" href="{{ url_for('admin.movie_list') }}" style="text-decoration: none;">
                     <i class="fa-solid fa-angles-left"></i>
                     Close
-                </button>
+                </a>
             </footer>
         </form>
     </section>
-</div>
+</main>
+
+    
 {% endblock %}
 
 {% block script %}
-<script src="{{ url_for('static', filename='js/show_series.js') }}"></script>
 <script src="{{ url_for('static', filename='js/movie_list.js') }}"></script>
 {% endblock %}
