@@ -9,48 +9,13 @@
 {% block content %}
         <section class="hero-carousel-wrapper">
         <div class="hero-track">
-            <div class="hero-slide active">
-                <img class="hero-slide-image" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1920" alt="Avengers: Endgame">
-                <div class="hero-content">
-                    <h1 class="hero-title">Avengers: Endgame</h1>
-                    <p class="hero-description">With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
-                        <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
-                        <button class="btn btn-secondary" title="Like"><i class="fa-regular fa-thumbs-up"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-slide ">
-                <img class="hero-slide-image" src="https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?q=80&w=1920" alt="Interstellar Voyage">
-                <div class="hero-content">
-                    <h1 class="hero-title">Interstellar Voyage</h1>
-                    <p class="hero-description">A team of explorers travel beyond this galaxy to discover whether mankind has a future among the stars.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
-                        <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
-                        <button class="btn btn-secondary" title="Like"><i class="fa-regular fa-thumbs-up"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-slide ">
-                <img class="hero-slide-image" src="{{ url_for('static', filename='image/Avengers_Endgame.jpg') }}" alt="Interstellar Voyage">
-                <div class="hero-content">
-                    <h1 class="hero-title">Interstellar Voyage</h1>
-                    <p class="hero-description">A team of explorers travel beyond this galaxy to discover whether mankind has a future among the stars.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
-                        <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
-                        <button class="btn btn-secondary" title="Like"><i class="fa-regular fa-thumbs-up"></i></button>
-                    </div>
-                </div>
-            </div>
+            {% for poster in poster_movie %}
 
-            <div class="hero-slide ">
-                <img class="hero-slide-image" src="https://m.media-amazon.com/images/S/pv-target-images/63cf06e9129884a483969563ecb43b113c9ed692e5f2e2e9344c18fa248a3eb8._UR1920,1080_.jpg" alt="Interstellar Voyage">
+            <div class="hero-slide {{ 'active' if poster.banner_active == 'Active' else '' }}">
+                <img class="hero-slide-image" src="{{ url_for('static', filename='image/' + poster.movie_thumbnail) }}" alt="Avengers: Endgame">
                 <div class="hero-content">
-                    <h1 class="hero-title">Interstellar Voyage</h1>
-                    <p class="hero-description">A team of explorers travel beyond this galaxy to discover whether mankind has a future among the stars.</p>
+                    <h1 class="hero-title">{{poster.movie_name}}e</h1>
+                    <p class="hero-description">{{poster.movie_description}}</p>
                     <div class="hero-buttons">
                         <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
                         <button class="btn btn-secondary" title="Add to Watchlist"><i class="fa-solid fa-plus"></i></button>
@@ -58,6 +23,8 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
+         
         </div>
         <div class="carousel-dots" id="hero-carousel-dots"></div>
     </section>
@@ -122,18 +89,13 @@
                 </div>
             </div>
             <div class="cards-slider">
+                {% for anime in anime_movie %}
                 <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=31" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Mugen Train</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.9</span></div></div>
+                    <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + anime.movie_poster ) }}" alt="{{anime.movie_poster}}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    <div class="card-content"><h3>{{ anime.movie_name }}</h3><div class="card-meta"><span>{{ anime.movie_duration }}</span><span class="rating"><i class="fa-solid fa-star"></i> {{ anime.view }}</span></div></div>
                 </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=32" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Spirited Away</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.8</span></div></div>
-                </div>
-                <div class="standard-card">
-                    <div class="card-img-wrapper"><img src="https://picsum.photos/300/450?random=33" alt="Movie"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    <div class="card-content"><h3>Suzume</h3><div class="card-meta"><span>Sub | Dub</span><span class="rating"><i class="fa-solid fa-star"></i> 4.6</span></div></div>
-                </div>
+                {% endfor %}
+                
             </div>
         </section>
 

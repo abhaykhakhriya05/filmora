@@ -48,6 +48,8 @@
             </div>
         </section>
 
+        {% set subscribed = session.get('subscribed') %}
+
         <section class="row-section">
             <div class="row-header">
                 <h2>Movies</h2>
@@ -63,7 +65,11 @@
                 {% for movie in movies %}
                 {% if movie %}
                 <div class="standard-card">
+                    {% if subscribed == 'Free' and movie.movie_access == 'Free' or movie.movie_access == 'Free' or subscribed == 'Premium' and movie.movie_access == 'Premium' or subscribed == 'Pro' and movie.movie_access == 'Pro' or subscribed == 'Pro' or subscribed == movie.movie_access %}
                      <a href="{{url_for('home.movie_view', movie_id = movie.movie_id)}}" style="text-decoration: none;">
+                    {% else %}
+                    <a href="{{url_for('auth.login')}}" style="text-decoration: none;">
+                    {% endif %}
                     <div class="card-img-wrapper">
                         
                         <img src="{{ url_for('static', filename='image/' + movie.movie_poster) }}" alt="{{movie.movie_poster}}">

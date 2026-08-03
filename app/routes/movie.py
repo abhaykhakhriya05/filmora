@@ -19,6 +19,14 @@ def movie():
 
         cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() ORDER BY review DESC LIMIT 10")
         most_reviewed_movies = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM `movies` WHERE movie_release_date > NOW() AND movie_categories = 'Anime' ORDER BY RAND() LIMIT 10")
+        anime_movie = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND Isposter = 1")
+        poster_movie = cursor.fetchall()
+
+        print(poster_movie)
         
     except Exception as e:
         flash(f"Error: {str(e)}", "danger")
@@ -28,4 +36,4 @@ def movie():
         if conn:
             conn.close()
 
-    return render_template('movie.html', active_page='movie', movies=movies, upcoming_movies=upcoming_movies, most_reviewed_movies=most_reviewed_movies)
+    return render_template('movie.html', active_page='movie', movies=movies, upcoming_movies=upcoming_movies, most_reviewed_movies=most_reviewed_movies , anime_movie = anime_movie , poster_movie = poster_movie)
