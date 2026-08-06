@@ -741,8 +741,39 @@ def add_series():
     Sthumb = request.files.get('Sthumb')
     Sposter = request.files.get('Sposter')
     Strailer = request.files.get('Strailer')
+    series_id = genreted_uid(10)
+
+    connction = genreted_db_connect()
+    cursor = connction.cursor(dictionary=True)
+
 
     try:
-        print(Sname,Sdecc,Saccess,Slanguage,Scat)
+       series = cursor.execute("SELECT * FROM series WHERE series_name = %s",Sname)
+
+       if series:
+           flash('Series Is Already exitst')
+
+       poster_file = None
+       if Sposter and Sposter.filename:
+           series_poster_filename = secure_filename(Sposter.filename)
+           if Sposter:
+               os.makedirs(FILE_PATH,exist_ok=True)
+               series_file_path = os.path.join(FILE_PATH,series_poster_filename)
+               Sposter.save(series_file_path)
+               poster_file = series_poster_filename
+
+       thumb_file = None
+       if Sthumb and Sthumb.filename:
+           series_thumb_filename = secure_filename(Sthumb.filename)
+           if Sthumb :
+               os.makedirs(FILE_PATH,exist_ok=True)
+               series_thumb_path = os.path.join(FILE_PATH,series_thumb_filename)
+               Sthumb.save(series_thumb_path)
+               thumb_file = series_poster_filename
+
+       series_qurry = ''' INSERT INTO `series`(`series_id`, `series_name`, `series_description`, `series_access`, `series_ language`, `series_category`, `series_status`, `series_seasons`, `series_episodes`, `series_release_year`, `series_release_date`, `series_rating`, `seo_title`, `seo_description`, `seo_keywords`, `series_thumbnail`, `series_Poster`, `series_trailer_url`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
+
+       series_value = (series_id,Sname,Sdecc,Saccess,Slanguage,Scat,Sststus,Sseasons,Sepisodes,Syear,Sdate,Srating,seo_title,,seo_desc,seo_keyword,thumb_file,poster_file,Strailer)    
+       
     except Exception as e:
         flash(f'Error {e}')
