@@ -709,20 +709,40 @@ def delete_movie(movie_id):
         cursor.close()
 
 
-# @admin_bp.route('/show_series')
-# def show_series():
-#     if 'admin_login' not in session:
-#         return redirect(url_for('auth.login'))
+@admin_bp.route('/show_series')
+def show_series():
+    connction = genreted_db_connect()
+    cursor = connction.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT * FROM category WHERE category_type = 'Movies & Series' OR category_type = 'Series'")
+        cat = cursor.fetchall()
 
-#     connction = genreted_db_connect()
-#     cursor = connction.cursor(dictionary=True)
+    except Exception as e:
+        flash(f'error is {e}')
 
-#     if connction.is_connected():
-#         try:
-#             cursor.execute("SELECT * FROM series")
-#             series = cursor.fetchall()
+    return render_template('show_series.html',active_page = 'show_series', cat = cat)
 
-#             return render_template('show_se.html', active_page='series', series=series)
-#         except Exception as e:
-#             flash(f"Error fetching series: {e}", 'danger')
-#             series = []
+@admin_bp.route('/add_series',methods = ['GET','POST'])
+def add_series():
+    Sname = request.form.get('Sname')
+    Sdecc = request.form.get('Sdecc')
+    Saccess = request.form.get('Saccess')
+    Slanguage = request.form.get('Slanguage')
+    Scat = request.form.get('Scat')
+    Sststus = request.form.get('Sststus')
+    Sseasons = request.form.get('Sseasons')
+    Sepisodes = request.form.get('Sepisodes')
+    Syear = request.form.get('Syear')
+    Sdate = request.form.get('Sdate')
+    Srating = request.form.get('Srating')
+    seo_title = request.form.get('seo_title')
+    seo_desc = request.form.get('seo_desc')
+    seo_keyword = request.form.get('seo_keyword')
+    Sthumb = request.files.get('Sthumb')
+    Sposter = request.files.get('Sposter')
+    Strailer = request.files.get('Strailer')
+
+    try:
+        print(Sname,Sdecc,Saccess,Slanguage,Scat)
+    except Exception as e:
+        flash(f'Error {e}')

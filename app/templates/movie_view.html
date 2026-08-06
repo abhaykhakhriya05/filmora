@@ -215,18 +215,7 @@
             </div>
         </section>
 
-        <section class="recommended-section">
-            <h3 class="section-block-title" style="font-size: 1.25rem; color: #fff;">Recommended Movies</h3>
-            <div class="recommended-media-grid">
-                {% for rec in recommended_movies %}
-                <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="{{ url_for('static', filename='images/' + rec.movie_poster) }}" alt="{{ rec.movie_name }}"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">{{ rec.movie_name }}</h4><p class="poster-card-meta">{{ rec.movie_categories }} &bull; {{ rec.movie_duration }}</p></div>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% else %}
+     
         <section class="movie-empty-state">
             <h1>Movie not found</h1>
             <a href="{{ url_for('home.index') }}" class="action-node-btn">Back to Home</a>

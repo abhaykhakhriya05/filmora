@@ -156,24 +156,24 @@
             </button>
         </header>
 
-        <form class="series-form" id="seriesForm">
+        <form class="series-form" id="seriesForm" method="post" action="{{ url_for('admin.add_series') }}">
             <fieldset class="series-form-section">
                 <legend>Series</legend>
                 <label>Series Name <b>*</b>
-                    <input type="text" id="seriesName" placeholder="Enter series name" required>
+                    <input type="text" id="seriesName" name="Sname" placeholder="Enter series name" required>
                 </label>
                 <label>Description
-                    <textarea id="seriesDescription" rows="4" placeholder="Description"></textarea>
+                    <textarea id="seriesDescription" name="Sdecc" rows="4" placeholder="Description"></textarea>
                 </label>
                 <div class="series-form-grid two">
                     <label>Series Access
-                        <select id="seriesAccess">
+                        <select id="seriesAccess" name="Saccess">
                             <option>Free</option>
                             <option>Premium</option>
                         </select>
                     </label>
                     <label>Language
-                        <select id="seriesLanguage">
+                        <select id="seriesLanguage" name="Slanguage">
                             <option>Hindi</option>
                             <option>English</option>
                             <option>Japanese</option>
@@ -183,17 +183,14 @@
                 </div>
                 <div class="series-form-grid two">
                     <label>Genre
-                        <select id="seriesGenre">
-                            <option>Action</option>
-                            <option>Animation</option>
-                            <option>Crime</option>
-                            <option>Drama</option>
-                            <option>Sci-Fi</option>
-                            <option>Thriller</option>
+                        <select id="seriesGenre" name="Scat">
+                            {% for ct in cat %}
+                            <option>{{ct.category_name}}</option>                          
+                            {% endfor %}
                         </select>
                     </label>
                     <label>Status
-                        <select id="seriesStatus">
+                        <select id="seriesStatus" name="Sststus">
                             <option value="published">Published</option>
                             <option value="draft">Draft</option>
                             <option value="premium">Premium</option>
@@ -202,16 +199,19 @@
                 </div>
                 <div class="series-form-grid four">
                     <label>Seasons
-                        <input type="number" id="seriesSeasons" min="1" value="1">
+                        <input type="number" id="seriesSeasons" min="1" value="1" name="Sseasons">
                     </label>
                     <label>Episodes
-                        <input type="number" id="seriesEpisodes" min="1" value="1">
+                        <input type="number" id="seriesEpisodes" min="1" value="1" name="Sepisodes">
                     </label>
                     <label>Release Year
-                        <input type="number" id="seriesYear" min="1900" placeholder="2026">
+                        <input type="number" id="seriesYear" min="1900" placeholder="2026" name="Syear">
+                    </label>
+                     <label>Release Date
+                        <input type="date" id="seriesYear"  placeholder="2026" name="Sdate">
                     </label>
                     <label>Rating
-                        <input type="number" id="seriesRating" min="0" max="10" step="0.1" placeholder="8.5">
+                        <input type="number" id="seriesRating" min="0" max="10" step="0.1" placeholder="8.5" name="Srating">
                     </label>
                 </div>
             </fieldset>
@@ -219,13 +219,13 @@
             <fieldset class="series-form-section">
                 <legend>SEO</legend>
                 <label>SEO Title <b>*</b>
-                    <input type="text" placeholder="Enter SEO title">
+                    <input type="text" placeholder="Enter SEO title" name="seo_title">
                 </label>
                 <label>SEO Description <b>*</b>
-                    <textarea rows="3" placeholder="SEO description"></textarea>
+                    <textarea rows="3" placeholder="SEO description" name="seo_desc"></textarea>
                 </label>
                 <label>Keywords
-                    <input type="text" placeholder="series, drama, action">
+                    <input type="text" placeholder="series, drama, action" name="seo_keyword">
                 </label>
             </fieldset>
 
@@ -233,14 +233,14 @@
                 <legend>Media</legend>
                 <div class="series-form-grid two">
                     <label>Thumbnail
-                        <input type="file" accept="image/*">
+                        <input type="file" name="Sthumb" accept="image/*">
                     </label>
                     <label>Poster
-                        <input type="file" accept="image/*">
+                        <input type="file" name="Sposter" accept="image/*">
                     </label>
                 </div>
                 <label>Trailer URL
-                    <input type="url" placeholder="Trailer link">
+                    <input type="url" name="Strailer" placeholder="Trailer link">
                 </label>
             </fieldset>
 

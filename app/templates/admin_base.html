@@ -51,7 +51,7 @@
                     <i class="fa-solid fa-chevron-down admin-chevron"></i>
                 </button>
                 <div class="admin-submenu">
-                    <a href="" class="">Show List</a>
+                    <a href="{{url_for('admin.show_series')}}" class="{% if active_page == 'show_series' %}active{% endif %}">Show List</a>
                     <a href="" class="">Seasons</a>
                     <a href="" class="">Episodes</a>
                 </div>

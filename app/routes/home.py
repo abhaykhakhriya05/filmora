@@ -64,8 +64,8 @@ def movie_view(movie_id):
         cursor.execute("SELECT * FROM `movie_subtitles` WHERE movie_id = %s",(movie_id,))
         movie_subtitle = cursor.fetchall()
 
-        cursor.execute("SELECT * FROM `movies` WHERE recommended = TRUE AND movie_id != %s",(movie_id,))
-        recommended_movies = cursor.fetchall()
+        # cursor.execute("SELECT * FROM `movies` WHERE recommended = TRUE AND movie_id != %s",(movie_id,))
+        # recommended_movies = cursor.fetchall()
 
         conncetion.commit()
     except Exception as e:
@@ -75,3 +75,5 @@ def movie_view(movie_id):
         conncetion.close()
 
     return render_template("movie_view.html",movies = movies,cast = cast,movie_file = movie_file , movie_subtitle = movie_subtitle, active_page = 'movie' , recommended_movies = recommended_movies)
+
+
