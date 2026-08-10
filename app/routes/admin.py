@@ -773,7 +773,7 @@ def add_series():
 
        series_qurry = ''' INSERT INTO `series`(`series_id`, `series_name`, `series_description`, `series_access`, `series_ language`, `series_category`, `series_status`, `series_seasons`, `series_episodes`, `series_release_year`, `series_release_date`, `series_rating`, `seo_title`, `seo_description`, `seo_keywords`, `series_thumbnail`, `series_Poster`, `series_trailer_url`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'''
 
-       series_value = (series_id,Sname,Sdecc,Saccess,Slanguage,Scat,Sststus,Sseasons,Sepisodes,Syear,Sdate,Srating,seo_title,,seo_desc,seo_keyword,thumb_file,poster_file,Strailer)    
+       series_value = (series_id,Sname,Sdecc,Saccess,Slanguage,Scat,Sststus,Sseasons,Sepisodes,Syear,Sdate,Srating,seo_title,seo_desc,seo_keyword,thumb_file,poster_file,Strailer)    
        
     except Exception as e:
         flash(f'Error {e}')
