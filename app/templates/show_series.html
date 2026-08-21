@@ -156,7 +156,7 @@
             </button>
         </header>
 
-        <form class="series-form" id="seriesForm" method="post" action="{{ url_for('admin.add_series') }}">
+        <form class="series-form" id="seriesForm" method="post" action="" enctype="multipart/form-data">
             <fieldset class="series-form-section">
                 <legend>Series</legend>
                 <label>Series Name <b>*</b>
@@ -208,7 +208,7 @@
                         <input type="number" id="seriesYear" min="1900" placeholder="2026" name="Syear">
                     </label>
                      <label>Release Date
-                        <input type="date" id="seriesYear"  placeholder="2026" name="Sdate">
+                        <input type="date" id="seriesDate"  placeholder="2026" name="Sdate">
                     </label>
                     <label>Rating
                         <input type="number" id="seriesRating" min="0" max="10" step="0.1" placeholder="8.5" name="Srating">
