@@ -1,8 +1,19 @@
 from flask import Flask
-import mysql.connector as db
 import random
 import string
 import os
+import mysql.connector as db
+
+def genreted_db_connect():
+    return db.connect(
+        host='127.0.0.1',
+        port=3306,
+        user='root',
+        password='',
+        database='filmora',
+        connection_timeout=5,
+        use_pure=True
+    )
 
 def genreted_uid(size):
     
@@ -13,15 +24,14 @@ def genreted_uid(size):
 
 
 
+# if genereted_db_connect():
+#     print("susscfully")
+# else:
+#     print("not")
 
-def genreted_db_connect():
-    
-     return db.connect(
-            host = 'localhost',
-            username = 'root',
-            password = '',
-            database = 'filmora'
-        )
+
+
+
     
 UPLODE_FOLDER = ('static','image')
 

@@ -4,20 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const seriesModal = document.getElementById("seriesModal");
     const openSeriesModal = document.getElementById("openSeriesModal");
     const closeSeriesModalButtons = document.querySelectorAll("[data-close-series-modal]");
-    const seriesForm = document.getElementById("seriesForm");
     const seriesTableBody = document.getElementById("seriesTableBody");
     const seriesSearchInput = document.getElementById("seriesSearchInput");
     const seriesFilterButtons = document.querySelectorAll("[data-series-filter]");
     const seriesCountText = document.getElementById("seriesCountText");
     let activeSeriesFilter = "all";
-
-    const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-    })[character]);
 
     const getSeriesRows = () => Array.from(document.querySelectorAll("[data-series-row]"));
 
@@ -112,54 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 deleteButton.closest("tr")?.remove();
                 updateSeriesRows();
             }
-        });
-    }
-
-    if (seriesForm && seriesTableBody) {
-        seriesForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const name = document.getElementById("seriesName").value.trim();
-            const description = document.getElementById("seriesDescription").value.trim() || "New series";
-            const access = document.getElementById("seriesAccess").value;
-            const language = document.getElementById("seriesLanguage").value;
-            const genre = document.getElementById("seriesGenre").value;
-            const status = document.getElementById("seriesStatus").value;
-            const seasons = document.getElementById("seriesSeasons").value || "1";
-            const episodes = document.getElementById("seriesEpisodes").value || "1";
-            const rating = document.getElementById("seriesRating").value || "0.0";
-            const statusClass = status === "draft" ? "" : "active";
-
-            if (!name) {
-                alert("Please enter series name.");
-                return;
-            }
-
-            seriesTableBody.insertAdjacentHTML("beforeend", `
-                <tr data-series-row data-series-status="${escapeHTML(status)}">
-                    <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
-                    <td><span class="series-thumb">16:9</span>
-                        <div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(description)}</small></div>
-                    </td>
-                    <td>${escapeHTML(seasons)}</td>
-                    <td>${escapeHTML(episodes)}</td>
-                    <td>${escapeHTML(genre)}</td>
-                    <td>${escapeHTML(language)}</td>
-                    <td>${escapeHTML(access)}</td>
-                    <td>${escapeHTML(rating)}</td>
-                    <td><span class="series-switch ${statusClass}"></span></td>
-                    <td>
-                        <div class="series-row-actions">
-                            <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-                            <button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-            `);
-
-            seriesForm.reset();
-            closeSeriesModal();
-            updateSeriesRows();
         });
     }
 

@@ -50,17 +50,20 @@
                     </tr>
                 </thead>
                 <tbody id="seriesTableBody">
+                    {% for series in series %}
+                        
+                    
                     <tr data-series-row data-series-status="published">
                         <td><input type="checkbox" aria-label="Select Stranger Worlds"></td>
                         <td><span class="series-thumb">16:9</span>
-                            <div><strong>Stranger Worlds</strong><small>Science mystery series</small></div>
+                            <div><strong>{{series.series_name}}</strong><small>{{series.series_description}}</small></div>
                         </td>
-                        <td>4</td>
-                        <td>36</td>
-                        <td>Sci-Fi</td>
-                        <td>English</td>
-                        <td>Free</td>
-                        <td>8.8</td>
+                        <td>{{series.series_seasons}}</td>
+                        <td>{{series.series_episodes}}</td>
+                        <td>{{series.seo_description}}</td>
+                        <td>{{series.series_language}}</td>
+                        <td>{{series.series_access}}</td>
+                        <td>{{series.series_rating}}</td>
                         <td><span class="series-switch active"></span></td>
                         <td>
                             <div class="series-row-actions">
@@ -70,66 +73,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr data-series-row data-series-status="premium">
-                        <td><input type="checkbox" aria-label="Select Kingdom Rise"></td>
-                        <td><span class="series-thumb">16:9</span>
-                            <div><strong>Kingdom Rise</strong><small>Historical action drama</small></div>
-                        </td>
-                        <td>3</td>
-                        <td>24</td>
-                        <td>Drama</td>
-                        <td>Hindi</td>
-                        <td>Premium</td>
-                        <td>9.1</td>
-                        <td><span class="series-switch active"></span></td>
-                        <td>
-                            <div class="series-row-actions">
-                                <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="danger" type="button" aria-label="Delete"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-series-row data-series-status="draft">
-                        <td><input type="checkbox" aria-label="Select City Case Files"></td>
-                        <td><span class="series-thumb">16:9</span>
-                            <div><strong>City Case Files</strong><small>Crime investigation anthology</small></div>
-                        </td>
-                        <td>1</td>
-                        <td>8</td>
-                        <td>Crime</td>
-                        <td>English</td>
-                        <td>Free</td>
-                        <td>7.7</td>
-                        <td><span class="series-switch"></span></td>
-                        <td>
-                            <div class="series-row-actions">
-                                <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="danger" type="button" aria-label="Delete"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr data-series-row data-series-status="published">
-                        <td><input type="checkbox" aria-label="Select Anime Quest"></td>
-                        <td><span class="series-thumb">16:9</span>
-                            <div><strong>Anime Quest</strong><small>Adventure animation</small></div>
-                        </td>
-                        <td>2</td>
-                        <td>20</td>
-                        <td>Animation</td>
-                        <td>Japanese</td>
-                        <td>Free</td>
-                        <td>8.5</td>
-                        <td><span class="series-switch active"></span></td>
-                        <td>
-                            <div class="series-row-actions">
-                                <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="danger" type="button" aria-label="Delete"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -156,7 +100,7 @@
             </button>
         </header>
 
-        <form class="series-form" id="seriesForm" method="post" action="" enctype="multipart/form-data">
+        <form class="series-form" id="seriesForm" method="post" action="{{ url_for('admin.add_series') }}" enctype="multipart/form-data">
             <fieldset class="series-form-section">
                 <legend>Series</legend>
                 <label>Series Name <b>*</b>
@@ -240,15 +184,17 @@
                     </label>
                 </div>
                 <label>Trailer URL
-                    <input type="url" name="Strailer" placeholder="Trailer link">
+                  <input type="url" name="Strailer" placeholder="Trailer link" required>
                 </label>
             </fieldset>
 
             <footer class="series-modal-footer">
-                <button class="series-save-btn" type="submit">
+                <input type="submit" value="Save" class="series-close-btn" >
+               
+                <!-- <button class="series-save-btn" type="submit">
                     <i class="fa-solid fa-floppy-disk"></i>
                     Save
-                </button>
+                </button> -->
                 <button class="series-close-btn" type="button" data-close-series-modal>
                     <i class="fa-solid fa-angles-left"></i>
                     Close

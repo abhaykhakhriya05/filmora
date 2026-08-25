@@ -14,5 +14,6 @@ __pycache__/
 # Images (જો મોટી હોય)
 *.zip
 *.rar
+*.bat
 
 .vscode

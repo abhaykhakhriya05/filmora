@@ -1,5 +1,5 @@
 from flask import Blueprint , redirect , render_template , request ,Response,url_for,session, flash ,current_app
-from app import genreted_db_connect , genreted_uid
+from app import genreted_uid,genreted_db_connect
 from mysql.connector import Error
 from werkzeug.utils import  secure_filename
 import os 
@@ -717,8 +717,105 @@ def show_series():
         cursor.execute("SELECT * FROM category WHERE category_type = 'Movies & Series' OR category_type = 'Series'")
         cat = cursor.fetchall()
 
+        cursor.execute("SELECT * FROM `series`")
+        series = cursor.fetchall()
+
     except Exception as e:
         flash(f'error is {e}')
 
-    return render_template('show_series.html',active_page = 'show_series', cat = cat)
+    return render_template('show_series.html',active_page = 'show_series', cat = cat , series = series)
+
+@admin_bp.route("/add_series", methods=['GET', 'POST'])
+def add_series():
+
+   Sname = request.form.get("Sname")
+   Sdecc = request.form.get("Sdecc")
+   Saccess = request.form.get("Saccess")
+   Slanguage = request.form.get("Slanguage")
+   Scat = request.form.get("Scat")
+   Sststus = request.form.get("Sststus")
+   Sseasons = request.form.get("Sseasons")
+   Sepisodes = request.form.get("Sepisodes")
+   Syear = request.form.get("Syear")
+   Sdate = request.form.get("Sdate")
+   Srating = request.form.get("Srating")
+   seo_title = request.form.get("seo_title")
+   seo_desc = request.form.get("seo_desc")
+   seo_keyword = request.form.get("seo_keyword")
+   Sthumb = request.files.get("Sthumb")
+   Strailer = request.form.get("Strailer")
+   Sposter = request.files.get("Sposter")
+   series_id = genreted_uid(12)
+
+   if request.method == 'POST':
+       try:
+           connection = genreted_db_connect()
+           cursor = connection.cursor(dictionary=True)
+
+           cursor.execute("SELECT * FROM series WHERE series_name = %s",(Sname,))
+           series = cursor.fetchone()
+
+           print(Strailer)
+
+           if series:
+               flash("This series Already Exist","danger")
+
+           thumb_file = None
+           poster_file = None
+
+           if Sthumb and Sthumb.filename:
+               thumb_filename = secure_filename(Sthumb.filename)
+               thumb_path = os.path.join(FILE_PATH,thumb_filename)
+               Sthumb.save(thumb_path)
+               thumb_file = thumb_filename
+
+           if Sposter and Sposter.filename:
+               poster_filename = Sposter.filename
+               poster_path = os.path.join(FILE_PATH,poster_filename)
+               Sposter.save(poster_path)
+               poster_file = poster_filename
+
+           sql_qurry = '''
+                INSERT INTO `series`(`series_id`, `series_name`, `series_description`, `series_access`, `series_language`, `series_category`, `series_status`, `series_seasons`, `series_episodes`, `series_release_year`, `series_release_date`, `series_rating`, `seo_title`, `seo_description`, `seo_keywords`, `series_thumbnail`, `series_Poster`, `series_trailer_url`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            '''
+           sql_valus = (series_id,Sname,Sdecc,Saccess,Slanguage,Scat,Sststus,Sseasons,Sepisodes,Syear,Sdate,Srating,seo_title,seo_desc,seo_keyword,thumb_file,poster_file,Strailer)
+
+           cursor.execute(sql_qurry,sql_valus)
+           connection.commit()
+
+           flash('Series Uplodeed Successfully.', 'success')
+           return redirect(url_for('admin.show_series'))
+       
+       except Exception as e:
+           
+          
+           return f'''Series Uplodeed error {e} .'''
+
+       finally:
+           connection.close()
+           cursor.close()
+
+@admin_bp.route("/seasons")
+def seasons():
+
+    try:
+        connection = genreted_db_connect()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("SELECT series_id, series_name FROM series ORDER BY series_name")
+        series = cursor.fetchall()
+    except Exception as e:
+        flash(f'Error loading series: {e}', 'danger')
+        return redirect(url_for('admin.seasons'))
+    finally:
+        connection.close()
+        cursor.close()
+
+    return render_template("seasons.html", active_page = 'seasons',series = series)
+
+                
+
+            
+
+
 

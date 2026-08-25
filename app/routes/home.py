@@ -7,29 +7,51 @@ home_bp = Blueprint('home',__name__)
 
 @home_bp.route('/')
 def index():
-    
-    connction = genreted_db_connect()
-    cursor = connction.cursor(dictionary=True)
-    
-    if connction.is_connected():
-        try:
-            cursor.execute("SELECT * FROM `category`")
-            cate = cursor.fetchall()
-            
-            cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND Ishomepage = 1 ORDER BY RAND() LIMIT 10")
-            movies = cursor.fetchall()
+    connction = None
+    cursor = None 
 
-            cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND Ishomepage = 1 ORDER BY view DESC LIMIT 10")
-            most_reviewed_movies = cursor.fetchall()
+    try:
+        connction = genreted_db_connect()
+        cursor = connction.cursor(dictionary=True)
 
-        except Error as e:
-            flash(f"Error: {str(e)}", "danger")
-        finally:
-            connction.close()
+        cursor.execute("SELECT * FROM category")
+        cate = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT * FROM movies
+            WHERE movie_release_date <= NOW()
+            AND Ishomepage = 1
+            ORDER BY RAND()
+            LIMIT 10
+        """)
+        movies = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT * FROM movies
+            WHERE movie_release_date <= NOW()
+            AND Ishomepage = 1
+            ORDER BY view DESC
+            LIMIT 10
+        """)
+        most_reviewed_movies = cursor.fetchall()
+
+        return render_template(
+            'index.html',
+            active_page='home',
+            cate=cate,
+            movies=movies,
+            most_reviewed_movies=most_reviewed_movies
+        )
+
+    except Exception as e:
+        print("HOME ERROR:", e)
+        return f"Database error: {e}", 500
+
+    finally:
+        if cursor:
             cursor.close()
-    
-    
-    return render_template('index.html',active_page = 'home',cate = cate,movies = movies,most_reviewed_movies = most_reviewed_movies)
+        if connction:
+            connction.close()
 
 
 # movie view route
@@ -54,12 +76,15 @@ def movie_view(movie_id):
 
         cursor.execute("SELECT * FROM `movies` WHERE movie_id = %s",(movie_id,))
         movies = cursor.fetchone()
+        print(movies)
 
         cursor.execute("SELECT * FROM `movie_cast` WHERE movie_id = %s",(movie_id,))
         cast = cursor.fetchall()
+        print(cast)
 
         cursor.execute("SELECT * FROM `movie_file` WHERE movie_id = %s",(movie_id,))
         movie_file = cursor.fetchall()
+        
 
         cursor.execute("SELECT * FROM `movie_subtitles` WHERE movie_id = %s",(movie_id,))
         movie_subtitle = cursor.fetchall()

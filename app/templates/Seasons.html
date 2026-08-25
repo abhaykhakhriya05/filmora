@@ -111,10 +111,15 @@
                 <div class="season-form-grid two">
                     <label>Show Series <b>*</b>
                         <select id="seasonSeries" required>
-                            <option>Stranger Worlds</option>
-                            <option>Kingdom Rise</option>
-                            <option>City Case Files</option>
-                            <option>Anime Quest</option>
+                            <!-- {% for series in series %}
+                            <option>{{series.series_name}}</option>
+                             {% endfor %} -->
+                            <!-- <option>{{series.series_name}}</option> -->
+                            
+                            {% for s in series %}
+                                <option>{{s.series_description}}</option>
+                            {% endfor %}
+
                         </select>
                     </label>
                     <label>Season Name <b>*</b>

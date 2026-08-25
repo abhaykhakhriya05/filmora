@@ -98,12 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     if (seasonForm && seasonTableBody) {
         seasonForm.addEventListener("submit", (event) => {
             event.preventDefault();
 
-            const series = document.getElementById("seasonSeries").value;
+            const seriesSelect = document.getElementById("seasonSeries");
+            const series = seriesSelect?.selectedOptions[0]?.textContent.trim() || "";
             const name = document.getElementById("seasonName").value.trim();
             const description = document.getElementById("seasonDescription").value.trim() || "New season";
             const number = document.getElementById("seasonNumber").value || "1";
@@ -112,6 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const status = document.getElementById("seasonStatus").value;
             const access = document.getElementById("seasonAccess").value;
             const statusClass = status === "draft" ? "" : "active";
+
+            if (!series) {
+                alert("Please select series.");
+                return;
+            }
 
             if (!name) {
                 alert("Please enter season name.");

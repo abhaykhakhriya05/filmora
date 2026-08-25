@@ -1,5 +1,5 @@
 from flask import Blueprint , render_template , redirect , request , url_for ,flash
-from app import genreted_db_connect 
+from app import genreted_db_connect
 
 movie_bp = Blueprint('movie',__name__)
 
@@ -13,6 +13,7 @@ def movie():
 
         cursor.execute("SELECT * FROM movies WHERE movie_release_date <= NOW() ORDER BY movie_release_date DESC LIMIT 10")
         movies = cursor.fetchall()
+        
 
         cursor.execute("SELECT * FROM movies WHERE movie_release_date > NOW() ORDER BY movie_release_date ASC LIMIT 10")
         upcoming_movies = cursor.fetchall()
@@ -26,7 +27,7 @@ def movie():
         cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND Isposter = 1")
         poster_movie = cursor.fetchall()
 
-        print(poster_movie)
+        
         
     except Exception as e:
         flash(f"Error: {str(e)}", "danger")
