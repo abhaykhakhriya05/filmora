@@ -2,20 +2,20 @@
 
 {% block title %} Filmora-Movies {% endblock %}
 
-{% block style %} 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/movie_view.css') }}">
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/movie_view.css') }}">
 {% endblock %}
 
 {% block content %}
-        
+
 <main class="container">
-        
-        <main class="container">
-        
+
+    <main class="container">
+
         <section class="video-player-workspace show-controls" id="playerWorkspace">
             <video id="mainVideoPlayer" src="/static/video/video.mp4" preload="metadata"></video>
-            
+
             <div class="tap-zone-left" id="leftTapZone">
                 <div class="ripple-notice"><i class="fa-solid fa-backward"></i></div>
             </div>
@@ -33,16 +33,19 @@
 
                     <div class="top-right-controls">
                         <div class="custom-select-menu">
-                            <button class="select-toggle-btn" id="audioToggleBtn"><i class="fa-solid fa-volume-high"></i> Audio</button>
+                            <button class="select-toggle-btn" id="audioToggleBtn"><i
+                                    class="fa-solid fa-volume-high"></i> Audio</button>
                             <div class="select-dropdown-list" id="audioMenu" style="width: 160px; padding: 10px;">
-                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="width: 100%; accent-color: var(--primary-red); cursor: pointer; margin-bottom: 8px;">
+                                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1"
+                                    style="width: 100%; accent-color: var(--primary-red); cursor: pointer; margin-bottom: 8px;">
                                 <button class="dropdown-option-item active" data-audio="hindi">Hindi Track</button>
                                 <button class="dropdown-option-item" data-audio="english">English Dub</button>
                             </div>
                         </div>
 
                         <div class="custom-select-menu">
-                            <button class="select-toggle-btn"><i class="fa-regular fa-comment-dots"></i> Subtitles</button>
+                            <button class="select-toggle-btn"><i class="fa-regular fa-comment-dots"></i>
+                                Subtitles</button>
                             <div class="select-dropdown-list" id="subtitleMenu">
                                 <button class="dropdown-option-item active" data-cc="off">Off</button>
                                 <button class="dropdown-option-item" data-cc="en">English CC</button>
@@ -59,7 +62,7 @@
                             </div>
                         </div>
 
-                         <button class="mobile-settings-btn" id="mobileSettingsOpenBtn" title="Settings">
+                        <button class="mobile-settings-btn" id="mobileSettingsOpenBtn" title="Settings">
                             <i class="fa-solid fa-gear"></i>
                         </button>
 
@@ -68,9 +71,12 @@
                 </div>
 
                 <div class="player-center-controls" id="centerControlsBlock">
-                    <button class="center-player-btn" id="rewindBtn" title="Rewind 10s"><i class="fa-solid fa-backward"></i></button>
-                    <button class="center-player-btn main-play" id="playPauseBtn" title="Play/Pause"><i class="fa-solid fa-play"></i></button>
-                    <button class="center-player-btn" id="forwardBtn" title="Forward 10s"><i class="fa-solid fa-forward"></i></button>
+                    <button class="center-player-btn" id="rewindBtn" title="Rewind 10s"><i
+                            class="fa-solid fa-backward"></i></button>
+                    <button class="center-player-btn main-play" id="playPauseBtn" title="Play/Pause"><i
+                            class="fa-solid fa-play"></i></button>
+                    <button class="center-player-btn" id="forwardBtn" title="Forward 10s"><i
+                            class="fa-solid fa-forward"></i></button>
                 </div>
 
                 <div class="player-bottom-panel">
@@ -83,13 +89,13 @@
         </section>
 
 
-         <div class="sheet-backdrop" id="sheetBackdrop"></div>
+        <div class="sheet-backdrop" id="sheetBackdrop"></div>
         <div class="mobile-bottom-sheet" id="mobileBottomSheet">
             <div class="sheet-header">
                 <h3>Video Settings</h3>
                 <button class="sheet-close-btn" id="sheetCloseBtn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <div class="sheet-section">
                 <div class="sheet-section-title">Audio Track</div>
                 <div class="sheet-options-grid">
@@ -132,15 +138,24 @@
                 </div>
 
                 <div class="interactive-actions-bar">
-                    <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button>
-                    <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">14.2k</span> Likes</button>
-                    <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i> Share</button>
-                    <button class="action-node-btn" id="downloadBtn"><i class="fa-solid fa-arrow-down"></i> Download</button>
+                    <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i>
+                        Whitelist</button>
+                    <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span
+                            id="likeCount">14.2k</span> Likes</button>
+                    <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i>
+                        Share</button>
+                    <button class="action-node-btn" id="downloadBtn"><i class="fa-solid fa-arrow-down"></i>
+                        Download</button>
                 </div>
 
                 <div>
                     <h3 class="section-block-title">Description</h3>
-                    <p class="description-paragraph">A celebrated Bollywood movie director Rohan Khurana stands accused by a female member of his crew, Anjali Dangle, of raping her at his residence. Rohan is arrested and produced before a session court judge where formal charges are written out against him. Advocate Manish Marwah takes up Rohan's defense while the prosecution is handled by his former mentee Hrishita Madkaikar, sparking off a brilliant battle of wits inside the courtroom layout.</p>
+                    <p class="description-paragraph">A celebrated Bollywood movie director Rohan Khurana stands accused
+                        by a female member of his crew, Anjali Dangle, of raping her at his residence. Rohan is arrested
+                        and produced before a session court judge where formal charges are written out against him.
+                        Advocate Manish Marwah takes up Rohan's defense while the prosecution is handled by his former
+                        mentee Hrishita Madkaikar, sparking off a brilliant battle of wits inside the courtroom layout.
+                    </p>
                 </div>
 
                 <div>
@@ -185,28 +200,43 @@
             <h3 class="section-block-title" style="font-size: 1.25rem; color: #fff;">Recommended Movies</h3>
             <div class="recommended-media-grid">
                 <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Drishyam 2</h4><p class="poster-card-meta">Thriller • 2h 20m</p></div>
+                    <div class="poster-img-container"><img
+                            src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80"
+                            alt="Cover"></div>
+                    <div class="poster-card-details">
+                        <h4 class="poster-card-title">Drishyam 2</h4>
+                        <p class="poster-card-meta">Thriller • 2h 20m</p>
+                    </div>
                 </div>
                 <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Talvar</h4><p class="poster-card-meta">Mystery Drama • 2h 12m</p></div>
+                    <div class="poster-img-container"><img
+                            src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=400&q=80"
+                            alt="Cover"></div>
+                    <div class="poster-card-details">
+                        <h4 class="poster-card-title">Talvar</h4>
+                        <p class="poster-card-meta">Mystery Drama • 2h 12m</p>
+                    </div>
                 </div>
                 <div class="media-poster-card" onclick="alert('Streaming Content...');">
-                    <div class="poster-img-container"><img src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=400&q=80" alt="Cover"></div>
-                    <div class="poster-card-details"><h4 class="poster-card-title">Article 15</h4><p class="poster-card-meta">Crime Thriller • 2h 10m</p></div>
+                    <div class="poster-img-container"><img
+                            src="https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=400&q=80"
+                            alt="Cover"></div>
+                    <div class="poster-card-details">
+                        <h4 class="poster-card-title">Article 15</h4>
+                        <p class="poster-card-meta">Crime Thriller • 2h 10m</p>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
-    
 
-    
-{% endblock %}
 
-{% block script %}
-    <script >
+
+    {% endblock %}
+
+    {% block script %}
+    <script>
         const video = document.getElementById('mainVideoPlayer');
         const workspace = document.getElementById('playerWorkspace');
         const playPauseBtn = document.getElementById('playPauseBtn');
@@ -231,7 +261,7 @@
         function resetControlsTimeout() {
             workspace.classList.add('show-controls');
             clearTimeout(controlsTimeout);
-            
+
             // જો વીડિયો ચાલુ હોય તો જ 2.5 സെકન્ડ પછી કંટ્રોલ્સ હાઈડ થશે
             if (!video.paused) {
                 controlsTimeout = setTimeout(() => {
@@ -257,7 +287,7 @@
         // --- PREMIUM INTERACTIVE PLAY / PAUSE LOGIC WITH SPIN & RIPPLE ---
         function togglePlayState() {
             playPauseBtn.classList.add('animate-click');
-            
+
             setTimeout(() => {
                 playPauseBtn.classList.remove('animate-click');
             }, 500);
@@ -275,10 +305,10 @@
             }
             resetControlsTimeout();
         }
-        
-        playPauseBtn.addEventListener('click', (e) => { 
-            e.stopPropagation(); 
-            togglePlayState(); 
+
+        playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePlayState();
         });
 
         // --- DOUBLE TAP / CLICK TO SKIP ---
@@ -367,26 +397,26 @@
         const likeBtn = document.getElementById('likeBtn');
         const whitelistBtn = document.getElementById('whitelistBtn');
 
-        if(likeBtn) {
+        if (likeBtn) {
             likeBtn.addEventListener('click', () => {
                 likeBtn.classList.toggle('active');
                 const likeCount = document.getElementById('likeCount');
-                if(likeCount) {
+                if (likeCount) {
                     likeCount.textContent = likeBtn.classList.contains('active') ? "14.3k" : "14.2k";
                 }
             });
         }
 
-        if(whitelistBtn) {
+        if (whitelistBtn) {
             whitelistBtn.addEventListener('click', () => {
                 whitelistBtn.classList.toggle('active');
-                whitelistBtn.innerHTML = whitelistBtn.classList.contains('active') ? 
+                whitelistBtn.innerHTML = whitelistBtn.classList.contains('active') ?
                     '<i class="fa-solid fa-bookmark"></i> Whitelisted' : '<i class="fa-regular fa-bookmark"></i> Whitelist';
             });
         }
 
 
-         // --- MOBILE BOTTOM SHEET CONTROLLER LOGIC ---
+        // --- MOBILE BOTTOM SHEET CONTROLLER LOGIC ---
         mobileSettingsOpenBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             mobileBottomSheet.classList.add('open');
@@ -411,4 +441,12 @@
         });
 
     </script>
-{% endblock %}
+    {% endblock %}
+    <label>Show Series <b>*</b>
+        <select id="seasonSeries" name="season_series_id" required>
+            <option value="">Select series</option>
+            {% for s in series %}
+            <option value="{{ s.series_id }}">{{ s.series_name }}</option>
+            {% endfor %}
+        </select>
+    </label>

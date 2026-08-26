@@ -813,6 +813,64 @@ def seasons():
 
     return render_template("seasons.html", active_page = 'seasons',series = series)
 
+@admin_bp.route("/add_seasons", methods = ["GET","POST"])
+def add_seasons():
+
+    if request.method != "POST":
+        return redirect(url_for('admin.seasons'))
+
+    seasonSeries = request.form.get("season_series_id", "").strip()
+    seasonName = request.form.get("seasonName")
+    seasonDescription = request.form.get("seasonDescription")
+    seasonNumber = request.form.get("seasonNumber")
+    seasonEpisodes = request.form.get("seasonEpisodes")
+    seasonYear = request.form.get("seasonYear")
+    seasonDate = request.form.get("seasonDate")
+    seasonStatus = request.form.get("seasonStatus")
+    seasonAccess = request.form.get("seasonAccess")
+    seasonPoster = request.files.get("seasonPoster")
+    seasonId = genreted_uid(11)
+    
+    if request.method == "POST":
+
+        connection = genreted_db_connect()
+        cursor = connection.cursor()
+
+        try:
+            cursor.execute("SELECT series_id FROM series WHERE series_name = %s",(seasonSeries,))
+            series = cursor.fetchone()
+
+            if not series:
+                flash("Selected series not found.", "danger")
+                return redirect(url_for('admin.seasons'))
+
+            poster_file = None
+            if seasonPoster and seasonPoster.filename:
+                poster_filename = secure_filename(seasonPoster.filename)
+                poster_path = os.path.join(FILE_PATH,poster_filename)
+                seasonPoster.save(poster_path)
+                poster_file = poster_filename
+
+            sql_qurry = '''
+                INSERT INTO season (season_id,series_id,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,seasonPoster)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            '''
+
+            sql_valus = (seasonId,seasonSeries,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,poster_file)
+
+            cursor.execute(sql_qurry,sql_valus)
+            connection.commit()
+
+            flash("Season Uplode Successfully","success")
+            return redirect(url_for('admin.seasons'))
+        except Exception as e :
+            connection.rollback()
+            # flash(f"Season Uplode Error {e}","denger")
+            return f"Season Uplode Error {e}"
+        finally:
+            connection.close()
+            cursor.close()
+        
+
                 
 
             

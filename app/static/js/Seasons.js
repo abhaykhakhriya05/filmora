@@ -98,49 +98,49 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    if (seasonForm && seasonTableBody) {
-        seasonForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+    // if (seasonForm && seasonTableBody) {
+    //     seasonForm.addEventListener("submit", (event) => {
+    //         event.preventDefault();
 
-            const seriesSelect = document.getElementById("seasonSeries");
-            const series = seriesSelect?.selectedOptions[0]?.textContent.trim() || "";
-            const name = document.getElementById("seasonName").value.trim();
-            const description = document.getElementById("seasonDescription").value.trim() || "New season";
-            const number = document.getElementById("seasonNumber").value || "1";
-            const episodes = document.getElementById("seasonEpisodes").value || "1";
-            const year = document.getElementById("seasonYear").value || "2026";
-            const status = document.getElementById("seasonStatus").value;
-            const access = document.getElementById("seasonAccess").value;
-            const statusClass = status === "draft" ? "" : "active";
+    //         const seriesSelect = document.getElementById("seasonSeries");
+    //         const series = seriesSelect?.selectedOptions[0]?.textContent.trim() || "";
+    //         const name = document.getElementById("seasonName").value.trim();
+    //         const description = document.getElementById("seasonDescription").value.trim() || "New season";
+    //         const number = document.getElementById("seasonNumber").value || "1";
+    //         const episodes = document.getElementById("seasonEpisodes").value || "1";
+    //         const year = document.getElementById("seasonYear").value || "2026";
+    //         const status = document.getElementById("seasonStatus").value;
+    //         const access = document.getElementById("seasonAccess").value;
+    //         const statusClass = status === "draft" ? "" : "active";
 
-            if (!series) {
-                alert("Please select series.");
-                return;
-            }
+    //         if (!series) {
+    //             alert("Please select series.");
+    //             return;
+    //         }
 
-            if (!name) {
-                alert("Please enter season name.");
-                return;
-            }
+    //         if (!name) {
+    //             alert("Please enter season name.");
+    //             return;
+    //         }
 
-            seasonTableBody.insertAdjacentHTML("beforeend", `
-                <tr data-season-row data-season-status="${escapeHTML(status)}">
-                    <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
-                    <td><span class="season-thumb">S${escapeHTML(number)}</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(description)}</small></div></td>
-                    <td>${escapeHTML(series)}</td>
-                    <td>${escapeHTML(episodes)}</td>
-                    <td>${escapeHTML(year)}</td>
-                    <td>${escapeHTML(access)}</td>
-                    <td><span class="season-switch ${statusClass}"></span></td>
-                    <td><div class="season-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                </tr>
-            `);
+    //         seasonTableBody.insertAdjacentHTML("beforeend", `
+    //             <tr data-season-row data-season-status="${escapeHTML(status)}">
+    //                 <td><input type="checkbox" aria-label="Select ${escapeHTML(name)}"></td>
+    //                 <td><span class="season-thumb">S${escapeHTML(number)}</span><div><strong>${escapeHTML(name)}</strong><small>${escapeHTML(description)}</small></div></td>
+    //                 <td>${escapeHTML(series)}</td>
+    //                 <td>${escapeHTML(episodes)}</td>
+    //                 <td>${escapeHTML(year)}</td>
+    //                 <td>${escapeHTML(access)}</td>
+    //                 <td><span class="season-switch ${statusClass}"></span></td>
+    //                 <td><div class="season-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+    //             </tr>
+    //         `);
 
-            seasonForm.reset();
-            closeSeasonModal();
-            updateSeasonRows();
-        });
-    }
+    //         seasonForm.reset();
+    //         closeSeasonModal();
+    //         updateSeasonRows();
+    //     });
+    // }
 
     updateSeasonRows();
 });
