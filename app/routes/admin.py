@@ -804,6 +804,9 @@ def seasons():
 
         cursor.execute("SELECT series_id, series_name FROM series ORDER BY series_name")
         series = cursor.fetchall()
+
+        cursor.execute("SELECT * FROM season")
+        season = cursor.fetchall()
     except Exception as e:
         flash(f'Error loading series: {e}', 'danger')
         return redirect(url_for('admin.seasons'))
@@ -811,7 +814,7 @@ def seasons():
         connection.close()
         cursor.close()
 
-    return render_template("seasons.html", active_page = 'seasons',series = series)
+    return render_template("seasons.html", active_page = 'seasons',series = series, season = season)
 
 @admin_bp.route("/add_seasons", methods = ["GET","POST"])
 def add_seasons():
@@ -837,8 +840,11 @@ def add_seasons():
         cursor = connection.cursor()
 
         try:
-            cursor.execute("SELECT series_id FROM series WHERE series_name = %s",(seasonSeries,))
+            
+            
+            cursor.execute("SELECT series_name,series_id FROM series WHERE series_id = %s",(seasonSeries,))
             series = cursor.fetchone()
+           
 
             if not series:
                 flash("Selected series not found.", "danger")
@@ -852,10 +858,10 @@ def add_seasons():
                 poster_file = poster_filename
 
             sql_qurry = '''
-                INSERT INTO season (season_id,series_id,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,seasonPoster)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                INSERT INTO season (season_id,series_id,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,seasonPoster,seasonSeries)VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             '''
 
-            sql_valus = (seasonId,seasonSeries,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,poster_file)
+            sql_valus = (seasonId,seasonSeries,seasonName,seasonDescription,seasonNumber,seasonEpisodes,seasonYear,seasonDate,seasonStatus,seasonAccess,poster_file,series[0])
 
             cursor.execute(sql_qurry,sql_valus)
             connection.commit()

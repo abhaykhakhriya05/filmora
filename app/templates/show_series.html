@@ -64,7 +64,7 @@
                         <td>{{series.series_language}}</td>
                         <td>{{series.series_access}}</td>
                         <td>{{series.series_rating}}</td>
-                        <td><span class="series-switch active"></span></td>
+                        <td><span class="series-switch {{ 'active' if series.series_status == 'published' else '' }}"></span></td>
                         <td>
                             <div class="series-row-actions">
                                 <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
