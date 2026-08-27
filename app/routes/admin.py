@@ -4,6 +4,7 @@ from mysql.connector import Error
 from werkzeug.utils import  secure_filename
 import os 
 import traceback
+import keyboard as key
 
 print(genreted_uid)
 
@@ -17,6 +18,10 @@ SUBTITLE_PATH = os.path.join(APP_ROOT,'static', 'subtitle')
 os.makedirs(FILE_PATH, exist_ok=True)
 os.makedirs(VIDEO_FILE, exist_ok=True)
 os.makedirs(SUBTITLE_PATH, exist_ok=True)
+
+
+if key.is_pressed('M'):
+    redirect(url_for('auth.login'))
 
 @admin_bp.route('/dashboard')
 def dashboard():
