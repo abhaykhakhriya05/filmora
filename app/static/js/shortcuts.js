@@ -51,6 +51,14 @@ document.addEventListener("keydown",function(event){
                 event.preventDefault();
                 window.location.href = "/add_seasons";
                 break;
+            case "e":
+                event.preventDefault();
+                window.location.href = "/episodes";
+                break;
+            case "u":
+                event.preventDefault();
+                window.location.href = "/users";
+                break;
             
         }
     }

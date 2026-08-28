@@ -880,7 +880,32 @@ def add_seasons():
         finally:
             connection.close()
             cursor.close()
-        
+
+@admin_bp.route("/episodes")
+def episodes():
+    return render_template("episodes.html",active_page = "episodes")
+
+
+@admin_bp.route("/users")
+def users():
+    if 'admin_email' not in session:
+        return redirect(url_for('auth.login'))
+
+    connection = genreted_db_connect()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("SELECT * FROM `users`")
+        users = cursor.fetchall()
+    except Exception as e:
+        flash(f"Error {e}","danger")
+    finally:
+        cursor.close()
+        connection.close()
+
+    
+    return render_template("users.html",active_page = "users",users = users)
 
                 
 

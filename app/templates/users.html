@@ -49,33 +49,19 @@
                     </tr>
                 </thead>
                 <tbody id="usersTableBody">
+                    {% for user in users %}
                     <tr data-user-row data-user-status="subscriber">
-                        <td><span class="users-avatar">AK</span><div><strong>Abhay Khakhriya</strong><small>#USR-1001</small></div></td>
-                        <td>abhay.student@example.com</td>
-                        <td>Premium</td>
-                        <td><span class="users-status subscriber">Subscriber</span></td>
-                        <td>05 July, 2026</td>
+                        <td><span class="users-avatar">AK</span><div><strong>{{user.firstName}} {{user.lastName}}</strong><small>{{user.id}}</small></div></td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.subscribed}}</td>
+                        <td><span class="users-status {{user.status}}">{{user.status}}</span></td>
+                        <td>{{user.isLogdin}}</td>
                         <td>Today</td>
-                        <td><div class="users-row-actions"><button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button><button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete user"><i class="fa-solid fa-trash"></i></button></div></td>
+                        <td><div class="users-row-actions"><button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
+                            <button type="button" aria-label="Edit user"><i class="fa-solid fa-ban"></i></button>
+                            <button class="danger" type="button" aria-label="Delete user"><i class="fa-solid fa-trash"></i></button></div></td>
                     </tr>
-                    <tr data-user-row data-user-status="trial">
-                        <td><span class="users-avatar orange">KM</span><div><strong>Karan Mehta</strong><small>#USR-1003</small></div></td>
-                        <td>karan.mehta@example.com</td>
-                        <td>Trial</td>
-                        <td><span class="users-status trial">Trial</span></td>
-                        <td>01 July, 2026</td>
-                        <td>Yesterday</td>
-                        <td><div class="users-row-actions"><button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button><button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete user"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
-                    <tr data-user-row data-user-status="blocked">
-                        <td><span class="users-avatar gray">DJ</span><div><strong>Dev Joshi</strong><small>#USR-1005</small></div></td>
-                        <td>dev.joshi@example.com</td>
-                        <td>Free</td>
-                        <td><span class="users-status blocked">Blocked</span></td>
-                        <td>18 June, 2026</td>
-                        <td>09 July, 2026</td>
-                        <td><div class="users-row-actions"><button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button><button type="button" aria-label="Edit user"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete user"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

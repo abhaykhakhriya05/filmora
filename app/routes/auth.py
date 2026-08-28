@@ -1,5 +1,5 @@
 from flask import Blueprint , render_template , request , redirect , url_for , session ,Response,flash
-from app import genreted_db_connect
+from app import genreted_db_connect , genreted_uid
 from werkzeug.security import generate_password_hash , check_password_hash
 
 auth_bp = Blueprint('auth',__name__)
@@ -77,6 +77,7 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         hash_password = generate_password_hash(password)
+        id = genreted_uid(11)
 
         connction = genreted_db_connect()
         cursour = connction.cursor()
@@ -91,10 +92,10 @@ def register():
                 return redirect(url_for('auth.login'))
             else:
                 insert_qurey = '''
-                    INSERT INTO users(firstName,lastName,email,password)VALUES(%s,%s,%s,%s)
+                    INSERT INTO users(firstName,lastName,email,password,id)VALUES(%s,%s,%s,%s,%s)
                 '''
 
-                insert_values = (firstName,lastName,email,hash_password)
+                insert_values = (firstName,lastName,email,hash_password,id)
 
                 cursour.execute(insert_qurey,insert_values)
                 connction.commit()

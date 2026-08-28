@@ -137,6 +137,10 @@
     background: rgba(241, 18, 18, 0.15);
     color: #ff6a6a;
 }
+.users-status.free {
+    background: rgba(11, 150, 244, 0.15);
+    color: #efeaea;
+}
 
 .users-row-actions {
     display: flex;
