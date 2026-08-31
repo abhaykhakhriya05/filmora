@@ -92,10 +92,10 @@ def register():
                 return redirect(url_for('auth.login'))
             else:
                 insert_qurey = '''
-                    INSERT INTO users(firstName,lastName,email,password,id)VALUES(%s,%s,%s,%s,%s)
+                    INSERT INTO users(firstName,lastName,email,password)VALUES(%s,%s,%s,%s)
                 '''
 
-                insert_values = (firstName,lastName,email,hash_password,id)
+                insert_values = (firstName,lastName,email,hash_password)
 
                 cursour.execute(insert_qurey,insert_values)
                 connction.commit()

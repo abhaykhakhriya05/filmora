@@ -881,9 +881,193 @@ def add_seasons():
             connection.close()
             cursor.close()
 
+# @admin_bp.route("/episodes")
+# def episodes():
+
+#     try:
+#         connection = genreted_db_connect()
+#         cursor = connection.cursor(dictionary=True)
+
+#         cursor.execute("SELECT * FROM `series`")
+#         series = cursor.fetchall()
+#         print(series)
+
+#         cursor.execute("SELECT * FROM `season`")
+#         season = cursor.fetchall()
+#         print(season)
+#     except Exception as e:
+#         flash(f"Error{e}")
+#         return redirect(url_for("admin.episodes"))
+#     finally:
+#         connection.close()
+#         cursor.close()
+#     return render_template("episodes.html",active_page = "episodes",series = series , season = season)
+
+# @admin_bp.route("/add_episode",methods = ['GET','POST'])
+# def add_episode():
+
 @admin_bp.route("/episodes")
 def episodes():
-    return render_template("episodes.html",active_page = "episodes")
+    connection = None
+    cursor = None
+    try:
+        connection = genreted_db_connect()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("SELECT series_id, series_name FROM `series` ORDER BY series_name")
+        series = cursor.fetchall()
+
+        cursor.execute("SELECT season_id, series_id, seasonName, seasonNumber FROM `season` ORDER BY seasonNumber")
+        season = cursor.fetchall()
+
+        cursor.execute('''
+            SELECT e.*, s.series_name, se.seasonName, se.seasonNumber
+            FROM episode AS e
+            JOIN series AS s ON s.series_id = e.series_id
+            JOIN season AS se ON se.season_id = e.season_id
+            ORDER BY e.episodeReleaseDate DESC, e.episodeNumber ASC
+        ''')
+        episode_list = cursor.fetchall()
+    except Exception as e:
+        flash(f"Error loading episodes: {e}", "danger")
+        series, season, episode_list = [], [], []
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+    return render_template("episodes.html", active_page="episodes", series=series,
+                           season=season, episodes=episode_list)
+
+
+@admin_bp.route("/add_episode", methods=["POST"])
+def add_episode():
+    """Save an episode and its optional videos, subtitles, and cast/crew."""
+    series_id = request.form.get("episodeSeries", "").strip()
+    season_id = request.form.get("episodeSeason", "").strip()
+    episode_name = request.form.get("episodeName", "").strip()
+    episode_description = request.form.get("episodeDescription", "").strip()
+    episode_number = request.form.get("episodeNumber", "").strip()
+    episode_duration = request.form.get("episodeDuration", "").strip()
+    release_date = request.form.get("episodeReleaseDate", "").strip() or None
+    episode_status = request.form.get("episodeStatus", "draft").strip().lower()
+    episode_access = request.form.get("episodeAccess", "Free").strip()
+    thumbnail = request.files.get("episodeThumb")
+
+    if not all((series_id, season_id, episode_name, episode_number)):
+        flash("Series, season, episode title, and episode number are required.", "warning")
+        return redirect(url_for("admin.episodes"))
+
+    if episode_status not in {"published", "draft"}:
+        flash("Invalid episode status.", "warning")
+        return redirect(url_for("admin.episodes"))
+
+    connection = None
+    cursor = None
+    try:
+        connection = genreted_db_connect()
+        cursor = connection.cursor(dictionary=True)
+
+        # A season must belong to the selected series; never trust IDs from the form.
+        cursor.execute(
+            "SELECT season_id FROM season WHERE season_id = %s AND series_id = %s",
+            (season_id, series_id),
+        )
+        if not cursor.fetchone():
+            flash("The selected season does not belong to that series.", "warning")
+            return redirect(url_for("admin.episodes"))
+
+        cursor.execute(
+            "SELECT episode_id FROM episode WHERE season_id = %s AND episodeNumber = %s",
+            (season_id, episode_number),
+        )
+        if cursor.fetchone():
+            flash("That episode number already exists in this season.", "warning")
+            return redirect(url_for("admin.episodes"))
+
+        episode_id = genreted_uid(12)
+        thumbnail_name = None
+        if thumbnail and thumbnail.filename:
+            original_name = secure_filename(thumbnail.filename)
+            if original_name:
+                thumbnail_name = f"{episode_id}_{original_name}"
+                thumbnail.save(os.path.join(FILE_PATH, thumbnail_name))
+
+        cursor.execute('''
+            INSERT INTO episode
+                (episode_id, series_id, season_id, episodeName, episodeDescription,
+                 episodeNumber, episodeDuration, episodeReleaseDate, episodeStatus,
+                 episodeAccess, episodeThumb)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ''', (episode_id, series_id, season_id, episode_name, episode_description,
+              episode_number, episode_duration, release_date, episode_status,
+              episode_access, thumbnail_name))
+
+        video_qualities = request.form.getlist("episodeVideoQuality[]")
+        video_files = request.files.getlist("episodeVideoFile[]")
+        video_downloads = request.form.getlist("episodeVideoDownload[]")
+        for index, video in enumerate(video_files):
+            if not video or not video.filename:
+                continue
+            filename = secure_filename(video.filename)
+            if not filename:
+                continue
+            saved_name = f"{episode_id}_{genreted_uid(6)}_{filename}"
+            video.save(os.path.join(VIDEO_FILE, saved_name))
+            cursor.execute('''
+                INSERT INTO episode_file (episode_file_id, episode_id, episode_quality, episode_file, episode_download)
+                VALUES (%s, %s, %s, %s, %s)
+            ''', (genreted_uid(10), episode_id,
+                  video_qualities[index] if index < len(video_qualities) else "",
+                  saved_name,
+                  video_downloads[index] if index < len(video_downloads) else "Disabled"))
+
+        subtitle_languages = request.form.getlist("episodeSubtitleLanguage[]")
+        subtitle_files = request.files.getlist("episodeSubtitleFile[]")
+        for index, subtitle in enumerate(subtitle_files):
+            if not subtitle or not subtitle.filename:
+                continue
+            filename = secure_filename(subtitle.filename)
+            if not filename:
+                continue
+            saved_name = f"{episode_id}_{genreted_uid(6)}_{filename}"
+            subtitle.save(os.path.join(SUBTITLE_PATH, saved_name))
+            cursor.execute('''
+                INSERT INTO episode_subtitles (episode_subtitle_id, episode_id, episode_sub_language, episode_subtitle)
+                VALUES (%s, %s, %s, %s)
+            ''', (genreted_uid(10), episode_id,
+                  subtitle_languages[index] if index < len(subtitle_languages) else "",
+                  saved_name))
+
+        cast_types = request.form.getlist("episodeCastType[]")
+        cast_names = request.form.getlist("episodeCastName[]")
+        cast_roles = request.form.getlist("episodeCastRole[]")
+        for index, cast_name in enumerate(cast_names):
+            if not cast_name.strip():
+                continue
+            cursor.execute('''
+                INSERT INTO episode_cast (episode_cast_id, episode_id, episode_cast_type, episode_cast_name, episode_cast_role)
+                VALUES (%s, %s, %s, %s, %s)
+            ''', (genreted_uid(10), episode_id,
+                  cast_types[index] if index < len(cast_types) else "Cast",
+                  cast_name.strip(),
+                  cast_roles[index].strip() if index < len(cast_roles) else ""))
+
+        connection.commit()
+        flash("Episode added successfully.", "success")
+    except Exception as exc:
+        if connection:
+            connection.rollback()
+        current_app.logger.exception("Unable to add episode")
+        flash(f"Could not add episode: {exc}", "danger")
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+    return redirect(url_for("admin.episodes"))
+    
 
 
 @admin_bp.route("/users")
@@ -904,7 +1088,6 @@ def users():
         cursor.close()
         connection.close()
 
-    
     return render_template("users.html",active_page = "users",users = users)
 
                 

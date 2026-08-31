@@ -1,300 +1,71 @@
 {% extends "base.html" %}
 
-{% block title %} Filmora - Profile {% endblock %}
+{% block title %}Filmora · Profile{% endblock %}
 
 {% block style %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/style.css') }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/profile.css') }}"
-/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
 {% block content %}
+{% set first_name = session.get('firstName', 'Filmora') %}
+{% set last_name = session.get('lastName', 'Member') %}
+{% set email = session.get('email', 'member@filmora.com') %}
+{% set subscribed = session.get('subscribed', '')|lower %}
+{% set avatar = session.get('dp', '') %}
 
-<main class="profile-shell">
-    {% set is_logged_in = session.get('loggedin') %}
-    {% set image_url = session.get('dp')%}
-    {% set isSubscribed = session.get('subscribed')%}
-    {% if is_logged_in %}
-    <section class="profile-hero">
-        <div class="profile-intro">
-            {% if isSubscribed == 'free' %}
-
-            {% else %}
-            <span class="member-badge"><i class="fa-solid fa-crown"></i> Premium Profile</span>
-            {% endif %}
-            <h1>{{ session['firstName']}}</h1>
-            <p>Manage account details, continue watching, and jump quickly to the important Filmora pages from one
-                responsive profile dashboard.</p>
+<main class="profile-page">
+    <section class="profile-banner" aria-labelledby="profile-title">
+        <div class="profile-banner-copy">
+            <span class="profile-eyebrow"><i class="fa-solid fa-user"></i> My profile</span>
+            <h1 id="profile-title">Welcome back, {{ first_name }}</h1>
+            <p>Keep your account details, viewing progress, and saved entertainment in one place.</p>
         </div>
+        <div class="profile-identity">
+            <img class="profile-avatar" src="{{ avatar or url_for('static', filename='image/logo.png') }}" alt="{{ first_name }}'s profile picture">
+            <div><h2>{{ first_name }} {{ last_name }}</h2><p>{{ email }}</p></div>
+            <span class="plan-badge {{ 'plan-badge--premium' if subscribed == 'premium' else '' }}"><i class="fa-solid {{ 'fa-crown' if subscribed == 'premium' else 'fa-film' }}"></i>{{ 'Premium' if subscribed == 'premium' else 'Free plan' }}</span>
+        </div>
+    </section>
 
-        <aside class="profile-card">
-            <div class="avatar-panel">
-                
-                {% if image_url == '' %}
-                <img src="{{session['dp']}}" alt="Profile avatar">
-                {% else %}
-                <img src="{{url_for('static',filename = 'image/logo.png')}}" alt="Profile avatar">
-                {% endif %}
+    <section class="profile-stats" aria-label="Viewing statistics">
+        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-circle-play"></i></span><div><strong>24</strong><span>Movies watched</span></div></article>
+        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-bookmark"></i></span><div><strong>08</strong><span>Saved titles</span></div></article>
+        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-clock"></i></span><div><strong>36h</strong><span>Watch time</span></div></article>
+        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-display"></i></span><div><strong>04</strong><span>Devices</span></div></article>
+    </section>
 
-                <div>
-                    <h2>{{ session['firstName'] + session['lastName'] }}</h2>
-                    <span>{{session['email']}}</span>
-                </div>
+    <div class="profile-layout">
+        <section class="profile-panel profile-panel--watching" aria-labelledby="continue-title">
+            <div class="profile-panel-heading"><div><span class="profile-section-kicker">Keep watching</span><h2 id="continue-title">Continue watching</h2></div><a href="{{ url_for('movie.movie') }}">Browse movies <i class="fa-solid fa-arrow-right"></i></a></div>
+            <div class="continue-grid">
+                <article class="continue-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.jpg') }}" alt="Avengers: Endgame poster"><div class="continue-card-body"><span>Movie · 2h 12m left</span><h3>Avengers: Endgame</h3><div class="watch-progress" aria-label="42% watched"><span style="width: 42%"></span></div><button type="button"><i class="fa-solid fa-play"></i> Resume</button></div></article>
+                <article class="continue-card"><img src="{{ url_for('static', filename='image/Guardians_of_the_Galaxy_film_poster.jpg') }}" alt="Guardians of the Galaxy poster"><div class="continue-card-body"><span>Movie · 46m left</span><h3>Guardians of the Galaxy</h3><div class="watch-progress" aria-label="68% watched"><span style="width: 68%"></span></div><button type="button"><i class="fa-solid fa-play"></i> Resume</button></div></article>
             </div>
-            <p class="muted-text">Premium member with HD streaming, watchlist sync, and personalized recommendations
-                enabled.</p>
-            <div class="profile-actions">
-                <a class="profile-btn-link primary" href="profile_edit.html"><i class="fa-regular fa-pen-to-square"></i>
-                    Edit Profile</a>
-                <a class="profile-btn-link" href="subscription.html"><i class="fa-solid fa-gem"></i> Manage Plan</a>
-            </div>
+        </section>
+
+        <aside class="profile-panel profile-panel--account" aria-labelledby="account-title">
+            <div class="profile-panel-heading"><div><span class="profile-section-kicker">Account</span><h2 id="account-title">Profile details</h2></div></div>
+            <dl class="profile-details"><div><dt>Name</dt><dd>{{ first_name }} {{ last_name }}</dd></div><div><dt>Email</dt><dd>{{ email }}</dd></div><div><dt>Membership</dt><dd>{{ 'Premium' if subscribed == 'premium' else 'Free' }}</dd></div></dl>
+            <div class="profile-actions"><a class="profile-button profile-button--primary" href="{{ url_for('auth.setting') }}"><i class="fa-solid fa-gear"></i> Account settings</a><a class="profile-button" href="{{ url_for('home.index') }}"><i class="fa-solid fa-house"></i> Go to home</a></div>
         </aside>
-    </section>
-    {% endif %}
 
-    <section class="profile-grid">
-        <article class="content-card wide-card">
-            <h2><i class="fa-solid fa-chart-simple"></i> Watch Summary</h2>
-            <div class="watch-stats">
-                <div class="stat-box">
-                    <strong>24</strong>
-                    <span>Movies watched</span>
-                </div>
-                <div class="stat-box">
-                    <strong>8</strong>
-                    <span>Series saved</span>
-                </div>
-                <div class="stat-box">
-                    <strong>4</strong>
-                    <span>Devices</span>
-                </div>
+        <section class="profile-panel profile-panel--saved" aria-labelledby="saved-title">
+            <div class="profile-panel-heading"><div><span class="profile-section-kicker">My list</span><h2 id="saved-title">Saved for later</h2></div><a href="{{ url_for('movie.movie') }}">View all <i class="fa-solid fa-arrow-right"></i></a></div>
+            <div class="saved-grid">
+                <article class="saved-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.webp') }}" alt="Avengers Endgame"><div><h3>Avengers: Endgame</h3><span>Action · Movie</span></div></article>
+                <article class="saved-card"><img src="{{ url_for('static', filename='image/Guardians.of.the.Galaxy.2014..jpg') }}" alt="Guardians of the Galaxy"><div><h3>Guardians of the Galaxy</h3><span>Sci-Fi · Movie</span></div></article>
+                <article class="saved-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.jpg') }}" alt="Avengers poster"><div><h3>Endgame Collection</h3><span>Action · Collection</span></div></article>
             </div>
-        </article>
+        </section>
 
-        <article class="content-card wide-card">
-            <h2><i class="fa-solid fa-circle-play"></i> Continue Watching</h2>
-            <p class="section-note">Pick up from the last saved position across your signed-in devices.</p>
-            <div class="continue-list">
-                <div class="continue-item">
-                    <img src="/static/image/Avengers_Endgame.jpg" alt="Avengers Endgame poster">
-                    <div>
-                        <h3>Avengers: Endgame</h3>
-                        <p>2h 12m left</p>
-                        <div class="progress-track"><span class="progress-fill" style="width: 42%;"></span></div>
-                        <span class="status-pill">Resume</span>
-                    </div>
-                </div>
-                <div class="continue-item">
-                    <img src="https://picsum.photos/240/360?random=71" alt="Interstellar Voyage poster">
-                    <div>
-                        <h3>Interstellar Voyage</h3>
-                        <p>Episode 4, 18m left</p>
-                        <div class="progress-track"><span class="progress-fill" style="width: 68%;"></span></div>
-                        <span class="status-pill">Resume</span>
-                    </div>
-                </div>
-                <div class="continue-item">
-                    <img src="https://picsum.photos/240/360?random=72" alt="Midnight City poster">
-                    <div>
-                        <h3>Midnight City</h3>
-                        <p>Season 1, Episode 2</p>
-                        <div class="progress-track"><span class="progress-fill" style="width: 25%;"></span></div>
-                        <span class="status-pill">Resume</span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="content-card wide-card">
-            <h2><i class="fa-solid fa-bookmark"></i> My Watchlist</h2>
-            <p class="section-note">Saved movies and shows ready for the next session.</p>
-            <div class="watchlist-grid">
-                <div class="watchlist-item">
-                    <div class="watchlist-poster">
-                        <img src="https://picsum.photos/240/360?random=81" alt="Dune Part Two poster">
-                        <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
-                    </div>
-                    <div class="watchlist-meta">
-                        <h3>Dune: Part Two</h3>
-                        <span>Movie - Sci-Fi</span>
-                    </div>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-poster">
-                        <img src="https://picsum.photos/240/360?random=82" alt="Civil War poster">
-                        <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
-                    </div>
-                    <div class="watchlist-meta">
-                        <h3>Civil War</h3>
-                        <span>Movie - Drama</span>
-                    </div>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-poster">
-                        <img src="https://picsum.photos/240/360?random=83" alt="Furiosa poster">
-                        <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
-                    </div>
-                    <div class="watchlist-meta">
-                        <h3>Furiosa Saga</h3>
-                        <span>Movie - Action</span>
-                    </div>
-                </div>
-                <div class="watchlist-item">
-                    <div class="watchlist-poster">
-                        <img src="https://picsum.photos/240/360?random=84" alt="Dark Signal poster">
-                        <span class="watchlist-play" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
-                    </div>
-                    <div class="watchlist-meta">
-                        <h3>Dark Signal</h3>
-                        <span>Series - Thriller</span>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="content-card">
-            <h2><i class="fa-solid fa-display"></i> Connected Devices</h2>
-            <div class="device-list">
-                <div class="device-row">
-                    <div>
-                        <strong><i class="fa-solid fa-laptop"></i> Windows Laptop</strong>
-                        <span>Last active today</span>
-                    </div>
-                    <span class="status-pill primary">Current</span>
-                </div>
-                <div class="device-row">
-                    <div>
-                        <strong><i class="fa-solid fa-mobile-screen"></i> Android Phone</strong>
-                        <span>Last active yesterday</span>
-                    </div>
-                    <span class="status-pill">Trusted</span>
-                </div>
-                <div class="device-row">
-                    <div>
-                        <strong><i class="fa-solid fa-tv"></i> Living Room TV</strong>
-                        <span>Last active 3 days ago</span>
-                    </div>
-                    <span class="status-pill">HD</span>
-                </div>
-            </div>
-        </article>
-
-        <article class="content-card">
-            <h2><i class="fa-solid fa-sliders"></i> Preferences</h2>
-            <div class="preference-list">
-                <div class="preference-tag">
-                    <div>
-                        <strong><i class="fa-solid fa-language"></i> Language</strong>
-                        <span>English audio with English subtitles</span>
-                    </div>
-                    <span class="status-pill">Default</span>
-                </div>
-                <div class="preference-tag">
-                    <div>
-                        <strong><i class="fa-solid fa-wand-magic-sparkles"></i> Genres</strong>
-                        <span>Action, Sci-Fi, Drama, Thriller</span>
-                    </div>
-                    <span class="status-pill">4 saved</span>
-                </div>
-                <div class="preference-tag">
-                    <div>
-                        <strong><i class="fa-solid fa-child-reaching"></i> Age profile</strong>
-                        <span>Mature titles enabled for this account</span>
-                    </div>
-                    <span class="status-pill primary">Adult</span>
-                </div>
-            </div>
-        </article>
-
-        <article class="content-card wide-card">
-            <h2><i class="fa-solid fa-link"></i> Reference Pages</h2>
-            <div class="reference-grid">
-                <a class="reference-card" href="index.html">
-                    <i class="fa-solid fa-house"></i>
-                    <div>
-                        <strong>Home</strong>
-                        <span>Return to the main page.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="movie.html">
-                    <i class="fa-solid fa-film"></i>
-                    <div>
-                        <strong>Movies</strong>
-                        <span>Browse movie content.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="series.html">
-                    <i class="fa-solid fa-tv"></i>
-                    <div>
-                        <strong>Series</strong>
-                        <span>Explore all series.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="subscription.html">
-                    <i class="fa-solid fa-gem"></i>
-                    <div>
-                        <strong>Subscription</strong>
-                        <span>Compare plan options.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="setting.html">
-                    <i class="fa-solid fa-gear"></i>
-                    <div>
-                        <strong>Settings</strong>
-                        <span>Update preferences.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="faq.html">
-                    <i class="fa-regular fa-circle-question"></i>
-                    <div>
-                        <strong>FAQ</strong>
-                        <span>Read common answers.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="contact_us.html">
-                    <i class="fa-solid fa-headset"></i>
-                    <div>
-                        <strong>Contact Us</strong>
-                        <span>Reach support.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="privacy_policy.html">
-                    <i class="fa-solid fa-lock"></i>
-                    <div>
-                        <strong>Privacy Policy</strong>
-                        <span>Review privacy details.</span>
-                    </div>
-                </a>
-                 {% if is_logged_in %}
-
-                 {% else %}
-                <a class="reference-card" href="login.html">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    <div>
-                        <strong>Login</strong>
-                        <span>Open sign in.</span>
-                    </div>
-                </a>
-                <a class="reference-card" href="register.html">
-                    <i class="fa-solid fa-user-plus"></i>
-                    <div>
-                        <strong>Register</strong>
-                        <span>Create an account.</span>
-                    </div>
-                </a>
-                {% endif %}
-            </div>
-        </article>
-    </section>
+        <section class="profile-panel profile-panel--devices" aria-labelledby="devices-title">
+            <div class="profile-panel-heading"><div><span class="profile-section-kicker">Security</span><h2 id="devices-title">Connected devices</h2></div></div>
+            <ul class="device-list">
+                <li><span class="device-icon"><i class="fa-solid fa-laptop"></i></span><div><strong>Windows laptop</strong><small>Active now</small></div><span class="device-status device-status--active">Current</span></li>
+                <li><span class="device-icon"><i class="fa-solid fa-mobile-screen"></i></span><div><strong>Android phone</strong><small>Last active yesterday</small></div><span class="device-status">Trusted</span></li>
+                <li><span class="device-icon"><i class="fa-solid fa-tv"></i></span><div><strong>Living room TV</strong><small>Last active 3 days ago</small></div><span class="device-status">HD</span></li>
+            </ul>
+        </section>
+    </div>
 </main>
-
-
-
 {% endblock %}
-
-

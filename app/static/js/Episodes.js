@@ -197,45 +197,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (episodeForm && episodeTableBody) {
-        episodeForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const series = document.getElementById("episodeSeries").value;
-            const season = document.getElementById("episodeSeason").value;
-            const title = document.getElementById("episodeTitle").value.trim();
-            const description = document.getElementById("episodeDescription").value.trim() || "New episode";
-            const number = document.getElementById("episodeNumber").value || "1";
-            const duration = document.getElementById("episodeDuration").value.trim() || "45 min";
-            const releaseDate = document.getElementById("episodeReleaseDate").value || "2026-01-01";
-            const status = document.getElementById("episodeStatus").value;
-            const access = document.getElementById("episodeAccess").value;
-            const statusClass = status === "draft" ? "" : "active";
-
-            if (!title) {
-                alert("Please enter episode title.");
-                return;
-            }
-
-            episodeTableBody.insertAdjacentHTML("beforeend", `
-                <tr data-episode-row data-episode-status="${escapeHTML(status)}">
-                    <td><input type="checkbox" aria-label="Select ${escapeHTML(title)}"></td>
-                    <td><span class="episode-thumb">E${escapeHTML(number)}</span><div><strong>${escapeHTML(title)}</strong><small>${escapeHTML(description)}</small></div></td>
-                    <td>${escapeHTML(series)}</td>
-                    <td>${escapeHTML(season)}</td>
-                    <td>${escapeHTML(duration)}</td>
-                    <td>${escapeHTML(releaseDate)}</td>
-                    <td>${escapeHTML(access)}</td>
-                    <td><span class="episode-switch ${statusClass}"></span></td>
-                    <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                </tr>
-            `);
-
-            episodeForm.reset();
-            closeEpisodeModal();
-            updateEpisodeRows();
-        });
-    }
-
     updateEpisodeRows();
 });

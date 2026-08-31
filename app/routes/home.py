@@ -75,9 +75,15 @@ def movie_view(movie_id):
 
     try:
 
+        
+
         cursor.execute("SELECT * FROM `movies` WHERE movie_id = %s",(movie_id,))
         movies = cursor.fetchone()
         print(movies)
+
+        if movies["movie_access"] == "premium" and session['subscribed'] != "premium" :
+            return redirect(url_for("home.index"))
+
 
         cursor.execute("SELECT * FROM `movie_cast` WHERE movie_id = %s",(movie_id,))
         cast = cursor.fetchall()

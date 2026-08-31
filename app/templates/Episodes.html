@@ -51,39 +51,19 @@
                     </tr>
                 </thead>
                 <tbody id="episodeTableBody">
-                    <tr data-episode-row data-episode-status="published">
-                        <td><input type="checkbox" aria-label="Select The Signal"></td>
-                        <td><span class="episode-thumb">E1</span><div><strong>The Signal</strong><small>Opening episode</small></div></td>
-                        <td>Stranger Worlds</td>
-                        <td>Season 1</td>
-                        <td>48 min</td>
-                        <td>2023-08-12</td>
-                        <td>Free</td>
-                        <td><span class="episode-switch active"></span></td>
-                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
+                    {% for episode in episodes %}
+                    <tr data-episode-row data-episode-status="{{ episode.episodeStatus }}">
+                        <td><input type="checkbox" aria-label="Select {{ episode.episodeName }}"></td>
+                        <td><span class="episode-thumb">E{{ episode.episodeNumber }}</span><div><strong>{{ episode.episodeName }}</strong><small>{{ episode.episodeDescription or '' }}</small></div></td>
+                        <td>{{ episode.series_name }}</td>
+                        <td>Season {{ episode.seasonNumber or episode.seasonName }}</td>
+                        <td>{{ episode.episodeDuration or '-' }}</td>
+                        <td>{{ episode.episodeReleaseDate or '-' }}</td>
+                        <td>{{ episode.episodeAccess }}</td>
+                        <td><span class="episode-switch {% if episode.episodeStatus == 'published' %}active{% endif %}"></span></td>
+                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button></div></td>
                     </tr>
-                    <tr data-episode-row data-episode-status="premium">
-                        <td><input type="checkbox" aria-label="Select Crownfire"></td>
-                        <td><span class="episode-thumb">E4</span><div><strong>Crownfire</strong><small>Battle for the gates</small></div></td>
-                        <td>Kingdom Rise</td>
-                        <td>Season 2</td>
-                        <td>54 min</td>
-                        <td>2025-03-21</td>
-                        <td>Premium</td>
-                        <td><span class="episode-switch active"></span></td>
-                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
-                    <tr data-episode-row data-episode-status="draft">
-                        <td><input type="checkbox" aria-label="Select Cold Evidence"></td>
-                        <td><span class="episode-thumb">E2</span><div><strong>Cold Evidence</strong><small>Draft upload pending</small></div></td>
-                        <td>City Case Files</td>
-                        <td>Season 1</td>
-                        <td>42 min</td>
-                        <td>2026-01-10</td>
-                        <td>Free</td>
-                        <td><span class="episode-switch"></span></td>
-                        <td><div class="episode-row-actions"><button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button><button class="danger" type="button" aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -109,60 +89,58 @@
             </button>
         </header>
 
-        <form class="episode-form" id="episodeForm">
+        <form class="episode-form" id="episodeForm" method="post" action="{{ url_for('admin.add_episode') }}" enctype="multipart/form-data">
             <fieldset class="episode-form-section">
                 <legend>Episode</legend>
                 <div class="episode-form-grid two">
                     <label>Show Series <b>*</b>
-                        <select id="episodeSeries" required>
-                            <option>Stranger Worlds</option>
-                            <option>Kingdom Rise</option>
-                            <option>City Case Files</option>
-                            <option>Anime Quest</option>
+                        <select  id="episodeSeries" name="episodeSeries" required>
+                            {% for item in series %}
+                            <option value="{{ item.series_id }}">{{ item.series_name }}</option>
+                             {% endfor %}
                         </select>
                     </label>
                     <label>Season <b>*</b>
-                        <select id="episodeSeason" required>
-                            <option>Season 1</option>
-                            <option>Season 2</option>
-                            <option>Season 3</option>
-                            <option>Season 4</option>
+                        <select id="episodeSeason" name="episodeSeason" required>
+                            {% for item in season %}
+                            <option value="{{ item.season_id }}">{{ item.seasonName }}</option>
+                            {% endfor %}
                         </select>
                     </label>
                 </div>
                 <label>Episode Title <b>*</b>
-                    <input type="text" id="episodeTitle" placeholder="Enter episode title" required>
+                    <input type="text" name="episodeName" id="episodeTitle" placeholder="Enter episode title" required>
                 </label>
                 <label>Description
-                    <textarea id="episodeDescription" rows="4" placeholder="Description"></textarea>
+                    <textarea id="episodeDescription" name="episodeDescription" rows="4" placeholder="Description"></textarea>
                 </label>
                 <div class="episode-form-grid four">
                     <label>Episode Number
-                        <input type="number" id="episodeNumber" min="1" value="1">
+                        <input type="number" name="episodeNumber" id="episodeNumber" min="1" value="1">
                     </label>
                     <label>Duration
-                        <input type="text" id="episodeDuration" placeholder="45 min">
+                        <input type="text" name="episodeDuration" id="episodeDuration" placeholder="45 min">
                     </label>
                     <label>Release Date
-                        <input type="date" id="episodeReleaseDate">
+                        <input type="date" name="episodeReleaseDate" id="episodeReleaseDate">
                     </label>
                     <label>Status
-                        <select id="episodeStatus">
+                        <select id="episodeStatus" name="episodeStatus">
                             <option value="published">Published</option>
                             <option value="draft">Draft</option>
-                            <option value="premium">Premium</option>
+                            
                         </select>
                     </label>
                 </div>
                 <div class="episode-form-grid two">
                     <label>Access
-                        <select id="episodeAccess">
+                        <select id="episodeAccess" name="episodeAccess">
                             <option>Free</option>
                             <option>Premium</option>
                         </select>
                     </label>
                     <label>Thumbnail
-                        <input type="file" accept="image/*">
+                        <input type="file" name="episodeThumb" accept="image/*">
                     </label>
                 </div>
             </fieldset>
@@ -177,7 +155,7 @@
                 </div>
                 <div class="episode-inline-form three">
                     <label>Quality
-                        <select id="episodeVideoQuality">
+                        <select id="episodeVideoQuality" name="episodeVideoQuality[]">
                             <option>1080P</option>
                             <option>720P</option>
                             <option>480P</option>
@@ -185,10 +163,10 @@
                         </select>
                     </label>
                     <label>Video
-                        <input type="file" id="episodeVideoFile" accept="video/*">
+                        <input type="file" id="episodeVideoFile" name="episodeVideoFile[]" accept="video/*">
                     </label>
                     <label>Download
-                        <select id="episodeVideoDownload">
+                        <select id="episodeVideoDownload" name="episodeVideoDownload[]">
                             <option>Enabled</option>
                             <option>Disabled</option>
                         </select>
@@ -226,10 +204,10 @@
                 </div>
                 <div class="episode-inline-form two">
                     <label>Language
-                        <input type="text" id="episodeSubtitleLanguage" placeholder="English">
+                        <input type="text" id="episodeSubtitleLanguage" name="episodeSubtitleLanguage[]" placeholder="English">
                     </label>
                     <label>Subtitle
-                        <input type="file" id="episodeSubtitleFile" accept=".srt,.vtt,.ass,.ssa">
+                        <input type="file" id="episodeSubtitleFile" name="episodeSubtitleFile[]" accept=".srt,.vtt,.ass,.ssa">
                     </label>
                 </div>
                 <div class="episode-mini-table-wrap">
@@ -262,16 +240,16 @@
                 </div>
                 <div class="episode-inline-form three">
                     <label>Type
-                        <select id="episodeCastType">
+                        <select id="episodeCastType" name="episodeCastType[]">
                             <option>Cast</option>
                             <option>Crew</option>
                         </select>
                     </label>
                     <label>Name
-                        <input type="text" id="episodeCastName" placeholder="Enter name">
+                        <input type="text" id="episodeCastName" placeholder="Enter name" name="episodeCastName[]">
                     </label>
                     <label>Role
-                        <input type="text" id="episodeCastRole" placeholder="Director, Actor">
+                        <input type="text" id="episodeCastRole" placeholder="Director, Actor" name="episodeCastRole[]">
                     </label>
                 </div>
                 <div class="episode-mini-table-wrap">

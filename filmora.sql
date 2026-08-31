@@ -24,6 +24,54 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `episode`
+--
+
+CREATE TABLE `episode` (
+  `episode_id` varchar(50) NOT NULL,
+  `series_id` varchar(50) NOT NULL,
+  `season_id` varchar(50) NOT NULL,
+  `episodeName` varchar(150) NOT NULL,
+  `episodeDescription` text,
+  `episodeNumber` int NOT NULL,
+  `episodeDuration` varchar(30) DEFAULT NULL,
+  `episodeReleaseDate` date DEFAULT NULL,
+  `episodeStatus` varchar(20) NOT NULL DEFAULT 'draft',
+  `episodeAccess` varchar(20) NOT NULL DEFAULT 'Free',
+  `episodeThumb` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`episode_id`),
+  UNIQUE KEY `episode_season_number` (`season_id`, `episodeNumber`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `episode_file` (
+  `episode_file_id` varchar(50) NOT NULL,
+  `episode_id` varchar(50) NOT NULL,
+  `episode_quality` varchar(20) NOT NULL,
+  `episode_file` varchar(255) NOT NULL,
+  `episode_download` varchar(20) NOT NULL DEFAULT 'Disabled',
+  PRIMARY KEY (`episode_file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `episode_subtitles` (
+  `episode_subtitle_id` varchar(50) NOT NULL,
+  `episode_id` varchar(50) NOT NULL,
+  `episode_sub_language` varchar(50) NOT NULL,
+  `episode_subtitle` varchar(255) NOT NULL,
+  PRIMARY KEY (`episode_subtitle_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `episode_cast` (
+  `episode_cast_id` varchar(50) NOT NULL,
+  `episode_id` varchar(50) NOT NULL,
+  `episode_cast_type` varchar(20) NOT NULL,
+  `episode_cast_name` varchar(100) NOT NULL,
+  `episode_cast_role` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`episode_cast_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `admin_dashboard`
 --
 
