@@ -4,6 +4,24 @@
     --card-border: #262626;
     --nav-bg: rgba(20, 20, 20, 0.95);
 }
+
+/* Shared typography for every template that inherits base.html. */
+html {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
 .footer-bottom 
 {
     text-align: center;

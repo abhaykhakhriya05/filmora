@@ -1,4 +1,8 @@
 :root { --profile-red: #e50914; --profile-card: #17171b; --profile-border: rgba(255,255,255,.1); --profile-muted: #a7a7b1; }
+
+/* Keep the profile page on the same dark canvas as the shared Filmora pages. */
+body { background-color: var(--dark-bg); }
+
 .profile-page { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 100px 0 96px; color: #fff; }
 .profile-page *, .profile-page *::before, .profile-page *::after { box-sizing: border-box; }.profile-page img { display: block; max-width: 100%; }
 .profile-banner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 30px; align-items: center; overflow: hidden; padding: clamp(24px, 5vw, 48px); border: 1px solid var(--profile-border); border-radius: 18px; background: radial-gradient(circle at 88% 15%, rgba(229,9,20,.28), transparent 22rem), linear-gradient(120deg, #24242a, #121216 64%); }
@@ -10,6 +14,45 @@
 .profile-details { display: grid; gap: 13px; margin: 0 0 18px; }.profile-details div { padding-bottom: 12px; border-bottom: 1px solid var(--profile-border); }.profile-details div:last-child { padding-bottom: 0; border-bottom: 0; }.profile-details dt { margin-bottom: 5px; color: var(--profile-muted); font-size: .75rem; }.profile-details dd { margin: 0; overflow-wrap: anywhere; font-size: .9rem; font-weight: 700; }.profile-actions { display: grid; gap: 9px; }.profile-button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 8px; padding: 10px; border: 1px solid var(--profile-border); border-radius: 8px; color: #fff; font-size: .82rem; font-weight: 800; text-align: center; text-decoration: none; }.profile-button--primary { border-color: var(--profile-red); background: var(--profile-red); }
 .profile-panel--saved { grid-column: 1; }.saved-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }.saved-card { min-width: 0; overflow: hidden; border: 1px solid var(--profile-border); border-radius: 10px; background: #202025; }.saved-card img { width: 100%; height: 175px; object-fit: cover; }.saved-card div { padding: 11px; }.saved-card h3 { margin: 0 0 5px; overflow: hidden; font-size: .86rem; text-overflow: ellipsis; white-space: nowrap; }.profile-panel--devices { grid-column: 2; }.device-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }.device-list li { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--profile-border); }.device-list li:last-child { border-bottom: 0; padding-bottom: 0; }.device-icon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 9px; background: #2a2a30; color: #ff626a; }.device-list strong, .device-list small { display: block; overflow-wrap: anywhere; }.device-list strong { font-size: .83rem; }.device-list small { margin-top: 3px; color: var(--profile-muted); font-size: .72rem; }.device-status { padding: 5px 8px; border-radius: 99px; background: #303036; color: #e5e5e7; font-size: .68rem; font-weight: 800; }.device-status--active { background: rgba(229,9,20,.18); color: #ff858b; }
 @media (min-width: 850px) { .profile-page { padding-top: 32px; } }
-@media (max-width: 900px) { .profile-banner { grid-template-columns: 1fr; }.profile-identity { width: 100%; }.profile-layout { grid-template-columns: 1fr; }.profile-panel--saved, .profile-panel--devices { grid-column: auto; } }
-@media (max-width: 650px) { .profile-page { width: min(100% - 24px, 1180px); padding-top: 86px; padding-bottom: 88px; }.profile-banner { gap: 22px; padding: 23px 18px; border-radius: 14px; }.profile-banner h1 { font-size: 2.15rem; }.profile-banner-copy > p { font-size: .91rem; }.profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }.profile-stat-card { min-height: 84px; padding: 13px; }.profile-stat-icon { width: 36px; height: 36px; }.profile-panel { padding: 18px 14px; }.saved-grid { grid-template-columns: repeat(3, minmax(120px, 1fr)); overflow-x: auto; padding-bottom: 5px; scroll-snap-type: x mandatory; }.saved-card { scroll-snap-align: start; }.saved-card img { height: 155px; } }
-@media (max-width: 390px) { .profile-banner h1 { font-size: 1.9rem; }.profile-identity { grid-template-columns: 58px minmax(0, 1fr); }.profile-avatar { width: 58px; height: 58px; }.profile-stat-card { gap: 8px; }.profile-stat-card strong { font-size: 1.12rem; }.profile-stat-card span:not(.profile-stat-icon) { font-size: .69rem; }.continue-card { grid-template-columns: 72px minmax(0, 1fr); gap: 10px; }.continue-card > img { width: 72px; height: 104px; }.continue-card h3 { font-size: .88rem; }.device-list li { grid-template-columns: 32px minmax(0, 1fr); }.device-status { grid-column: 2; justify-self: start; } }
+@media (max-width: 900px) {
+    .profile-banner { grid-template-columns: 1fr; }
+    .profile-identity { width: 100%; }
+    .profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .profile-layout { grid-template-columns: 1fr; }
+    .profile-panel--saved, .profile-panel--devices { grid-column: auto; }
+}
+
+@media (max-width: 650px) {
+    .profile-page { width: min(100% - 24px, 1180px); padding-top: 86px; padding-bottom: 88px; }
+    .profile-banner { gap: 22px; padding: 23px 18px; border-radius: 14px; }
+    .profile-banner h1 { font-size: 2.15rem; }
+    .profile-banner-copy > p { font-size: .91rem; }
+    .profile-stats { gap: 10px; }
+    .profile-stat-card { min-height: 84px; padding: 13px; }
+    .profile-stat-icon { width: 36px; height: 36px; }
+    .profile-panel { padding: 18px 14px; }
+    .profile-panel-heading { align-items: flex-start; flex-wrap: wrap; }
+    .saved-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .saved-card img { height: clamp(135px, 35vw, 185px); }
+}
+
+@media (max-width: 480px) {
+    .profile-page { width: min(100% - 20px, 1180px); }
+    .profile-banner h1 { font-size: 1.9rem; }
+    .profile-identity { grid-template-columns: 58px minmax(0, 1fr); }
+    .profile-avatar { width: 58px; height: 58px; }
+    .profile-stats { grid-template-columns: 1fr; }
+    .profile-stat-card { gap: 10px; }
+    .continue-card { grid-template-columns: 72px minmax(0, 1fr); gap: 10px; }
+    .continue-card > img { width: 72px; height: 104px; }
+    .continue-card h3 { font-size: .88rem; }
+    .device-list li { grid-template-columns: 32px minmax(0, 1fr); }
+    .device-status { grid-column: 2; justify-self: start; }
+}
+
+@media (max-width: 350px) {
+    .profile-banner { padding: 20px 14px; }
+    .profile-panel { padding: 16px 12px; }
+    .saved-grid { grid-template-columns: 1fr; }
+    .saved-card img { height: 220px; }
+}
