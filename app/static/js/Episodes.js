@@ -23,6 +23,32 @@ document.addEventListener("DOMContentLoaded", () => {
         "'": "&#039;"
     })[character]);
 
+    const createHiddenInput = (name, value) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        input.value = value;
+        return input;
+    };
+
+    // A file input cannot be converted to a hidden input without losing its
+    // selected file. Keep a copied file input in the table row so it remains
+    // part of the multipart form submission after the entry fields are reset.
+    const createStoredFileInput = (name, file) => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.name = name;
+        input.className = "episode-submitted-file";
+        const transfer = new DataTransfer();
+        transfer.items.add(file);
+        input.files = transfer.files;
+        return input;
+    };
+
+    const appendRowFields = (row, fields) => {
+        fields.forEach((field) => row.appendChild(field));
+    };
+
     const getEpisodeRows = () => Array.from(document.querySelectorAll("[data-episode-row]"));
 
     const updateEpisodeRows = () => {
@@ -143,6 +169,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete video"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `);
+            const row = episodeVideoTableBody.lastElementChild;
+            appendRowFields(row, [
+                createHiddenInput("episodeVideoQuality[]", quality),
+                createHiddenInput("episodeVideoDownload[]", download),
+                createStoredFileInput("episodeVideoFile[]", fileInput.files[0])
+            ]);
+            // The entry controls are now only for the next row.  Removing their
+            // names prevents their blank values from shifting request indexes.
+            document.getElementById("episodeVideoQuality").name = "";
+            document.getElementById("episodeVideoDownload").name = "";
+            fileInput.name = "";
             fileInput.value = "";
         });
     }
@@ -166,6 +203,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete subtitle"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `);
+            const row = episodeSubtitleTableBody.lastElementChild;
+            appendRowFields(row, [
+                createHiddenInput("episodeSubtitleLanguage[]", language),
+                createStoredFileInput("episodeSubtitleFile[]", fileInput.files[0])
+            ]);
+            languageInput.name = "";
+            fileInput.name = "";
             languageInput.value = "";
             fileInput.value = "";
         });
@@ -192,6 +236,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td><button type="button" class="episode-table-action danger" data-delete-mini-row aria-label="Delete cast or crew"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `);
+            const row = episodeCastTableBody.lastElementChild;
+            appendRowFields(row, [
+                createHiddenInput("episodeCastType[]", type),
+                createHiddenInput("episodeCastName[]", name),
+                createHiddenInput("episodeCastRole[]", role)
+            ]);
+            document.getElementById("episodeCastType").name = "";
+            nameInput.name = "";
+            roleInput.name = "";
             nameInput.value = "";
             roleInput.value = "";
         });

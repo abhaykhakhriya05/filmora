@@ -444,3 +444,6 @@ body.episode-modal-open {
         padding: 24px 14px 18px;
     }
 }
+.episode-submitted-file {
+    display: none;
+}
