@@ -953,6 +953,7 @@ def add_episode():
     episode_status = request.form.get("episodeStatus", "draft").strip().lower()
     episode_access = request.form.get("episodeAccess", "Free").strip()
     thumbnail = request.files.get("episodeThumb")
+   
 
     if not all((series_id, season_id, episode_name, episode_number)):
         flash("Series, season, episode title, and episode number are required.", "warning")

@@ -189,6 +189,12 @@
             font-weight: 700;
         }
 
+        a
+        {
+            text-decoration: none;
+        }
+
+       
         .status-pill.primary {
             background: var(--primary-red);
             border-color: var(--primary-red);

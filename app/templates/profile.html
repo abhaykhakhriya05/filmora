@@ -4,6 +4,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -21,7 +22,7 @@
             <p>Keep your account details, viewing progress, and saved entertainment in one place.</p>
         </div>
         <div class="profile-identity">
-            <img class="profile-avatar" src="{{ avatar or url_for('static', filename='image/logo.png') }}" alt="{{ first_name }}'s profile picture">
+            <img class="profile-avatar" src="{{ url_for('static', filename='image/' + session.get('dp')) if session.get('dp') else url_for('static', filename='image/logo.png') }}" alt="{{ first_name }}'s profile picture">
             <div><h2>{{ first_name }} {{ last_name }}</h2><p>{{ email }}</p></div>
             <span class="plan-badge {{ 'plan-badge--premium' if subscribed == 'premium' else '' }}"><i class="fa-solid {{ 'fa-crown' if subscribed == 'premium' else 'fa-film' }}"></i>{{ 'Premium' if subscribed == 'premium' else 'Free plan' }}</span>
         </div>
@@ -30,8 +31,7 @@
     <section class="profile-stats" aria-label="Viewing statistics">
         <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-circle-play"></i></span><div><strong>24</strong><span>Movies watched</span></div></article>
         <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-bookmark"></i></span><div><strong>08</strong><span>Saved titles</span></div></article>
-        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-clock"></i></span><div><strong>36h</strong><span>Watch time</span></div></article>
-        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-display"></i></span><div><strong>04</strong><span>Devices</span></div></article>
+             
     </section>
 
     <div class="profile-layout">
@@ -52,20 +52,23 @@
         <section class="profile-panel profile-panel--saved" aria-labelledby="saved-title">
             <div class="profile-panel-heading"><div><span class="profile-section-kicker">My list</span><h2 id="saved-title">Saved for later</h2></div><a href="{{ url_for('movie.movie') }}">View all <i class="fa-solid fa-arrow-right"></i></a></div>
             <div class="saved-grid">
-                <article class="saved-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.webp') }}" alt="Avengers Endgame"><div><h3>Avengers: Endgame</h3><span>Action · Movie</span></div></article>
-                <article class="saved-card"><img src="{{ url_for('static', filename='image/Guardians.of.the.Galaxy.2014..jpg') }}" alt="Guardians of the Galaxy"><div><h3>Guardians of the Galaxy</h3><span>Sci-Fi · Movie</span></div></article>
-                <article class="saved-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.jpg') }}" alt="Avengers poster"><div><h3>Endgame Collection</h3><span>Action · Collection</span></div></article>
+                {% for items in wishlist %}
+                <article class="saved-card">
+                    {% if items.item_type == 'movie' %}
+                        <a href="{{url_for('home.movie_view', movie_id = items.item_id)}}">
+                    {% endif %}
+                    {% if items.item_type == 'series' %}
+                        <a href="{{ url_for('series.series_detail', series_id=items.item_id) }}">
+                    {% endif %}
+                    <img src="{{ url_for('static', filename='image/' + items.poster ) }}" alt="Avengers Endgame">
+                    </a>
+                    <div><h3>{{items.title}}</h3><span>{{items.categories}} · {{items.item_type}}</span></div>
+                </article>
+                 {% endfor %}
             </div>
         </section>
 
-        <section class="profile-panel profile-panel--devices" aria-labelledby="devices-title">
-            <div class="profile-panel-heading"><div><span class="profile-section-kicker">Security</span><h2 id="devices-title">Connected devices</h2></div></div>
-            <ul class="device-list">
-                <li><span class="device-icon"><i class="fa-solid fa-laptop"></i></span><div><strong>Windows laptop</strong><small>Active now</small></div><span class="device-status device-status--active">Current</span></li>
-                <li><span class="device-icon"><i class="fa-solid fa-mobile-screen"></i></span><div><strong>Android phone</strong><small>Last active yesterday</small></div><span class="device-status">Trusted</span></li>
-                <li><span class="device-icon"><i class="fa-solid fa-tv"></i></span><div><strong>Living room TV</strong><small>Last active 3 days ago</small></div><span class="device-status">HD</span></li>
-            </ul>
-        </section>
+        
     </div>
 </main>
 {% endblock %}

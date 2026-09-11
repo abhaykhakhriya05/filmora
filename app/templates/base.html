@@ -22,7 +22,7 @@
       <a href="{{ url_for('home.index') }}" class="{{ 'active' if nav_active == 'home' else '' }}">Home</a>
       <a href="{{ url_for('movie.movie') }}" class="{{ 'active' if nav_active == 'movie' else '' }}">Movies</a>
       <a href="{{ url_for('series.series') }}" class="{{ 'active' if nav_active == 'series' else '' }}">Series</a>
-      <a href="{{ url_for('auth.subscription') }}" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
+      <a href="" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
     </nav>
 
     <div class="nav-actions">
@@ -35,7 +35,7 @@
         {% if is_logged_in %}
         <div class="profile-dropdown" id="profileDropdown">
           <button class="profile-trigger-btn" aria-label="User Profile" type="button">
-            <img src="{{url_for('static', filename='image/logo.png' ) }}" alt="Profile" class="avatar-img" />
+            <img src="{{ url_for('static', filename='image/' + session.get('dp')) if session.get('dp') else url_for('static', filename='image/logo.png') }}" alt="Profile" class="avatar-img" />
           </button>
           <!-- Hidden dropdown menu contents -->
           <div class="dropdown-menu">
@@ -77,7 +77,7 @@
       <span>Movies</span>
     </a>
     <a href="{{ url_for('series.series') }}" class="bottom-nav-link {{ 'active' if nav_active == 'series' else '' }}">
-      <i class="fa-solid fa-headset"></i>
+      <i class="fa-solid fa-circle-play"></i>
       <span>Series</span>
     </a>
     <a href="" class="bottom-nav-link {{ 'active' if nav_active == 'subscription' else '' }}">

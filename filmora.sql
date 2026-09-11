@@ -256,6 +256,8 @@ CREATE TABLE `users` (
   `email` varchar(150) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(100) NOT NULL,
+  `phone_number` varchar(30) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
   `subscribed` varchar(50) NOT NULL,
   `isLogdin` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -16,6 +16,11 @@ body {
     padding-top: 80px;
 }
 
+a
+{
+    text-decoration: none;
+}
+
 
 /* ==========================================================================
    Navbar Configurations (Desktop Hidden on Mobile Navigation)

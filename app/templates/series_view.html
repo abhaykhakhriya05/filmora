@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamVibe - Watch Series</title>
+    <title>{{ series_detail.series_name if series_detail else 'Watch Series' }} - Filmora</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -266,6 +266,7 @@
         .episode-body-details { padding: 12px; }
         .episode-node-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; color: var(--text-white); }
         .episode-node-meta { font-size: 0.78rem; color: var(--text-gray); display: flex; justify-content: space-between; }
+        .episode-node-cast { margin-top: 8px; color: var(--text-gray); font-size: 0.74rem; line-height: 1.4; }
 
         /* --- TWO-COLUMN DETAILED META DATA GRID --- */
         .movie-meta-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 50px; }
@@ -362,7 +363,14 @@
             .top-right-controls .custom-select-menu { display: none !important; }
             .mobile-settings-btn { display: flex !important; }
             .action-node-btn { padding: 10px 14px; font-size: 0.8rem; flex-grow: 1; justify-content: center; }
-            .episodes-grid-list { grid-template-columns: 1fr; gap: 12px; }
+            .episodes-grid-list { grid-template-columns: 1fr; gap: 10px; }
+            .episode-card-node { display: grid; grid-template-columns: 112px minmax(0, 1fr); min-height: 78px; border-radius: 8px; }
+            .episode-thumbnail-container { width: 112px; height: 78px; aspect-ratio: auto; }
+            .episode-play-overlay-icon { font-size: 1rem; }
+            .episode-body-details { min-width: 0; padding: 9px 10px; display: flex; flex-direction: column; justify-content: center; }
+            .episode-node-title { margin-bottom: 3px; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .episode-node-meta { font-size: 0.7rem; }
+            .episode-node-cast { margin-top: 4px; font-size: 0.68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .recommended-media-grid { grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 10px; }
             footer { padding-bottom: 80px; }
         }
@@ -379,7 +387,7 @@
     <main class="container">
         
         <section class="video-player-workspace show-controls" id="playerWorkspace">
-            <video id="mainVideoPlayer" src="video.mp4" preload="metadata"></video>
+            <video id="mainVideoPlayer" src="{{ url_for('static', filename='video/' + selected_episode.episode_file) if selected_episode and selected_episode.episode_file else '' }}" preload="metadata"></video>
             
             <div class="tap-zone-left" id="leftTapZone">
                 <div class="ripple-notice"><i class="fa-solid fa-backward"></i></div>
@@ -401,8 +409,7 @@
                             <button class="select-toggle-btn" id="audioToggleBtn"><i class="fa-solid fa-volume-high"></i> Audio</button>
                             <div class="select-dropdown-list" id="audioMenu">
                                 <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="width:90%; accent-color:var(--primary-red); margin:8px auto; display:block; cursor:pointer;">
-                                <button class="dropdown-option-item active" data-value="Hindi (Original)">Hindi Track</button>
-                                <button class="dropdown-option-item" data-value="English Dub">English Dub</button>
+                                <button class="dropdown-option-item active" data-value="{{ series_detail.series_language or 'Default' }}">{{ series_detail.series_language or 'Default' }} Track</button>
                             </div>
                         </div>
 
@@ -410,17 +417,18 @@
                             <button class="select-toggle-btn"><i class="fa-regular fa-comment-dots"></i> Subtitles</button>
                             <div class="select-dropdown-list" id="subtitleMenu">
                                 <button class="dropdown-option-item active" data-value="Off">Off</button>
-                                <button class="dropdown-option-item" data-value="English CC">English CC</button>
-                                <button class="dropdown-option-item" data-value="Español">Español</button>
+                                {% for subtitle in selected_episode.episode_subtitles if selected_episode and selected_episode.episode_subtitles %}
+                                <button class="dropdown-option-item" data-value="{{ subtitle.episode_sub_language }}" data-subtitle-src="{{ url_for('static', filename='subtitle/' + subtitle.episode_subtitle) }}">{{ subtitle.episode_sub_language }}</button>
+                                {% endfor %}
                             </div>
                         </div>
 
                         <div class="custom-select-menu">
                             <button class="select-toggle-btn"><i class="fa-solid fa-sliders"></i> Quality</button>
                             <div class="select-dropdown-list" id="qualityMenu">
-                                <button class="dropdown-option-item" data-value="1080p HD">1080p HD</button>
-                                <button class="dropdown-option-item active" data-value="720p Auto">720p Auto</button>
-                                <button class="dropdown-option-item" data-value="480p Data">480p Data</button>
+                                {% for file in selected_episode.episode_files if selected_episode and selected_episode.episode_files %}
+                                <button class="dropdown-option-item {% if loop.first %}active{% endif %}" data-value="{{ file.episode_quality or 'Auto' }}" data-video-src="{{ url_for('static', filename='video/' + file.episode_file) }}">{{ file.episode_quality or 'Auto' }}</button>
+                                {% else %}<button class="dropdown-option-item active" data-value="Unavailable">Unavailable</button>{% endfor %}
                             </div>
                         </div>
 
@@ -454,24 +462,24 @@
             <div class="sheet-section">
                 <div class="sheet-section-title">Audio Track</div>
                 <div class="sheet-options-grid" id="mobileAudioGrid">
-                    <button class="sheet-opt-btn active" data-value="Hindi (Original)">Hindi [Original]</button>
-                    <button class="sheet-opt-btn" data-value="English Dub">English Dub</button>
+                    <button class="sheet-opt-btn active" data-value="{{ series_detail.series_language or 'Default' }}">{{ series_detail.series_language or 'Default' }}</button>
                 </div>
             </div>
             <div class="sheet-section">
                 <div class="sheet-section-title">Subtitles (CC)</div>
                 <div class="sheet-options-grid" id="mobileSubtitleGrid">
                     <button class="sheet-opt-btn active" data-value="Off">Off</button>
-                    <button class="sheet-opt-btn" data-value="English CC">English</button>
-                    <button class="sheet-opt-btn" data-value="Español">Español</button>
+                    {% for subtitle in selected_episode.episode_subtitles if selected_episode and selected_episode.episode_subtitles %}
+                    <button class="sheet-opt-btn" data-value="{{ subtitle.episode_sub_language }}" data-subtitle-src="{{ url_for('static', filename='subtitle/' + subtitle.episode_subtitle) }}">{{ subtitle.episode_sub_language }}</button>
+                    {% endfor %}
                 </div>
             </div>
             <div class="sheet-section">
                 <div class="sheet-section-title">Video Quality</div>
                 <div class="sheet-options-grid" id="mobileQualityGrid">
-                    <button class="sheet-opt-btn" data-value="1080p HD">1080p HD</button>
-                    <button class="sheet-opt-btn active" data-value="720p Auto">720p Auto</button>
-                    <button class="sheet-opt-btn" data-value="480p Data">480p Data</button>
+                    {% for file in selected_episode.episode_files if selected_episode and selected_episode.episode_files %}
+                    <button class="sheet-opt-btn {% if loop.first %}active{% endif %}" data-value="{{ file.episode_quality or 'Auto' }}" data-video-src="{{ url_for('static', filename='video/' + file.episode_file) }}">{{ file.episode_quality or 'Auto' }}</button>
+                    {% else %}<button class="sheet-opt-btn active" data-value="Unavailable">Unavailable</button>{% endfor %}
                 </div>
             </div>
         </div>
@@ -480,26 +488,40 @@
             <div class="series-header-bar">
                 <h3 class="section-block-title" style="margin:0; color:#fff;">Episodes</h3>
                 <select class="season-select-dropdown" id="seasonSelect">
-                    <option value="s1">Season 1</option>
-                    <option value="s2">Season 2</option>
+                    {% for season in season_data %}
+                    <option value="{{ season.season_id }}" {% if selected_episode and selected_episode.season_id == season.season_id %}selected{% endif %}>Season {{ season.seasonNumber or loop.index }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
             <div class="episodes-grid-list" id="episodesWrapper">
+                {% for episode in episode_data %}
+                <div class="episode-card-node {% if selected_episode and episode.episode_id == selected_episode.episode_id %}active{% endif %}" data-episode-id="{{ episode.episode_id }}" data-season-id="{{ episode.season_id }}" data-video-src="{{ url_for('static', filename='video/' + episode.episode_file) if episode.episode_file else '' }}" data-episode-number="{{ episode.episodeNumber }}" data-episode-name="{{ episode.episodeName }}">
+                    <div class="episode-thumbnail-container">
+                        {% if episode.episodeThumb %}<img src="{{ url_for('static', filename='image/' + episode.episodeThumb) }}" alt="{{ episode.episodeName }}">{% else %}<img src="{{ url_for('static', filename='image/' + series_detail.series_thumbnail) }}" alt="{{ episode.episodeName }}">{% endif %}
+                        <div class="episode-play-overlay-icon"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                    <div class="episode-body-details">
+                        <div class="episode-node-title">Ep {{ episode.episodeNumber }}: {{ episode.episodeName }}</div>
+                        <div class="episode-node-meta"><span>Duration</span><span>{{ episode.episodeDuration or 'Unavailable' }}</span></div>
+                        {% if episode.episode_cast %}<div class="episode-node-cast">{{ episode.episode_cast|map(attribute='episode_cast_name')|join(', ') }}</div>{% endif %}
+                    </div>
+                </div>
+                {% else %}<p class="episode-node-meta">No episodes have been added for this series yet.</p>{% endfor %}
                 </div>
         </section>
 
         <section class="movie-meta-grid">
             <div class="meta-left-rail">
                 <div class="movie-title-card-area">
-                    <h1 id="seriesMainTitle">The Trial</h1>
+                    <h1 id="seriesMainTitle">{{ series_detail.series_name }}</h1>
                     <div class="quick-tags-strip">
-                        <span class="age-rating-pill">UA 16+</span>
-                        <span>2026</span>
+                        <span class="age-rating-pill">{{ series_detail.series_access or 'Free' }}</span>
+                        <span>{{ series_detail.series_release_year }}</span>
                         <span>•</span>
-                        <span id="totalEpisodesTag">4 Episodes</span>
+                        <span id="totalEpisodesTag">{{ episode_data|length }} Episodes</span>
                         <span>•</span>
-                        <span>Legal Drama / Thriller</span>
+                        <span>{{ series_detail.series_category or series_detail.seo_description }}</span>
                     </div>
                 </div>
 
@@ -512,28 +534,22 @@
 
                 <div>
                     <h3 class="section-block-title">Description</h3>
-                    <p class="description-paragraph" id="seriesDescription">A gripping legal drama surrounding intense courtroom battles and hidden conspiracies. When high-profile tech cases threaten national security, a team of passionate defense lawyers stakes their careers to expose structural vulnerabilities, fighting unexpected betrayals from within the system layout.</p>
+                    <p class="description-paragraph" id="seriesDescription">{{ series_detail.series_description }}</p>
                 </div>
 
                 <div>
                     <h3 class="section-block-title">Cast & Crew</h3>
                     <div class="cast-avatar-track">
+                        {% for member in selected_episode.episode_cast if selected_episode and selected_episode.episode_cast %}
                         <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jash" alt="Cast">
-                            <p>Akshaye Khanna</p>
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ member.episode_cast_name|urlencode }}" alt="{{ member.episode_cast_name }}">
+                            <p>{{ member.episode_cast_name }}{% if member.episode_cast_role %}<br><small>{{ member.episode_cast_role }}</small>{% endif %}</p>
                         </div>
+                        {% else %}
                         <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Pooja" alt="Cast">
-                            <p>Richa Chadha</p>
+                            <p>No cast added for this episode.</p>
                         </div>
-                        <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Karan" alt="Cast">
-                            <p>Rahul Bhat</p>
-                        </div>
-                        <div class="cast-avatar-card">
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Deepak" alt="Cast">
-                            <p>Meera Chopra</p>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -541,14 +557,12 @@
             <div class="sidebar-specs-panel">
                 <div class="spec-item-group">
                     <div class="spec-label-title"><i class="fa-regular fa-calendar"></i> Released Year</div>
-                    <div class="spec-value-output">2026</div>
+                    <div class="spec-value-output">{{ series_detail.series_release_year }}</div>
                 </div>
                 <div class="spec-item-group">
                     <div class="spec-label-title"><i class="fa-solid fa-globe"></i> Languages Available</div>
                     <div class="languages-flex-wrap">
-                        <span class="lang-node-pill">Hindi</span>
-                        <span class="lang-node-pill">English</span>
-                        <span class="lang-node-pill">Gujarati</span>
+                        <span class="lang-node-pill">{{ series_detail.series_language }}</span>
                     </div>
                 </div>
             </div>
@@ -581,26 +595,9 @@
         <a href="subscription.html" class="bottom-nav-link"><i class="fa-solid fa-gem"></i><span>Premium</span></a>
     </nav>
 
+    <script type="application/json" id="episodeSettingsData">{{ player_settings|tojson }}</script>
     <script>
-        // --- DATA OBJECT MODULE STORAGE ---
-        const seriesDatabase = {
-            s1: [
-                { ep: 1, title: "The Sudden Accusation", duration: "42m", video: "video.mp4", thumb: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=400&q=80" },
-                { ep: 2, title: "Blindsided Defence", duration: "48m", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", thumb: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80" },
-                { ep: 3, title: "The Hidden Wireframe", duration: "51m", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", thumb: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&q=80" },
-                { ep: 4, title: "Verdict Day Panic", duration: "56m", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", thumb: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&q=80" }
-            ],
-            s2: [
-                { ep: 1, title: "New Jurisdiction, New Rules", duration: "44m", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", thumb: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&q=80" },
-                { ep: 2, title: "The Anonymous Tipster", duration: "49m", video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4", thumb: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400&q=80" }
-            ]
-        };
-
-        const recommendedShows = [
-            { title: "Section 375", meta: "Movie • Courtroom Drama", img: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=400&q=80" },
-            { title: "Drishyam 2", meta: "Movie • Crime Thriller", img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&q=80" },
-            { title: "Talvar", meta: "Movie • Mystery Case", img: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&q=80" }
-        ];
+       
 
         // DOM Elements Gather
         const video = document.getElementById('mainVideoPlayer');
@@ -610,6 +607,9 @@
         const forwardBtn = document.getElementById('forwardBtn');
         const volumeSlider = document.getElementById('volumeSlider');
         const audioToggleBtn = document.getElementById('audioToggleBtn');
+        const audioMenu = document.getElementById('audioMenu');
+        const subtitleMenu = document.getElementById('subtitleMenu');
+        const qualityMenu = document.getElementById('qualityMenu');
         const currentTimeEl = document.getElementById('currentTime');
         const totalDurationEl = document.getElementById('totalDuration');
         const timelineWrapper = document.getElementById('timelineWrapper');
@@ -628,6 +628,7 @@
         const sheetCloseBtn = document.getElementById('sheetCloseBtn');
 
         let controlsTimeout;
+        const episodeSettings = JSON.parse(document.getElementById('episodeSettingsData').textContent);
 
         // --- HUD TRACKING CONTROLS AUTOMATION ---
         function resetControlsTimeout() {
@@ -716,31 +717,53 @@
         });
 
         // --- VALUES SETTING CONFIG SYNC (DESKTOP) ---
-        document.querySelectorAll('.dropdown-option-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const menu = item.parentElement;
-                menu.querySelectorAll('.dropdown-option-item').forEach(el => el.classList.remove('active'));
-                item.classList.add('active');
+        function subtitleHandler(e) {
+            e.stopPropagation();
+            const item = e.currentTarget;
+            item.parentElement.querySelectorAll('.dropdown-option-item').forEach(el => el.classList.remove('active'));
+            item.classList.add('active');
+            handleSubtitleChange(item.dataset.value, item.dataset.subtitleSrc || '');
+        }
 
-                const selectedValue = item.getAttribute('data-value');
-                
-                if (menu.id === 'subtitleMenu') {
-                    handleSubtitleChange(selectedValue);
-                } else if (menu.id === 'qualityMenu') {
-                    triggerToast(`Video Quality Switched to ${selectedValue}`);
-                } else if (menu.id === 'audioMenu') {
-                    triggerToast(`Audio Track Switched to ${selectedValue}`);
-                }
-            });
-        });
+        function qualityHandler(e) {
+            e.stopPropagation();
+            const item = e.currentTarget;
+            item.parentElement.querySelectorAll('.dropdown-option-item').forEach(el => el.classList.remove('active'));
+            item.classList.add('active');
+            if (item.dataset.videoSrc) {
+                video.src = item.dataset.videoSrc;
+                video.play().catch(() => {});
+            }
+            triggerToast(`Video Quality Switched to ${item.dataset.value}`);
+        }
+
+        function audioHandler(e) {
+            e.stopPropagation();
+            e.currentTarget.parentElement.querySelectorAll('.dropdown-option-item').forEach(el => el.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            triggerToast(`Audio Track Switched to ${e.currentTarget.dataset.value}`);
+        }
+
+        subtitleMenu.querySelectorAll('.dropdown-option-item').forEach(item => item.addEventListener('click', subtitleHandler));
+        qualityMenu.querySelectorAll('.dropdown-option-item').forEach(item => item.addEventListener('click', qualityHandler));
+        audioMenu.querySelectorAll('.dropdown-option-item').forEach(item => item.addEventListener('click', audioHandler));
 
         // --- SUBTITLE LAYER RENDER TEXT CONTROL ---
-        function handleSubtitleChange(val) {
+        function handleSubtitleChange(val, source) {
+            video.querySelectorAll('track').forEach(track => track.remove());
             if (val === 'Off') {
                 subtitleOverlay.style.display = 'none';
                 triggerToast("Subtitles Turned Off");
             } else {
+                if (source) {
+                    const track = document.createElement('track');
+                    track.kind = 'subtitles';
+                    track.label = val;
+                    track.srclang = val.slice(0, 2).toLowerCase();
+                    track.src = source;
+                    track.default = true;
+                    video.appendChild(track);
+                }
                 subtitleOverlay.textContent = `[ Subtitles Layer Active: ${val} ]`;
                 subtitleOverlay.style.display = 'block';
                 triggerToast(`Subtitles Set To ${val}`);
@@ -760,7 +783,11 @@
                 btn.classList.add('active');
                 
                 const val = btn.getAttribute('data-value');
-                if (parent.id === 'mobileSubtitleGrid') handleSubtitleChange(val);
+                if (parent.id === 'mobileSubtitleGrid') handleSubtitleChange(val, btn.dataset.subtitleSrc || '');
+                else if (parent.id === 'mobileQualityGrid' && btn.dataset.videoSrc) {
+                    video.src = btn.dataset.videoSrc;
+                    video.play().catch(() => {});
+                }
                 else triggerToast(`Value Set to ${val}`);
                 
                 closeSheet();
@@ -786,41 +813,55 @@
         document.getElementById('shareBtn').addEventListener('click', () => { triggerToast("Link Copied to Clipboard!"); });
         document.getElementById('downloadBtn').addEventListener('click', () => { triggerToast("Starting Offline Download Module..."); });
 
-        // --- DYNAMIC EPISODES INJECTION LOADER ENGINE ---
+        // --- JINJA-RENDERED EPISODE LOADER ---
         function loadEpisodes(seasonId) {
-            episodesWrapper.innerHTML = '';
-            const list = seriesDatabase[seasonId];
-            document.getElementById('totalEpisodesTag').textContent = `${list.length} Episodes`;
-
-            list.forEach((item, index) => {
-                const node = document.createElement('div');
-                node.className = `episode-card-node ${index === 0 ? 'active' : ''}`;
-                node.innerHTML = `
-                    <div class="episode-thumbnail-container">
-                        <img src="${item.thumb}" alt="Thumb">
-                        <div class="episode-play-overlay-icon"><i class="fa-solid fa-play"></i></div>
-                    </div>
-                    <div class="episode-body-details">
-                        <div class="episode-node-title">Ep ${item.ep}: ${item.title}</div>
-                        <div class="episode-node-meta"><span>Duration</span><span>${item.duration}</span></div>
-                    </div>
-                `;
-
-                node.addEventListener('click', () => {
-                    document.querySelectorAll('.episode-card-node').forEach(c => c.classList.remove('active'));
-                    node.classList.add('active');
-                    video.src = item.video;
-                    video.play();
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    triggerToast(`Streaming Episode ${item.ep}`);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-
-                episodesWrapper.appendChild(node);
+            const cards = document.querySelectorAll('.episode-card-node');
+            cards.forEach(card => {
+                card.style.display = card.dataset.seasonId === seasonId ? '' : 'none';
             });
         }
 
         seasonSelect.addEventListener('change', (e) => loadEpisodes(e.target.value));
+
+        document.querySelectorAll('.episode-card-node').forEach(node => {
+            node.addEventListener('click', () => {
+                document.querySelectorAll('.episode-card-node').forEach(card => card.classList.remove('active'));
+                node.classList.add('active');
+                if (!node.dataset.videoSrc) {
+                    triggerToast('Video is not available for this episode');
+                    return;
+                }
+                video.src = node.dataset.videoSrc;
+                updateEpisodeMenus(node.dataset.episodeId);
+                video.play();
+                playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                triggerToast(`Streaming Episode ${node.dataset.episodeNumber}`);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        function updateEpisodeMenus(episodeId) {
+            const settings = episodeSettings[episodeId] || { files: [], subtitles: [] };
+            qualityMenu.innerHTML = settings.files.length
+                ? settings.files.map((file, index) => `<button class="dropdown-option-item ${index === 0 ? 'active' : ''}" data-value="${file.quality}" data-video-src="${file.src}">${file.quality}</button>`).join('')
+                : '<button class="dropdown-option-item active" data-value="Unavailable">Unavailable</button>';
+            subtitleMenu.innerHTML = '<button class="dropdown-option-item active" data-value="Off">Off</button>' + settings.subtitles.map(subtitle => `<button class="dropdown-option-item" data-value="${subtitle.label}" data-subtitle-src="${subtitle.src}">${subtitle.label}</button>`).join('');
+            document.getElementById('mobileQualityGrid').innerHTML = settings.files.length
+                ? settings.files.map((file, index) => `<button class="sheet-opt-btn ${index === 0 ? 'active' : ''}" data-value="${file.quality}" data-video-src="${file.src}">${file.quality}</button>`).join('')
+                : '<button class="sheet-opt-btn active" data-value="Unavailable">Unavailable</button>';
+            document.getElementById('mobileSubtitleGrid').innerHTML = '<button class="sheet-opt-btn active" data-value="Off">Off</button>' + settings.subtitles.map(subtitle => `<button class="sheet-opt-btn" data-value="${subtitle.label}" data-subtitle-src="${subtitle.src}">${subtitle.label}</button>`).join('');
+            qualityMenu.querySelectorAll('.dropdown-option-item').forEach(item => item.addEventListener('click', qualityHandler));
+            subtitleMenu.querySelectorAll('.dropdown-option-item').forEach(item => item.addEventListener('click', subtitleHandler));
+            document.querySelectorAll('#mobileQualityGrid .sheet-opt-btn, #mobileSubtitleGrid .sheet-opt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.parentElement.querySelectorAll('.sheet-opt-btn').forEach(item => item.classList.remove('active'));
+                    btn.classList.add('active');
+                    if (btn.parentElement.id === 'mobileSubtitleGrid') handleSubtitleChange(btn.dataset.value, btn.dataset.subtitleSrc || '');
+                    if (btn.parentElement.id === 'mobileQualityGrid' && btn.dataset.videoSrc) video.src = btn.dataset.videoSrc;
+                    closeSheet();
+                });
+            });
+        }
 
         // --- INJECT RECOMMENDATION TILES ---
         function loadRecommendations() {
@@ -841,7 +882,7 @@
         }
 
         // Initializer Load Core Trigger
-        loadEpisodes('s1');
+        if (seasonSelect.options.length) loadEpisodes(seasonSelect.value);
         loadRecommendations();
     </script>
 </body>

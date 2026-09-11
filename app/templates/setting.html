@@ -9,6 +9,8 @@
 
 {% block content %}
 
+
+{% set email_verified = session['email_verified']  %}
 <main class="settings-shell">
     <section class="settings-header">
         <div class="settings-title">
@@ -17,7 +19,7 @@
                 important pages.</p>
         </div>
         <a class="profile-summary" href="profile.html">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Piyuu" alt="Profile avatar">
+            <img src="{{ url_for('static', filename='image/' + session.get('dp')) if session.get('dp') else url_for('static', filename='image/logo.png') }}" alt="Profile avatar">
             <div>
                 <strong>Abhay Khakhriya</strong>
                 <span>Open profile page</span>
@@ -67,14 +69,24 @@
                     <i class="fa-solid fa-lock"></i>
                     <strong>Privacy Policy<span>Read privacy information.</span></strong>
                 </a>
-                <a class="page-link-card" href="login.html">
+                {% set is_logged_in = session.get('loggedin') %}
+                {% if is_logged_in %}
+                      <a class="page-link-card" href="{{ url_for('auth.logout') }}">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <strong>Log Out<span>Open the sign-in screen.</span></strong>
+                </a>
+                {% else %}
+                    <a class="page-link-card" href="{{ url_for('auth.login') }}">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <strong>Login<span>Open the sign-in screen.</span></strong>
-                </a>
-                <a class="page-link-card" href="register.html">
+                    </a>
+
+                    <a class="page-link-card" href="{{ url_for('auth.register') }}">
                     <i class="fa-solid fa-user-plus"></i>
                     <strong>Register<span>Create a new account.</span></strong>
-                </a>
+                    </a>
+                {% endif %}
+                
             </div>
 
             <div class="settings-grid">
@@ -85,37 +97,25 @@
                             <strong>Profile name</strong>
                             <small>Abhay Khakhriya</small>
                         </div>
-                        <span class="status-pill">Edit</span>
+                        <a href="{{ url_for('auth.edit_profile') }}"><span class="status-pill">Edit</span></a>
                     </div>
                     <div class="setting-row">
                         <div>
                             <strong>Email address</strong>
-                            <small>bca.student@example.com</small>
+                            <small>{{session['email']}}</small>
+
                         </div>
-                        <span class="status-pill">Verified</span>
+                        {% if email_verified == 'unverified' %}
+                            <a href="{{ url_for('movie.movie') }}"><span class="status-pill primary">{{email_verified}}</span></a>
+                        {% else %}
+                            <span class="status-pill">{{email_verified}}</span>
+
+                        {% endif %}
+                       
                     </div>
                 </article>
 
-                <article class="setting-card" id="playback">
-                    <h3><i class="fa-solid fa-circle-play"></i> Playback</h3>
-                    <div class="setting-row">
-                        <div>
-                            <strong>Auto play next episode</strong>
-                            <small>Continue series automatically.</small>
-                        </div>
-                        <label class="switch" aria-label="Auto play next episode">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div>
-                            <strong>Streaming quality</strong>
-                            <small>Best available on this device.</small>
-                        </div>
-                        <span class="status-pill primary">Auto HD</span>
-                    </div>
-                </article>
+                
 
                 <article class="setting-card" id="privacy">
                     <h3><i class="fa-solid fa-shield-halved"></i> Privacy</h3>
@@ -138,30 +138,7 @@
                     </div>
                 </article>
 
-                <article class="setting-card" id="notifications">
-                    <h3><i class="fa-regular fa-bell"></i> Notifications</h3>
-                    <div class="setting-row">
-                        <div>
-                            <strong>New release alerts</strong>
-                            <small>Get notified about movies and series.</small>
-                        </div>
-                        <label class="switch" aria-label="New release alerts">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <div>
-                            <strong>Subscription reminders</strong>
-                            <small>Receive renewal and billing notices.</small>
-                        </div>
-                        <label class="switch" aria-label="Subscription reminders">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </article>
-            </div>
+                
 
             <div class="settings-actions" id="subscription">
                 <button class="save-btn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
