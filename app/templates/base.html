@@ -128,7 +128,7 @@
       <div>
         <h4>Home</h4>
         <a href="{{ url_for('home.index') }}#categories">Categories</a><a
-          href="{{ url_for('home.index') }}#must-watch">Must-Watch</a><a href="">Pricing</a><a href="">FAQ</a>
+          href="{{ url_for('home.index') }}#must-watch">Must-Watch</a><a href="">Pricing</a><a href="{{ url_for('other.faq') }}">FAQ</a>
       </div>
       <div>
         <h4>Movies</h4>
@@ -140,7 +140,7 @@
       </div>
       <div>
         <h4>Support</h4>
-        <a href="contact_us.html">Contact Us</a><a href="privacy_policy.html">Privacy Policy</a>
+        <a href="{{ url_for('other.contact_us') }}">Contact Us</a><a href="{{ url_for('other.privacy') }}">Privacy Policy</a>
       </div>
       <div>
         <h4>Connect With Us</h4>

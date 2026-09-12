@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamVibe - Create Account</title>
+    <title>Filmora - Create Account</title>
     <!-- Font Awesome for Icons and Password Eye Toggle -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo.png') }}" />
 </head>
 <body>
 
@@ -53,18 +54,19 @@
 
                 <label class="terms-condition">
                     <input type="checkbox" required>
-                    <span>I agree to the <a href="#">Terms of Use</a> and acknowledge that I have read the <a href="#">Privacy Policy</a>.</span>
+                    <span>I agree to the <a href="{{ url_for('other.privacy') }}">Terms of Use</a> and acknowledge that I have read the <a href="{{ url_for('other.privacy') }}">Privacy Policy</a>.</span>
                 </label>
 
                 <button type="submit" class="btn-auth-submit">Create Account</button>
             </form>
 
-            <div class="auth-divider">OR</div>
+            <!-- <div class="auth-divider">OR</div> -->
 
-            <div class="social-auth-grid">
+            <!-- <div class="social-auth-grid">
                 <button class="btn-social-auth"><i class="fa-brands fa-google"></i> Google</button>
                 <button class="btn-social-auth"><i class="fa-brands fa-apple"></i> Apple</button>
-            </div>
+            </div> -->
+            <br>
 
             <div class="switch-auth-mode">
                 Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a>

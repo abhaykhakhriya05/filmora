@@ -50,11 +50,15 @@ def create_app():
     from app.routes.admin import admin_bp
     from app.routes.movie import movie_bp
     from app.routes.series import series_bp
+    from app.routes.other import other_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(movie_bp)
     app.register_blueprint(series_bp)
+    app.register_blueprint(other_bp)
+
+   
 
     return app

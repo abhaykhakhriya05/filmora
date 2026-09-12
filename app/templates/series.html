@@ -40,7 +40,9 @@
             <div class="cards-slider">
                 {% for series in series_data %}
                 <div class="standard-card">
+                    <a href="{{ url_for('series.series_detail', series_id=series.series_id) }}" tyle="color: white;">
                     <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + series.series_Poster) }}" alt="{{ series.series_name }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    </a>
                     <div class="card-content"><h3>{{ series.series_name }}</h3><div class="card-meta"><span>{{ series.duration }}</span><span class="badge-red">New</span></div></div>
                 </div>
                 {% endfor %}
@@ -59,14 +61,15 @@
             <div class="cards-slider">
                 {% for most_reviewed_series_data in most_reviewed_series_data %}
                     
-                <a href="{{ url_for('series.series_detail', series_id=most_reviewed_series_data.series_id) }}" tyle="color: white;">
+                
                 <div class="standard-card">
+                    <a href="{{ url_for('series.series_detail', series_id=most_reviewed_series_data.series_id) }}" tyle="color: white;">
                     <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + most_reviewed_series_data.series_Poster) }}" alt="{{ most_reviewed_series_data.series_name }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
-                    
+                    </a>
                     <div class="card-content"><h3 tyle="color: white;">{{ most_reviewed_series_data.series_name }}</h3><div class="card-meta"><span>{{ most_reviewed_series_data.duration }}</span><span class="rating"><i class="fa-solid fa-view"></i> {{ most_reviewed_series_data.view }}</span></div></div>
                 
                 </div>
-                </a>
+                
                 
                 {% endfor %}
             </div>
@@ -84,7 +87,9 @@
             <div class="cards-slider">
                 {% for anime_series_data in anime_series_data %}
                 <div class="standard-card">
+                    <a href="{{ url_for('series.series_detail', series_id=anime_series_data.series_id) }}" tyle="color: white;">
                     <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + anime_series_data.series_Poster) }}" alt="{{ anime_series_data.series_name }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    </a>
                     <div class="card-content"><h3>{{ anime_series_data.series_name }}</h3><div class="card-meta"><span>{{ anime_series_data.duration }}</span><span class="rating"><i class="fa-solid fa-view"></i> {{ anime_series_data.view }}</span></div></div>
                 </div>
                 {% endfor %}
