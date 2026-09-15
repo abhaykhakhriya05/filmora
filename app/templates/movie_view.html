@@ -174,7 +174,7 @@
                     <a href="" class="action-node-btn" id="whitelistBtn">
                         <i class="fa-regular fa-bookmark"></i> Whitelist
                     </a>
-                    <!-- <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button> -->
+                    <a href="{{ url_for('series.wishlist', item_type = 'movie', item_id = movies.movie_id) }}" class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</a>
                     <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">14.2k</span> Likes</button>
                     <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i> Share</button>
                     {% if primary_file and primary_file.movie_download %}

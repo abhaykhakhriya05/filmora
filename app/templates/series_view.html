@@ -526,8 +526,9 @@
                 </div>
 
                 <div class="interactive-actions-bar">
-                    <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button>
-                    <button class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">45.8k</span> Likes</button>
+                    <!-- <button class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</button> -->
+                    <a href="{{ url_for('series.wishlist', item_type = 'series', item_id = series_detail.series_id) }}" class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</a>
+                    <a href="{{ url_for('series.like', item_type = 'series', item_id = series_detail.series_id) }}" class="action-node-btn" id="likeBtn"><i class="fa-regular fa-thumbs-up"></i> <span id="likeCount">45.8k</span> Likes</a>
                     <button class="action-node-btn" id="shareBtn"><i class="fa-regular fa-share-from-square"></i> Share</button>
                     <button class="action-node-btn" id="downloadBtn"><i class="fa-solid fa-arrow-down"></i> Download</button>
                 </div>

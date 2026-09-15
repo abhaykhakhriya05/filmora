@@ -51,6 +51,7 @@ def create_app():
     from app.routes.movie import movie_bp
     from app.routes.series import series_bp
     from app.routes.other import other_bp
+    from app.routes.subscription import subscription_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
@@ -58,6 +59,7 @@ def create_app():
     app.register_blueprint(movie_bp)
     app.register_blueprint(series_bp)
     app.register_blueprint(other_bp)
+    app.register_blueprint(subscription_bp)
 
    
 

@@ -22,7 +22,7 @@
       <a href="{{ url_for('home.index') }}" class="{{ 'active' if nav_active == 'home' else '' }}">Home</a>
       <a href="{{ url_for('movie.movie') }}" class="{{ 'active' if nav_active == 'movie' else '' }}">Movies</a>
       <a href="{{ url_for('series.series') }}" class="{{ 'active' if nav_active == 'series' else '' }}">Series</a>
-      <a href="" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
+      <a href="{{ url_for('subscription.subscription') }}" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
     </nav>
 
     <div class="nav-actions">
@@ -80,7 +80,7 @@
       <i class="fa-solid fa-circle-play"></i>
       <span>Series</span>
     </a>
-    <a href="" class="bottom-nav-link {{ 'active' if nav_active == 'subscription' else '' }}">
+    <a href="{{ url_for('subscription.subscription') }}" class="bottom-nav-link {{ 'active' if nav_active == 'subscription' else '' }}">
       <i class="fa-solid fa-gem"></i>
       <span>Premium</span>
     </a>

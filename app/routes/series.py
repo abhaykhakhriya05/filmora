@@ -284,3 +284,64 @@ def wishlist(item_type, item_id):
             cursor.close()
         if connection:
             connection.close()
+
+@series_bp.route("/like/<item_type>/<item_id>")
+def like(item_type,item_id):
+
+    connection = genreted_db_connect()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+
+        if "email" not in session:
+            flash("Please login first.", "danger")
+            return redirect(url_for("auth.login"))
+
+        
+        
+
+        llike_id = genreted_uid(13)
+
+        user_id = session["id"]
+
+        sql_query = """
+            INSERT INTO item_like
+            (
+                like_id,
+                user_id,
+                item_id,
+                item_type
+            )
+             VALUES (%s, %s, %s, %s)
+         """
+
+        sql_value = (
+            llike_id,
+            user_id,
+            item_id,
+            item_type
+        )
+
+        cursor.execute(sql_query, sql_value)
+
+        connection.commit()
+
+        
+
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+        flash(f"Error is: {e}", "danger")
+
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+   
+

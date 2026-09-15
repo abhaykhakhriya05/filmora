@@ -1,134 +1,31 @@
 {% extends "base.html" %}
-
-{% block title %} Filmora-Movies {% endblock %}
-
-{% block style %} 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/subscription.css') }}">
-{% endblock %}
-
+{% block title %}Filmora - Subscription{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/subscription.css') }}">{% endblock %}
 {% block content %}
-        
-    <main class="container">
-        
-        <section class="subscription-hero">
-            <div class="hero-text-wrapper">
-                <h1>Choose the plan that's right for you</h1>
-                <p>Join StreamVibe and select from our flexible subscription options tailored to suit your viewing preferences. Get ready for non-stop entertainment!</p>
-            </div>
-            <div class="toggle-container">
-                <button class="toggle-btn active" id="btnMonthly">Monthly</button>
-                <button class="toggle-btn" id="btnYearly">Yearly</button>
-            </div>
-        </section>
-
-        <section class="pricing-grid">
-            <div class="price-card">
-                <h3>Basic Plan</h3>
-                <p class="plan-desc">Enjoy an extensive library of movies and shows, featuring a range of content, including recently released titles.</p>
-                <div class="price-block">
-                    <span class="amount" id="basicPrice"></span><span class="duration" id="basicDuration">/month</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn btn-secondary">Start Free Trial</button>
-                    <button class="btn btn-primary">Choose Plan</button>
-                </div>
-            </div>
-
-            <div class="price-card">
-                <h3>Standard Plan</h3>
-                <p class="plan-desc">Access to a wider selection of movies and shows, including most new releases and exclusive content.</p>
-                <div class="price-block">
-                    <span class="amount" id="standardPrice"></span><span class="duration" id="standardDuration">/month</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn btn-secondary">Start Free Trial</button>
-                    <button class="btn btn-primary">Choose Plan</button>
-                </div>
-            </div>
-
-            <div class="price-card">
-                <h3>Premium Plan</h3>
-                <p class="plan-desc">Access to a widest selection of movies and shows, including all new releases and Offline Viewing.</p>
-                <div class="price-block">
-                    <span class="amount" id="premiumPrice"></span><span class="duration" id="premiumDuration">/month</span>
-                </div>
-                <div class="card-actions">
-                    <button class="btn btn-secondary">Start Free Trial</button>
-                    <button class="btn btn-primary">Choose Plan</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="matrix-intro">
-            <h2>Compare our plans and find the right one for you</h2>
-            <p>StreamVibe offers three different plans to fit your needs: Basic, Standard, and Premium. Compare features carefully below.</p>
-        </section>
-
-        <section class="table-responsive-container">
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Features</th>
-                        <th>Basic</th>
-                        <th>Standard <span class="badge-popular">Popular</span></th>
-                        <th>Premium</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="feature-name">Price</td>
-                        <td id="tableBasicPrice">/Month</td>
-                        <td id="tableStandardPrice">/Month</td>
-                        <td id="tablePremiumPrice">c/Month</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Devices Supported</td>
-                        <td>Watch on 1 device</td>
-                        <td>Watch on 2 devices</td>
-                        <td>Watch on 4 devices</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Cancel Anytime</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">HDR Options</td>
-                        <td>No</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Ad - Free</td>
-                        <td>No</td>
-                        <td>Yes</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td class="feature-name">Offline Viewing</td>
-                        <td>No</td>
-                        <td>Yes, select titles</td>
-                        <td>Yes, all titles</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="cta-banner">
-            <div class="cta-text">
-                <h2>Start your free trial today!</h2>
-                <p>This is a clear and concise call to action that encourages users to sign up for a free trial of StreamVibe.</p>
-            </div>
-            <button class="btn btn-primary">Start a Free Trial</button>
-        </section>
-
-    </main>
-    
-
-    
+<main class="container">
+    <section class="subscription-hero">
+        <div class="hero-text-wrapper">
+            <h1>Choose the plan that's right for you</h1>
+            <p>Select a plan to continue securely to payment.</p>
+        </div>
+        <div class="toggle-container"><button class="toggle-btn active" type="button">Monthly</button></div>
+    </section>
+    <section class="pricing-grid">
+        {% for plan in subscription_plans %}
+        <div class="price-card">
+            <h3>{{ plan.subscription_name }}</h3>
+            <p class="plan-desc">Enjoy an extensive library of movies and shows, including recently released titles.</p>
+            <div class="price-block"><span class="duration">₹{{ plan.subscription_price }}/{{ plan.subscription_active
+                    }}</span></div>
+            <div class="card-actions"><button class="btn btn-primary choose-plan" type="button"
+                    data-plan-name="{{ plan.subscription_name }}">Choose Plan</button></div>
+        </div>
+        {% else %}<p>No subscription plans are available right now.</p>{% endfor %}
+    </section>
+</main>
 {% endblock %}
-
 {% block script %}
-    <script src="{{ url_for('static', filename='js/subscription.js') }}"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 {% endblock %}
