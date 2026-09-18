@@ -36,12 +36,16 @@ def index():
         """)
         most_reviewed_movies = cursor.fetchall()
 
+        cursor.execute("SELECT * FROM `movies` WHERE Ishomepage = 1 AND Isposter = 1")
+        poster = cursor.fetchall()
+
         return render_template(
             'index.html',
             active_page='home',
             cate=cate,
             movies=movies,
-            most_reviewed_movies=most_reviewed_movies
+            most_reviewed_movies=most_reviewed_movies,
+            poster = poster
         )
 
     except Exception as e:

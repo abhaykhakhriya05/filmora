@@ -9,19 +9,22 @@
 {% block content %}
 
     
-
+    {% for poster in poster %}
+        
+    
     <section class="hero-section" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), #141414), url('/static/image/Avengers_Endgame.jpg');">
         <div class="hero-content">
-            <h1>Avengers: Endgame</h1>
-            <p>With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.</p>
+            <h1>{{poster.movie_name}}</h1>
+            <p>{{poster.movie_description}}</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button>
-                <button class="btn btn-secondary" aria-label="Add to List"><i class="fa-solid fa-plus"></i></button>
-                <button class="btn btn-secondary" aria-label="Like"><i class="fa-regular fa-thumbs-up"></i></button>
+                <a href="{{ url_for('home.movie_view', movie_id=poster.movie_id) }}" class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</a>
+                <!-- <button class="btn btn-primary"><i class="fa-solid fa-play"></i> Play Now</button> -->
+                <!-- <button class="btn btn-secondary" aria-label="Add to List"><i class="fa-solid fa-plus"></i></button> -->
+                <a href="{{ url_for('series.wishlist', item_type = 'movie', item_id = poster.movie_id) }}" class="btn btn-secondary" aria-label="Add to List"><i class="fa-solid fa-plus"></i></a>
             </div>
         </div>
     </section>
-
+    {% endfor %}
     <main class="container">
         <div class="section-tag-badge">Movies</div>
 
@@ -37,10 +40,7 @@
                 {% for cat in cate %}
                 <div class="genre-card">
                     <div class="genre-grid">
-                        <img src="https://picsum.photos/100/150?random=1" alt="Action 1">
-                        <img src="https://picsum.photos/100/150?random=2" alt="Action 2">
-                        <img src="https://picsum.photos/100/150?random=3" alt="Action 3">
-                        <img src="https://picsum.photos/100/150?random=4" alt="Action 4">
+                        <img src="{{ url_for('static', filename='image/' + cat.category_thumbnail) }}" alt="{{cat.category_name}}">
                     </div>
                     <div class="genre-footer">{{cat.category_name}} <i class="fa-solid fa-arrow-right"></i></div>
                 </div>
@@ -130,13 +130,13 @@
             </div>
         </section>
 
-        <div class="cta-banner">
+        <!-- <div class="cta-banner">
             <div class="cta-text">
                 <h2>Start your free trial today!</h2>
                 <p>This is a clear call to action encouraging users to explore features via a trial period.</p>
             </div>
             <button class="btn btn-primary">Start a Free Trial</button>
-        </div>
+        </div> -->
     </main>
 {% endblock %}
 

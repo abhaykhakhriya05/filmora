@@ -16,10 +16,7 @@
                 <h2>All Users</h2>
                 <p>Manage subscribers, trial users, blocked accounts, and user plans.</p>
             </div>
-            <button class="users-add-btn" id="openUserModal" type="button">
-                <i class="fa-solid fa-plus"></i>
-                Add User
-            </button>
+            
         </div>
 
         <div class="users-filter-row">
@@ -45,7 +42,7 @@
                         <th>Status</th>
                         <th>Joined</th>
                         <th>Last Active</th>
-                        <th>Action</th>
+                       
                     </tr>
                 </thead>
                 <tbody id="usersTableBody">
@@ -57,23 +54,14 @@
                         <td><span class="users-status {{user.status}}">{{user.status}}</span></td>
                         <td>{{user.isLogdin}}</td>
                         <td>Today</td>
-                        <td><div class="users-row-actions"><button type="button" aria-label="View user"><i class="fa-solid fa-eye"></i></button>
-                            <button type="button" aria-label="Edit user"><i class="fa-solid fa-ban"></i></button>
-                            <button class="danger" type="button" aria-label="Delete user"><i class="fa-solid fa-trash"></i></button></div></td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="admin-table-footer">
-            <span id="usersCountText">Showing 1 to 3 of 3 entries</span>
-            <div class="admin-pagination">
-                <button type="button">Previous</button>
-                <button type="button" class="active">1</button>
-                <button type="button">Next</button>
-            </div>
-        </div>
+
     </section>
 </main>
 

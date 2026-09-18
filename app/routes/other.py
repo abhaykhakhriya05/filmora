@@ -10,7 +10,7 @@ def privacy():
 
 @other_bp.route("/contact_us")
 def contact_us():
-    return render_template("contact_us.html")
+    return render_template("contact_us.html", active_page="contact_us")
 
 @other_bp.route("/faq")
 def faq():

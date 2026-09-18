@@ -39,6 +39,7 @@ CREATE TABLE `episode` (
   `episodeStatus` varchar(20) NOT NULL DEFAULT 'draft',
   `episodeAccess` varchar(20) NOT NULL DEFAULT 'Free',
   `episodeThumb` varchar(255) DEFAULT NULL,
+  `view` int unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`episode_id`),
   UNIQUE KEY `episode_season_number` (`season_id`, `episodeNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -260,6 +261,22 @@ CREATE TABLE `users` (
   `profile_image` varchar(255) DEFAULT NULL,
   `subscribed` varchar(50) NOT NULL,
   `isLogdin` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+--
+-- Per-user likes for movies and series
+--
+
+CREATE TABLE `item_like` (
+  `like_id` varchar(13) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `item_id` varchar(50) NOT NULL,
+  `item_type` enum('movie','series') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`like_id`),
+  UNIQUE KEY `unique_user_item_like` (`user_id`, `item_id`, `item_type`),
+  KEY `item_like_item` (`item_type`, `item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

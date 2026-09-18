@@ -46,7 +46,7 @@ def login():
                 session["admin_id"] = admin_user['admin_id']
                 session['admin_login'] = True
                 flash('Admin Login Successfully.', 'success')
-                return redirect(url_for('admin.dashboard'))
+                return redirect(url_for('admin.movie_list'))
                
             
             else : 

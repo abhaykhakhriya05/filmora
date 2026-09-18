@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %} Flimora {% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/logo.png') }}" />
   {% block style %} {% endblock %}
@@ -23,12 +24,11 @@
       <a href="{{ url_for('movie.movie') }}" class="{{ 'active' if nav_active == 'movie' else '' }}">Movies</a>
       <a href="{{ url_for('series.series') }}" class="{{ 'active' if nav_active == 'series' else '' }}">Series</a>
       <a href="{{ url_for('subscription.subscription') }}" class="{{ 'active' if nav_active == 'subscription' else '' }}">Subscription</a>
+      
     </nav>
 
     <div class="nav-actions">
-      <button class="search-btn" aria-label="Search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
+
 
       {% set is_logged_in = session.get('loggedin') %}
       <div class="auth-container {{ 'logged-in' if is_logged_in else 'logged-out' }}" id="authWrapper">

@@ -46,7 +46,7 @@
                         <th>Release Year</th>
                         <th>Access</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody id="seasonTableBody">
@@ -63,25 +63,14 @@
                         <td>{{se.seasonYear}}</td>
                         <td>{{se.seasonAccess}}</td>
                         <td><span class="season-switch "></span></td>
-                        <td>
-                            <div class="season-row-actions"><button type="button" aria-label="Edit"><i
-                                        class="fa-solid fa-pen"></i></button><button class="danger" type="button"
-                                    aria-label="Delete"><i class="fa-solid fa-trash"></i></button></div>
-                        </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="admin-table-footer">
-            <span id="seasonCountText">Showing 1 to 3 of 3 entries</span>
-            <div class="admin-pagination">
-                <button type="button">Previous</button>
-                <button type="button" class="active">1</button>
-                <button type="button">Next</button>
-            </div>
-        </div>
+     
     </section>
 </main>
 

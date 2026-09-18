@@ -28,20 +28,11 @@
         </div>
     </section>
 
-    <section class="profile-stats" aria-label="Viewing statistics">
-        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-circle-play"></i></span><div><strong>24</strong><span>Movies watched</span></div></article>
-        <article class="profile-stat-card"><span class="profile-stat-icon"><i class="fa-solid fa-bookmark"></i></span><div><strong>08</strong><span>Saved titles</span></div></article>
-             
-    </section>
+  
 
     <div class="profile-layout">
-        <section class="profile-panel profile-panel--watching" aria-labelledby="continue-title">
-            <div class="profile-panel-heading"><div><span class="profile-section-kicker">Keep watching</span><h2 id="continue-title">Continue watching</h2></div><a href="{{ url_for('movie.movie') }}">Browse movies <i class="fa-solid fa-arrow-right"></i></a></div>
-            <div class="continue-grid">
-                <article class="continue-card"><img src="{{ url_for('static', filename='image/Avengers_Endgame.jpg') }}" alt="Avengers: Endgame poster"><div class="continue-card-body"><span>Movie · 2h 12m left</span><h3>Avengers: Endgame</h3><div class="watch-progress" aria-label="42% watched"><span style="width: 42%"></span></div><button type="button"><i class="fa-solid fa-play"></i> Resume</button></div></article>
-                <article class="continue-card"><img src="{{ url_for('static', filename='image/Guardians_of_the_Galaxy_film_poster.jpg') }}" alt="Guardians of the Galaxy poster"><div class="continue-card-body"><span>Movie · 46m left</span><h3>Guardians of the Galaxy</h3><div class="watch-progress" aria-label="68% watched"><span style="width: 68%"></span></div><button type="button"><i class="fa-solid fa-play"></i> Resume</button></div></article>
-            </div>
-        </section>
+      
+        <br>
 
         <aside class="profile-panel profile-panel--account" aria-labelledby="account-title">
             <div class="profile-panel-heading"><div><span class="profile-section-kicker">Account</span><h2 id="account-title">Profile details</h2></div></div>

@@ -19,13 +19,8 @@
         </a>
 
         <nav class="admin-menu" aria-label="Admin navigation">
-            <a href="{{url_for('admin.dashboard')}}" class="admin-menu-link {% if active_page == 'dashboard' %}active{% endif %}">
-                <i class="fa-solid fa-table-cells-large"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="" class="admin-menu-link ">
-                <i class="fa-solid fa-star"></i>
-                <span>Rating</span>
+           
+
             </a>
             <!-- <a href="" class="admin-menu-link ">
                 <i class="fa-solid fa-comments"></i>
@@ -35,7 +30,7 @@
                 <i class="fa-solid fa-users"></i>
                 <span>Users List</span>
             </a>
-            <a href="{{url_for('admin.movie_list')}}" class="admin-menu-link">
+            <a href="{{url_for('admin.movie_list')}}" class="admin-menu-link {% if active_page == 'movie' %}active{% endif %}">
                 <i class="fa-solid fa-film"></i>
                 <span>Movie List</span>
             </a>
@@ -70,21 +65,8 @@
                 <h1>{% block admin_heading %}Series List{% endblock %}</h1>
             </div>
             <div class="admin-top-actions">
-                <label class="admin-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" placeholder="Search">
-                </label>
-                
-                <a class="admin-icon-btn" href="" aria-label="Settings" style="text-decoration: none;">
-                    <i class="fa-solid fa-gear"></i>
-                </a>
-                <div class="admin-profile">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Austin" alt="Admin avatar">
-                    <div>
-                        <strong>Austin Robertson</strong>
-                        <span>Marketing Administrator</span>
-                    </div>
-                </div>
+
+  
             </div>
         </header>
 

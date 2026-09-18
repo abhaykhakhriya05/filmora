@@ -18,7 +18,7 @@
             <p>Manage your Filmora account, playback preferences, notifications, privacy options, and quick links to
                 important pages.</p>
         </div>
-        <a class="profile-summary" href="profile.html">
+        <a class="profile-summary" href="{{url_for('auth.profile', user_id = session['id'])}}">
             <img src="{{ url_for('static', filename='image/' + session.get('dp')) if session.get('dp') else url_for('static', filename='image/logo.png') }}" alt="Profile avatar">
             <div>
                 <strong>Abhay Khakhriya</strong>
@@ -37,35 +37,35 @@
             </div>
 
             <div class="quick-links">
-                <a class="page-link-card" href="index.html">
+                <a class="page-link-card" href="{{ url_for('home.index') }}">
                     <i class="fa-solid fa-house"></i>
                     <strong>Home<span>Return to the main landing page.</span></strong>
                 </a>
-                <a class="page-link-card" href="movie.html">
+                <a class="page-link-card" href="{{ url_for('movie.movie') }}">
                     <i class="fa-solid fa-film"></i>
                     <strong>Movies<span>Browse movie collections.</span></strong>
                 </a>
-                <a class="page-link-card" href="series.html">
+                <a class="page-link-card" href="{{ url_for('series.series') }}">
                     <i class="fa-solid fa-tv"></i>
                     <strong>Series<span>Open the series catalog.</span></strong>
                 </a>
-                <a class="page-link-card" href="subscription.html">
+                <a class="page-link-card" href="{{ url_for('subscription.subscription') }}">
                     <i class="fa-solid fa-gem"></i>
                     <strong>Subscription<span>Review premium plans.</span></strong>
                 </a>
-                <a class="page-link-card" href="profile.html">
+                <a class="page-link-card" href="{{url_for('auth.profile', user_id = session['id'])}}">
                     <i class="fa-regular fa-user"></i>
                     <strong>Profile<span>View account details and watch summary.</span></strong>
                 </a>
-                <a class="page-link-card" href="faq.html">
+                <a class="page-link-card" href="{{ url_for('other.faq') }}">
                     <i class="fa-regular fa-circle-question"></i>
                     <strong>FAQ<span>Find common answers.</span></strong>
                 </a>
-                <a class="page-link-card" href="contact_us.html">
+                <a class="page-link-card" href="{{ url_for('other.contact_us') }}">
                     <i class="fa-solid fa-headset"></i>
                     <strong>Contact Us<span>Reach support and help.</span></strong>
                 </a>
-                <a class="page-link-card" href="privacy_policy.html">
+                <a class="page-link-card" href="{{ url_for('other.privacy') }}">
                     <i class="fa-solid fa-lock"></i>
                     <strong>Privacy Policy<span>Read privacy information.</span></strong>
                 </a>
@@ -105,12 +105,7 @@
                             <small>{{session['email']}}</small>
 
                         </div>
-                        {% if email_verified == 'unverified' %}
-                            <a href="{{ url_for('movie.movie') }}"><span class="status-pill primary">{{email_verified}}</span></a>
-                        {% else %}
-                            <span class="status-pill">{{email_verified}}</span>
-
-                        {% endif %}
+                 
                        
                     </div>
                 </article>
@@ -142,8 +137,8 @@
 
             <div class="settings-actions" id="subscription">
                 <button class="save-btn" type="button"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
-                <a class="cancel-link" href="subscription.html"><i class="fa-solid fa-gem"></i> Manage Plan</a>
-                <a class="cancel-link" href="index.html"><i class="fa-solid fa-house"></i> Back Home</a>
+                <a class="cancel-link" href="{{ url_for('subscription.subscription') }}"><i class="fa-solid fa-gem"></i> Manage Plan</a>
+                <a class="cancel-link" href="{{ url_for('home.index') }}"><i class="fa-solid fa-house"></i> Back Home</a>
             </div>
         </div>
     </section>

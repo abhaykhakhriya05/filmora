@@ -23,12 +23,21 @@ os.makedirs(SUBTITLE_PATH, exist_ok=True)
 if key.is_pressed('M'):
     redirect(url_for('auth.login'))
 
-@admin_bp.route('/dashboard')
-def dashboard():
-    if 'admin_email' not in session:
-        return redirect(url_for('auth.login'))
+# @admin_bp.route('/dashboard')
+# def dashboard():
+#     if 'admin_email' not in session:
+#         return redirect(url_for('auth.login'))
 
-    return render_template('admin_dashboard.html',active_page = 'dashboard')
+#     connect = genreted_db_connect()
+#     cursor = connect.cursor(dictionary=True)
+
+#     cursor.execute("SELECT COUNT(*) AS total_users FROM `users`")
+#     total_users = cursor.fetchone()["total_users"]
+
+#     connect.close()
+#     cursor.close()
+
+#     return render_template('admin_dashboard.html',active_page = 'dashboard',total_users=total_users)
 
 # Categories page
 @admin_bp.route('/Categories')
@@ -169,7 +178,7 @@ def movie_list():
         movies = cursor.fetchall()
         
     
-    return render_template('movie_list.html',cate=cate,movies=movies)
+    return render_template('movie_list.html',cate=cate,movies=movies,active_page = "movie")
 
 
 @admin_bp.route('/movie_edit/<movie_id>')

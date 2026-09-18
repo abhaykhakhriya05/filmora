@@ -46,7 +46,7 @@
                         <th>Access</th>
                         <th>Rating</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody id="seriesTableBody">
@@ -65,28 +65,14 @@
                         <td>{{series.series_access}}</td>
                         <td>{{series.series_rating}}</td>
                         <td><span class="series-switch {{ 'active' if series.series_status == 'published' else '' }}"></span></td>
-                        <td>
-                            <div class="series-row-actions">
-                                <button type="button" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="danger" type="button" aria-label="Delete"><i
-                                        class="fa-solid fa-trash"></i></button>
-                            </div>
-                        </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="admin-table-footer">
-            <span id="seriesCountText">Showing 1 to 4 of 4 entries</span>
-            <div class="admin-pagination">
-                <button type="button">Previous</button>
-                <button type="button" class="active">1</button>
-                <button type="button">2</button>
-                <button type="button">Next</button>
-            </div>
-        </div>
+     
     </section>
 </main>
 
