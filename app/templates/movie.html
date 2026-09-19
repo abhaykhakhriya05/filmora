@@ -67,8 +67,7 @@
                 </div>
             </div>
             <div class="cards-slider" id="must_watch">
-                {% for must_watch_movie in must_watch_movies %}
-                {% if must_watch_movie %}
+               
                 {% for most_reviewed_movie in most_reviewed_movies %}
                 {% if most_reviewed_movie %}
                 <div class="standard-card">
@@ -93,7 +92,7 @@
                 </div>
             </div>
             <div class="cards-slider" id="anime_movies">
-                {% if anime_movie %}
+                
                 {% for anime in anime_movie %}
                 <div class="standard-card">
                     <a href="{{url_for('home.movie_view', movie_id = anime.movie_id)}}" style="text-decoration: none;">
