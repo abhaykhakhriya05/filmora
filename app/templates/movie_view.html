@@ -171,9 +171,7 @@
                 </div>
 
                 <div class="interactive-actions-bar">
-                    <a href="" class="action-node-btn" id="whitelistBtn">
-                        <i class="fa-regular fa-bookmark"></i> Whitelist
-                    </a>
+                   
                     <a href="{{ url_for('series.wishlist', item_type = 'movie', item_id = movies.movie_id) }}" class="action-node-btn" id="whitelistBtn"><i class="fa-regular fa-bookmark"></i> Whitelist</a>
                     {% if primary_file and primary_file.movie_download %}
                     <a class="action-node-btn" id="downloadBtn" href="{{ url_for('static', filename='video/' + primary_file.movie_file) }}" download>

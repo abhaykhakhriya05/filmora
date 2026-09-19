@@ -37,7 +37,7 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" >
                 {% for series in series_data %}
                 <div class="standard-card">
                     <a href="{{ url_for('series.series_detail', series_id=series.series_id) }}" tyle="color: white;">
@@ -58,7 +58,7 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id="most_reviewed_series">
                 {% for most_reviewed_series_data in most_reviewed_series_data %}
                     
                 
@@ -84,7 +84,8 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id = "anime_series">
+               
                 {% for anime_series_data in anime_series_data %}
                 <div class="standard-card">
                     <a href="{{ url_for('series.series_detail', series_id=anime_series_data.series_id) }}" tyle="color: white;">
@@ -105,7 +106,8 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id = "upcoming_series">
+             
                 {% for upcoming_series_data in upcoming_series_data %}
 
                 <div class="standard-card">

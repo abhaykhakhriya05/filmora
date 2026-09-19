@@ -28,6 +28,11 @@
     </nav>
 
     <div class="nav-actions">
+      <form class="navbar-search" action="{{ url_for('home.search') }}" method="get" role="search">
+        <label class="sr-only" for="siteSearch">Search Filmora</label>
+        <input id="siteSearch" name="q" type="search" value="{{ request.args.get('q', '') if active_page == 'search' else '' }}" placeholder="Search movies & series" autocomplete="off" />
+        <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
 
 
       {% set is_logged_in = session.get('loggedin') %}
@@ -80,6 +85,10 @@
       <i class="fa-solid fa-circle-play"></i>
       <span>Series</span>
     </a>
+    <a href="{{ url_for('home.search') }}" class="bottom-nav-link {{ 'active' if nav_active == 'search' else '' }}">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Search</span>
+    </a>
     <a href="{{ url_for('subscription.subscription') }}" class="bottom-nav-link {{ 'active' if nav_active == 'subscription' else '' }}">
       <i class="fa-solid fa-gem"></i>
       <span>Premium</span>
@@ -128,15 +137,15 @@
       <div>
         <h4>Home</h4>
         <a href="{{ url_for('home.index') }}#categories">Categories</a><a
-          href="{{ url_for('home.index') }}#must-watch">Must-Watch</a><a href="">Pricing</a><a href="{{ url_for('other.faq') }}">FAQ</a>
+          href="{{ url_for('home.index') }}#must-watch">Must-Watch</a><a href="{{ url_for('subscription.subscription') }}">Pricing</a><a href="{{ url_for('other.faq') }}">FAQ</a>
       </div>
       <div>
         <h4>Movies</h4>
-        <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
+        <a href="{{ url_for('movie.movie') }}#new_releases">New Releases</a><a href="{{ url_for('movie.movie') }}#anime_movies">Anime</a><a href="{{ url_for('movie.movie') }}#must_watch">Popular</a>
       </div>
       <div>
-        <h4>Shows</h4>
-        <a href="#">Genres</a><a href="#">Trending</a><a href="#">New Release</a><a href="#">Popular</a>
+        <h4>Series </h4>
+        <a href="{{ url_for('series.series') }}#most_reviewed_series">Most Reviewed</a><a href="{{ url_for('series.series') }}#anime_series">Anime</a><a href="{{ url_for('series.series') }}#upcoming_series">Upcoming</a>
       </div>
       <div>
         <h4>Support</h4>

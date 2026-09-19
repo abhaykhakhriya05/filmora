@@ -21,7 +21,7 @@ def movie():
         cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() ORDER BY review DESC LIMIT 10")
         most_reviewed_movies = cursor.fetchall()
 
-        cursor.execute("SELECT * FROM `movies` WHERE movie_release_date > NOW() AND movie_categories = 'Anime' ORDER BY RAND() LIMIT 10")
+        cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND movie_categories = 'Anime' ORDER BY RAND() LIMIT 10")
         anime_movie = cursor.fetchall()
 
         cursor.execute("SELECT * FROM `movies` WHERE movie_release_date <= NOW() AND Isposter = 1")

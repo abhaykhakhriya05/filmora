@@ -12,7 +12,8 @@
     {% for poster in poster %}
         
     
-    <section class="hero-section" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), #141414), url('/static/image/Avengers_Endgame.jpg');">
+    <section class="hero-section">
+        <img class="hero-background" src="{{ url_for('static', filename='image/' + poster.movie_thumbnail) }}" alt="" aria-hidden="true">
         <div class="hero-content">
             <h1>{{poster.movie_name}}</h1>
             <p>{{poster.movie_description}}</p>

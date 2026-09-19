@@ -5,6 +5,56 @@ from mysql.connector import Error
 home_bp = Blueprint('home',__name__)
 
 
+@home_bp.route('/search')
+def search():
+    """Search released movies and series by title, description, genre, or language."""
+    query = request.args.get('q', '').strip()
+    movies = []
+    series_results = []
+    connection = cursor = None
+
+    if query:
+        search_term = f"%{query}%"
+        try:
+            connection = genreted_db_connect()
+            cursor = connection.cursor(dictionary=True)
+
+            cursor.execute("""
+                SELECT * FROM movies
+                WHERE movie_release_date <= CURDATE()
+                  AND (movie_name LIKE %s OR movie_description LIKE %s
+                       OR movie_categories LIKE %s OR movie_language LIKE %s)
+                ORDER BY movie_name ASC
+                LIMIT 40
+            """, (search_term, search_term, search_term, search_term))
+            movies = cursor.fetchall()
+
+            cursor.execute("""
+                SELECT * FROM series
+                WHERE series_release_date <= CURDATE()
+                  AND (series_name LIKE %s OR series_description LIKE %s
+                       OR series_category LIKE %s OR series_language LIKE %s)
+                ORDER BY series_name ASC
+                LIMIT 40
+            """, (search_term, search_term, search_term, search_term))
+            series_results = cursor.fetchall()
+        except Exception as exc:
+            flash(f"Unable to search right now: {exc}", "danger")
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
+
+    return render_template(
+        'search.html',
+        active_page='search',
+        query=query,
+        movies=movies,
+        series_results=series_results,
+    )
+
+
 @home_bp.route('/')
 def index():
    

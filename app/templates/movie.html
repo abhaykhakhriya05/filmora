@@ -32,7 +32,7 @@
     <main class="container">
 
         <div class="section-tag-badge">New Releases</div>
-        <section class="row-section">
+        <section class="row-section" >
             <div class="row-header">
                 <h2>New Releases Now</h2>
                 <div class="slider-controls">
@@ -40,7 +40,7 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id="new_releases">
                 {% for movie in movies %}
                 {% if movie %}
  
@@ -66,11 +66,15 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id="must_watch">
+                {% for must_watch_movie in must_watch_movies %}
+                {% if must_watch_movie %}
                 {% for most_reviewed_movie in most_reviewed_movies %}
                 {% if most_reviewed_movie %}
                 <div class="standard-card">
+                    <a href="{{url_for('home.movie_view', movie_id = most_reviewed_movie.movie_id)}}" style="text-decoration: none;">
                     <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + most_reviewed_movie.movie_poster) }}" alt="{{ most_reviewed_movie.movie_title }}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    </a>
                     <div class="card-content"><h3>{{ most_reviewed_movie.movie_title }}</h3><div class="card-meta"><span>{{ most_reviewed_movie.movie_duration }}</span><span class="rating"><i class="fa-solid fa-star"></i> {{ most_reviewed_movie.review }}</span></div></div>
                 </div>
                 {% endif %}
@@ -88,10 +92,13 @@
                     <button class="control-btn next"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <div class="cards-slider">
+            <div class="cards-slider" id="anime_movies">
+                {% if anime_movie %}
                 {% for anime in anime_movie %}
                 <div class="standard-card">
+                    <a href="{{url_for('home.movie_view', movie_id = anime.movie_id)}}" style="text-decoration: none;">
                     <div class="card-img-wrapper"><img src="{{ url_for('static', filename='image/' + anime.movie_poster ) }}" alt="{{anime.movie_poster}}"><div class="hover-overlay"><button class="play-overlay-btn"><i class="fa-solid fa-play"></i></button></div></div>
+                    </a>
                     <div class="card-content"><h3>{{ anime.movie_name }}</h3><div class="card-meta"><span>{{ anime.movie_duration }}</span><span class="rating"><i class="fa-solid fa-star"></i> {{ anime.view }}</span></div></div>
                 </div>
                 {% endfor %}

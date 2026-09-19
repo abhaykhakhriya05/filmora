@@ -31,9 +31,6 @@
   
 
     <div class="profile-layout">
-      
-        <br>
-
         <aside class="profile-panel profile-panel--account" aria-labelledby="account-title">
             <div class="profile-panel-heading"><div><span class="profile-section-kicker">Account</span><h2 id="account-title">Profile details</h2></div></div>
             <dl class="profile-details"><div><dt>Name</dt><dd>{{ first_name }} {{ last_name }}</dd></div><div><dt>Email</dt><dd>{{ email }}</dd></div><div><dt>Membership</dt><dd>{{ 'Premium' if subscribed == 'premium' else 'Free' }}</dd></div></dl>
